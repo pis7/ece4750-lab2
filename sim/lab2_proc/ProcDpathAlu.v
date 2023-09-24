@@ -26,14 +26,15 @@ module lab2_proc_ProcDpathAlu
       4'd2    : out = in0 & in1;                                // AND
       4'd3    : out = in0 | in1;                                // OR
       4'd4    : out = in0 ^ in1;                                // XOR
-      4'd5    : out = {31'b0, ops_lt};  // SLT
-      4'd6    : out = {31'b0, ops_ltu};                    // SLTU
+      4'd5    : out = {31'b0, ops_lt};                          // SLT
+      4'd6    : out = {31'b0, ops_ltu};                         // SLTU
       4'd7    : out = in0 >>> in1;                              // SRA
       4'd8    : out = in0 >> in1;                               // SRL
       4'd9    : out = in0 << in1;                               // SLL
       4'd10   : out = in1 << 12;                                // LUI
       4'd11   : out = in0;                                      // CP OP0
       4'd12   : out = in1;                                      // CP OP1
+      4'd13   : out = in0 + (in1 << 12);                        // AUI
 
 
       //''' LAB TASK '''''''''''''''''''''''''''''''''''''''''''''''''''''

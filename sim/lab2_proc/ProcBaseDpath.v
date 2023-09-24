@@ -15,6 +15,8 @@
 `include "ProcDpathImmGen.v"
 `include "ProcDpathAlu.v"
 
+`include "lab1_imul/IntMulAlt.v"
+
 module lab2_proc_ProcBaseDpath
 #(
   parameter p_num_cores = 1
@@ -46,12 +48,14 @@ module lab2_proc_ProcBaseDpath
   input  logic [1:0]   pc_sel_F,
 
   input  logic         reg_en_D,
+  input  logic         op1_sel_D,
   input  logic [1:0]   op2_sel_D,
   input  logic [1:0]   csrr_sel_D,
   input  logic [2:0]   imm_type_D,
 
   input  logic         reg_en_X,
   input  logic [3:0]   alu_fn_X,
+  input  logic [1:0]   ex_result_sel_X,
 
   input  logic         reg_en_M,
   input  logic         wb_result_sel_M,
@@ -61,10 +65,16 @@ module lab2_proc_ProcBaseDpath
   input  logic         rf_wen_W,
   input  logic         stats_en_wen_W,
 
+  input  logic         imul_req_val_D,
+  input  logic         imul_resp_rdy_X,
+
   // status signals (dpath->ctrl)
 
   output logic [31:0]  inst_D,
   output logic         br_cond_eq_X,
+
+  output logic         imul_req_rdy_D,
+  output logic         imul_resp_val_X,
 
   // extra ports
 
@@ -177,6 +187,16 @@ module lab2_proc_ProcBaseDpath
     .wr_data  (rf_wdata_W)
   );
 
+  logic [31:0] op1_D;
+
+  vc_Mux2#(32) op1_sel_mux_D
+  (
+   .in0  (pc_D),
+   .in1  (rf_rdata0_D),
+   .sel  (op1_sel_D),
+   .out  (op1_D)
+  );
+
   logic [31:0] op2_D;
 
   logic [31:0] csrr_data_D;
@@ -227,7 +247,7 @@ module lab2_proc_ProcBaseDpath
     .clk   (clk),
     .reset (reset),
     .en    (reg_en_X),
-    .d     (rf_rdata0_D),
+    .d     (op1_D),
     .q     (op1_X)
   );
 
@@ -263,9 +283,30 @@ module lab2_proc_ProcBaseDpath
     .ops_ltu  ()
   );
 
-  assign ex_result_X = alu_result_X;
-
   assign dmem_reqstream_msg_addr = alu_result_X;
+
+  logic [31:0] mul_result_X;
+
+  lab1_imul_IntMulAlt imul
+  (
+    .clk(clk),
+    .reset(reset),
+    .istream_val(imul_req_val_D),
+    .istream_rdy(imul_req_rdy_D),
+    .istream_msg({op1_D, op2_D}),
+    .ostream_val(imul_resp_val_X),
+    .ostream_rdy(imul_resp_rdy_X),
+    .ostream_msg(mul_result_X)
+  );
+
+  vc_Mux3#(32) ex_result_sel_mux_X
+  (
+    .in0  (),
+    .in1  (alu_result_X),
+    .in2  (mul_result_X),
+    .sel  (ex_result_sel_X),
+    .out  (ex_result_X)
+  );
 
   //--------------------------------------------------------------------
   // M stage
