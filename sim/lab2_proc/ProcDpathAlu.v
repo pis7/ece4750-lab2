@@ -31,10 +31,8 @@ module lab2_proc_ProcDpathAlu
       4'd7    : out = in0 >>> in1;                              // SRA
       4'd8    : out = in0 >> in1;                               // SRL
       4'd9    : out = in0 << in1;                               // SLL
-      4'd10   : out = in1 << 12;                                // LUI
       4'd11   : out = in0;                                      // CP OP0
       4'd12   : out = in1;                                      // CP OP1
-      4'd13   : out = in0 + (in1 << 12);                        // AUI
 
 
       //''' LAB TASK '''''''''''''''''''''''''''''''''''''''''''''''''''''

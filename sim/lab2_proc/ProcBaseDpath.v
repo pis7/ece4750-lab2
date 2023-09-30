@@ -33,6 +33,7 @@ module lab2_proc_ProcBaseDpath
   // Data Memory Port
 
   output logic [31:0]  dmem_reqstream_msg_addr,
+  output logic [31:0]  dmem_reqstream_msg_data,
   input  logic [31:0]  dmem_respstream_msg_data,
 
   // mngr communication ports
@@ -72,6 +73,8 @@ module lab2_proc_ProcBaseDpath
 
   output logic [31:0]  inst_D,
   output logic         br_cond_eq_X,
+  output logic         br_cond_lt_X,
+  output logic         br_cond_ltu_X,
 
   output logic         imul_req_rdy_D,
   output logic         imul_resp_val_X,
@@ -114,11 +117,14 @@ module lab2_proc_ProcBaseDpath
     .out  (pc_plus4_F)
   );
 
-  vc_Mux3#(32) pc_sel_mux_F
+  logic [31:0] alu_result_X;
+
+  vc_Mux4#(32) pc_sel_mux_F
   (
-    .in0  (pc_plus4_F),
+    .in0  ({alu_result_X[31:1], 1'b0}),
     .in1  (br_target_X),
     .in2  (jal_target_D),
+    .in3  (pc_plus4_F),
     .sel  (pc_sel_F),
     .out  (pc_next_F)
   );
@@ -219,8 +225,8 @@ module lab2_proc_ProcBaseDpath
   // csrr sel mux. Basically we are using two muxes here for pedagogy.
   vc_Mux3#(32) op2_sel_mux_D
   (
-    .in0  (rf_rdata1_D),
-    .in1  (imm_D),
+    .in0  (imm_D),
+    .in1  (rf_rdata1_D),
     .in2  (csrr_data_D),
     .sel  (op2_sel_D),
     .out  (op2_D)
@@ -241,6 +247,7 @@ module lab2_proc_ProcBaseDpath
 
   logic [31:0] op1_X;
   logic [31:0] op2_X;
+  logic [31:0] pc_X;
 
   vc_EnResetReg#(32, 0) op1_reg_X
   (
@@ -269,7 +276,24 @@ module lab2_proc_ProcBaseDpath
     .q     (br_target_X)
   );
 
-  logic [31:0] alu_result_X;
+  vc_EnResetReg#(32, 0) pc_reg_X
+  (
+    .clk   (clk),
+    .reset (reset),
+    .en    (reg_en_X),
+    .d     (pc_D),
+    .q     (pc_X)
+  );
+
+  vc_EnResetReg#(32, 0) dmem_write_data_reg_X
+  (
+    .clk   (clk),
+    .reset (reset),
+    .en    (reg_en_X),
+    .d     (rf_rdata1_D),
+    .q     (dmem_reqstream_msg_data)
+  );
+
   logic [31:0] ex_result_X;
 
   lab2_proc_ProcDpathAlu alu
@@ -279,8 +303,8 @@ module lab2_proc_ProcBaseDpath
     .fn       (alu_fn_X),
     .out      (alu_result_X),
     .ops_eq   (br_cond_eq_X),
-    .ops_lt   (),
-    .ops_ltu  ()
+    .ops_lt   (br_cond_lt_X),
+    .ops_ltu  (br_cond_ltu_X)
   );
 
   assign dmem_reqstream_msg_addr = alu_result_X;
@@ -298,15 +322,26 @@ module lab2_proc_ProcBaseDpath
     .ostream_rdy(imul_resp_rdy_X),
     .ostream_msg(mul_result_X)
   );
+  logic [31:0] pc_plus4_X;
+
+  vc_Adder#(32) pc_incr_X
+  (
+    .in0  (pc_X),
+    .in1  (32'd4),
+    .cin  (1'b0),
+    .out  (pc_plus4_X),
+    .cout ()
+  );
 
   vc_Mux3#(32) ex_result_sel_mux_X
   (
-    .in0  (),
+    .in0  (pc_plus4_X),
     .in1  (alu_result_X),
     .in2  (mul_result_X),
     .sel  (ex_result_sel_X),
     .out  (ex_result_X)
   );
+
 
   //--------------------------------------------------------------------
   // M stage
