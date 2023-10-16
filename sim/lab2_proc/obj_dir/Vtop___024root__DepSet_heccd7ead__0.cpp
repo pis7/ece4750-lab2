@@ -40,26 +40,10 @@ void Vtop___024root___eval_ico(Vtop___024root* vlSelf) {
     }
 }
 
-VL_INLINE_OPT void Vtop___024root___act_sequent__TOP__1(Vtop___024root* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
-    Vtop__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root___act_sequent__TOP__1\n"); );
-    // Init
-    IData/*31:0*/ __Vilp;
-    // Body
-    __Vilp = 0x38U;
-    while ((__Vilp <= 0xb61U)) {
-        vlSelf->top__DOT__mem__DOT__mem__DOT__m_next[__Vilp] 
-            = vlSelf->top__DOT__mem__DOT__mem__DOT__m
-            [__Vilp];
-        __Vilp = ((IData)(1U) + __Vilp);
-    }
-}
-
 void Vtop___024root___act_sequent__TOP__0(Vtop___024root* vlSelf);
+void Vtop___024root___act_sequent__TOP__1(Vtop___024root* vlSelf);
 void Vtop___024root___act_sequent__TOP__2(Vtop___024root* vlSelf);
 void Vtop___024root___act_sequent__TOP__3(Vtop___024root* vlSelf);
-void Vtop___024root___act_sequent__TOP__4(Vtop___024root* vlSelf);
 void Vtop___024root___act_comb__TOP__0(Vtop___024root* vlSelf);
 
 void Vtop___024root___eval_act(Vtop___024root* vlSelf) {
@@ -72,14 +56,14 @@ void Vtop___024root___eval_act(Vtop___024root* vlSelf) {
         vlSelf->__Vm_traceActivity[4U] = 1U;
         Vtop___024root___act_sequent__TOP__1(vlSelf);
         Vtop___024root___act_sequent__TOP__2(vlSelf);
-        Vtop___024root___act_sequent__TOP__3(vlSelf);
     }
     if ((4ULL & vlSelf->__VactTriggered.word(0U))) {
-        Vtop___024root___act_sequent__TOP__4(vlSelf);
+        Vtop___024root___act_sequent__TOP__3(vlSelf);
+        vlSelf->__Vm_traceActivity[5U] = 1U;
     }
     if ((6ULL & vlSelf->__VactTriggered.word(0U))) {
         Vtop___024root___act_comb__TOP__0(vlSelf);
-        vlSelf->__Vm_traceActivity[5U] = 1U;
+        vlSelf->__Vm_traceActivity[6U] = 1U;
     }
 }
 

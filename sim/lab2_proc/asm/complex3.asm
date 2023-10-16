@@ -7,9 +7,9 @@ csrr x3, mngr2proc < 100
 
 branch_target:
 add x2, x2, x1
-bge x2, x3, branch_target
+bne x2, x3, branch_target
 
-csrw proc2mngr, x2 > 105
+csrw proc2mngr, x2 > 100
 
 
 

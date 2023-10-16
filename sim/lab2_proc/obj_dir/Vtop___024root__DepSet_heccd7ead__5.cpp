@@ -17,11 +17,14 @@ void Vtop___024root___nba_sequent__TOP__5(Vtop___024root* vlSelf);
 void Vtop___024root___nba_sequent__TOP__6(Vtop___024root* vlSelf);
 void Vtop___024root___nba_sequent__TOP__7(Vtop___024root* vlSelf);
 void Vtop___024root___nba_sequent__TOP__8(Vtop___024root* vlSelf);
+void Vtop___024root___nba_sequent__TOP__9(Vtop___024root* vlSelf);
+void Vtop___024root___nba_sequent__TOP__10(Vtop___024root* vlSelf);
+void Vtop___024root___nba_sequent__TOP__11(Vtop___024root* vlSelf);
 void Vtop___024root___nba_comb__TOP__0(Vtop___024root* vlSelf);
 void Vtop___024root___nba_comb__TOP__1(Vtop___024root* vlSelf);
 void Vtop___024root___nba_comb__TOP__2(Vtop___024root* vlSelf);
 void Vtop___024root___nba_comb__TOP__3(Vtop___024root* vlSelf);
-void Vtop___024root___act_sequent__TOP__4(Vtop___024root* vlSelf);
+void Vtop___024root___act_sequent__TOP__3(Vtop___024root* vlSelf);
 void Vtop___024root___nba_comb__TOP__5(Vtop___024root* vlSelf);
 
 void Vtop___024root___eval_nba(Vtop___024root* vlSelf) {
@@ -31,7 +34,7 @@ void Vtop___024root___eval_nba(Vtop___024root* vlSelf) {
     // Body
     if ((1ULL & vlSelf->__VnbaTriggered.word(0U))) {
         Vtop___024root___nba_sequent__TOP__0(vlSelf);
-        vlSelf->__Vm_traceActivity[6U] = 1U;
+        vlSelf->__Vm_traceActivity[7U] = 1U;
         Vtop___024root___nba_sequent__TOP__1(vlSelf);
         Vtop___024root___nba_sequent__TOP__2(vlSelf);
         Vtop___024root___nba_sequent__TOP__3(vlSelf);
@@ -39,25 +42,29 @@ void Vtop___024root___eval_nba(Vtop___024root* vlSelf) {
         Vtop___024root___nba_sequent__TOP__5(vlSelf);
         Vtop___024root___nba_sequent__TOP__6(vlSelf);
         Vtop___024root___nba_sequent__TOP__7(vlSelf);
+        Vtop___024root___nba_sequent__TOP__8(vlSelf);
+        Vtop___024root___nba_sequent__TOP__9(vlSelf);
+        Vtop___024root___nba_sequent__TOP__10(vlSelf);
     }
     if ((2ULL & vlSelf->__VnbaTriggered.word(0U))) {
-        Vtop___024root___nba_sequent__TOP__8(vlSelf);
+        Vtop___024root___nba_sequent__TOP__11(vlSelf);
     }
     if ((6ULL & vlSelf->__VnbaTriggered.word(0U))) {
         Vtop___024root___nba_comb__TOP__0(vlSelf);
     }
     if ((3ULL & vlSelf->__VnbaTriggered.word(0U))) {
         Vtop___024root___nba_comb__TOP__1(vlSelf);
-        vlSelf->__Vm_traceActivity[7U] = 1U;
+        vlSelf->__Vm_traceActivity[8U] = 1U;
         Vtop___024root___nba_comb__TOP__2(vlSelf);
         Vtop___024root___nba_comb__TOP__3(vlSelf);
     }
     if ((5ULL & vlSelf->__VnbaTriggered.word(0U))) {
-        Vtop___024root___act_sequent__TOP__4(vlSelf);
+        Vtop___024root___act_sequent__TOP__3(vlSelf);
+        vlSelf->__Vm_traceActivity[9U] = 1U;
     }
     if ((7ULL & vlSelf->__VnbaTriggered.word(0U))) {
         Vtop___024root___nba_comb__TOP__5(vlSelf);
-        vlSelf->__Vm_traceActivity[8U] = 1U;
+        vlSelf->__Vm_traceActivity[0xaU] = 1U;
     }
 }
 

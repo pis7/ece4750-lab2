@@ -29,6 +29,8 @@ VM_CLASSES_FAST += \
 	Vtop___024root__DepSet_h84412442__2 \
 	Vtop___024root__DepSet_h84412442__3 \
 	Vtop___024root__DepSet_h84412442__4 \
+	Vtop___024root__DepSet_h84412442__5 \
+	Vtop___024root__DepSet_h84412442__6 \
 	Vtop___024root__DepSet_heccd7ead__0 \
 	Vtop___024root__DepSet_heccd7ead__1 \
 	Vtop___024root__DepSet_heccd7ead__2 \
