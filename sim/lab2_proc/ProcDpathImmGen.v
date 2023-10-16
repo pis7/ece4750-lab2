@@ -29,10 +29,9 @@ module lab2_proc_ProcDpathImmGen
 
       3'd4: // J-type
         imm = { {12{inst[31]}}, inst[19:12], inst[20], inst[30:25], inst[24:21], 1'b0};
-
-      //''' LAB TASK '''''''''''''''''''''''''''''''''''''''''''''''''''''
-      // Add more immediate types
-      //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+      
+      3'd5: // I variant-type
+        imm = { {28{inst[24]}}, inst[23:20]};
 
       default:
         imm = 32'bx;
