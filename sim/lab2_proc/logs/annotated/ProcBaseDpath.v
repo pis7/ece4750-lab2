@@ -23,62 +23,62 @@
           parameter p_num_cores = 1
         )
         (
- 000054   input  logic         clk,
- 000002   input  logic         reset,
+ 002037   input  logic         clk,
+ 000001   input  logic         reset,
         
           // Instruction Memory Port
         
-%000000   output logic [31:0]  imem_reqstream_msg_addr,
+ 000001   output logic [31:0]  imem_reqstream_msg_addr,
 %000000   input  mem_resp_4B_t imem_respstream_msg,
         
           // Data Memory Port
         
- 000002   output logic [31:0]  dmem_reqstream_msg_addr,
- 000324   output logic [31:0]  dmem_reqstream_msg_data,
- 000176   input  logic [31:0]  dmem_respstream_msg_data,
+ 000006   output logic [31:0]  dmem_reqstream_msg_addr,
+ 000002   output logic [31:0]  dmem_reqstream_msg_data,
+ 000002   input  logic [31:0]  dmem_respstream_msg_data,
         
           // mngr communication ports
         
- 000136   input  logic [31:0]  mngr2proc_data,
- 000002   output logic [31:0]  proc2mngr_data,
+ 000002   input  logic [31:0]  mngr2proc_data,
+ 000006   output logic [31:0]  proc2mngr_data,
         
           // control signals (ctrl->dpath)
         
- 000296   input  logic         imem_respstream_drop,
+%000000   input  logic         imem_respstream_drop,
         
- 001797   input  logic         reg_en_F,
- 000288   input  logic [1:0]   pc_sel_F,
+ 000010   input  logic         reg_en_F,
+ 000002   input  logic [1:0]   pc_sel_F,
         
- 001797   input  logic         reg_en_D,
- 000549   input  logic         op1_sel_D,
- 000488   input  logic [1:0]   op2_sel_D,
+ 000010   input  logic         reg_en_D,
+ 000001   input  logic         op1_sel_D,
+ 000007   input  logic [1:0]   op2_sel_D,
 %000000   input  logic [1:0]   csrr_sel_D,
- 000002   input  logic [2:0]   imm_type_D,
+ 000001   input  logic [2:0]   imm_type_D,
         
- 000028   input  logic         reg_en_X,
- 000732   input  logic [3:0]   alu_fn_X,
- 000022   input  logic [1:0]   ex_result_sel_X,
+ 000006   input  logic         reg_en_X,
+ 000009   input  logic [3:0]   alu_fn_X,
+ 000002   input  logic [1:0]   ex_result_sel_X,
         
- 000006   input  logic         reg_en_M,
- 000290   input  logic         wb_result_sel_M,
+ 000002   input  logic         reg_en_M,
+ 000004   input  logic         wb_result_sel_M,
         
- 000008   input  logic         reg_en_W,
- 000072   input  logic [4:0]   rf_waddr_W,
- 001766   input  logic         rf_wen_W,
+ 000010   input  logic         reg_en_W,
+ 000002   input  logic [4:0]   rf_waddr_W,
+ 000026   input  logic         rf_wen_W,
 %000000   input  logic         stats_en_wen_W,
         
- 000022   input  logic         imul_req_val_D,
- 000044   input  logic         imul_resp_rdy_X,
+ 000002   input  logic         imul_req_val_D,
+ 000002   input  logic         imul_resp_rdy_X,
         
           // status signals (dpath->ctrl)
         
- 000002   output logic [31:0]  inst_D,
- 000002   output logic         br_cond_eq_X,
- 000002   output logic         br_cond_lt_X,
- 000006   output logic         br_cond_ltu_X,
+ 000001   output logic [31:0]  inst_D,
+ 000007   output logic         br_cond_eq_X,
+ 000014   output logic         br_cond_lt_X,
+ 000016   output logic         br_cond_ltu_X,
         
- 000045   output logic         imul_req_rdy_D,
- 000045   output logic         imul_resp_val_X,
+ 000035   output logic         imul_req_rdy_D,
+ 000035   output logic         imul_resp_val_X,
         
           // extra ports
         
@@ -97,11 +97,11 @@
           // F stage
           //--------------------------------------------------------------------
         
- 000004   logic [31:0] pc_F;
-%000000   logic [31:0] pc_next_F;
-%000000   logic [31:0] pc_plus4_F;
- 000002   logic [31:0] br_target_X;
- 000002   logic [31:0] jal_target_D;
+ 000001   logic [31:0] pc_F;
+ 000001   logic [31:0] pc_next_F;
+ 000001   logic [31:0] pc_plus4_F;
+ 000001   logic [31:0] br_target_X;
+ 000001   logic [31:0] jal_target_D;
         
           vc_EnResetReg#(32, c_reset_vector - 32'd4) pc_reg_F
           (
@@ -118,7 +118,7 @@
             .out  (pc_plus4_F)
           );
         
- 000002   logic [31:0] alu_result_X;
+ 000006   logic [31:0] alu_result_X;
         
           vc_Mux4#(32) pc_sel_mux_F
           (
@@ -134,11 +134,11 @@
           // D stage
           //--------------------------------------------------------------------
         
- 000006   logic [31:0] pc_D;
+ 000001   logic [31:0] pc_D;
  000002   logic [ 4:0] inst_rd_D;
- 000002   logic [ 4:0] inst_rs1_D;
- 000292   logic [ 4:0] inst_rs2_D;
- 000782   logic [31:0] imm_D;
+ 000003   logic [ 4:0] inst_rs1_D;
+ 000004   logic [ 4:0] inst_rs2_D;
+ 000002   logic [31:0] imm_D;
         
           vc_EnResetReg#(32) pc_reg_D
           (
@@ -177,9 +177,9 @@
             .imm      (imm_D)
           );
         
- 000347   logic [31:0] rf_rdata0_D;
- 000324   logic [31:0] rf_rdata1_D;
- 000002   logic [31:0] rf_wdata_W;
+ 000004   logic [31:0] rf_rdata0_D;
+ 000002   logic [31:0] rf_rdata1_D;
+ 000006   logic [31:0] rf_wdata_W;
         
           vc_Regfile_2r1w_zero rf
           (
@@ -194,7 +194,7 @@
             .wr_data  (rf_wdata_W)
           );
         
- 000002   logic [31:0] op1_D;
+ 000005   logic [31:0] op1_D;
         
           vc_Mux2#(32) op1_sel_mux_D
           (
@@ -204,9 +204,9 @@
            .out  (op1_D)
           );
         
- 000476   logic [31:0] op2_D;
+ 000004   logic [31:0] op2_D;
         
- 000136   logic [31:0] csrr_data_D;
+ 000002   logic [31:0] csrr_data_D;
         
 %000000   logic [31:0] num_cores;
           assign num_cores = p_num_cores;
@@ -246,9 +246,9 @@
           // X stage
           //--------------------------------------------------------------------
         
- 000002   logic [31:0] op1_X;
- 000476   logic [31:0] op2_X;
- 000004   logic [31:0] pc_X;
+ 000005   logic [31:0] op1_X;
+ 000004   logic [31:0] op2_X;
+ 000001   logic [31:0] pc_X;
         
           vc_EnResetReg#(32, 0) op1_reg_X
           (
@@ -295,7 +295,7 @@
             .q     (dmem_reqstream_msg_data)
           );
         
- 000002   logic [31:0] ex_result_X;
+ 000006   logic [31:0] ex_result_X;
         
           lab2_proc_ProcDpathAlu alu
           (
@@ -310,7 +310,7 @@
         
           assign dmem_reqstream_msg_addr = alu_result_X;
         
- 000026   logic [31:0] mul_result_X;
+ 000020   logic [31:0] mul_result_X;
         
           lab1_imul_IntMulAlt imul
           (
@@ -323,7 +323,7 @@
             .ostream_rdy(imul_resp_rdy_X),
             .ostream_msg(mul_result_X)
           );
- 000004   logic [31:0] pc_plus4_X;
+ 000001   logic [31:0] pc_plus4_X;
         
           vc_Adder#(32) pc_incr_X
           (
@@ -348,7 +348,7 @@
           // M stage
           //--------------------------------------------------------------------
         
- 000002   logic [31:0] ex_result_M;
+ 000006   logic [31:0] ex_result_M;
         
           vc_EnResetReg#(32, 0) ex_result_reg_M
           (
@@ -359,8 +359,8 @@
             .q      (ex_result_M)
           );
         
- 000176   logic [31:0] dmem_result_M;
- 000002   logic [31:0] wb_result_M;
+ 000002   logic [31:0] dmem_result_M;
+ 000006   logic [31:0] wb_result_M;
         
           assign dmem_result_M = dmem_respstream_msg_data;
         
@@ -376,7 +376,7 @@
           // W stage
           //--------------------------------------------------------------------
         
- 000002   logic [31:0] wb_result_W;
+ 000006   logic [31:0] wb_result_W;
         
           vc_EnResetReg#(32, 0) wb_result_reg_W
           (

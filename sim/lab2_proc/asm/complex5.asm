@@ -10,7 +10,6 @@ branch_target:
 add x2, x2, x1
 bge x2, x3, branch_target
 addi x2, x2, -104
-
 branch_target_1:
 mul x2, x1, x2
 bge x2, x3, branch_target_1

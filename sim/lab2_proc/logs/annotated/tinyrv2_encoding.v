@@ -143,45 +143,45 @@
           // Immediate decoding -- only outputs signals at the width required for
           // line tracing
           //----------------------------------------------------------------------
-%000000   function [11:0] imm_i( input [`TINYRV2_INST_NBITS-1:0] inst );
-%000000   begin
+          function [11:0] imm_i( input [`TINYRV2_INST_NBITS-1:0] inst );
+          begin
             // I-type immediate
-%000000     imm_i = { inst[31], inst[30:25], inst[24:21], inst[20] };
+            imm_i = { inst[31], inst[30:25], inst[24:21], inst[20] };
           end
           endfunction
         
-%000000   function [4:0] imm_shamt( input [`TINYRV2_INST_NBITS-1:0] inst );
-%000000   begin
+          function [4:0] imm_shamt( input [`TINYRV2_INST_NBITS-1:0] inst );
+          begin
             // I-type immediate, specialized for shift amounts
-%000000     imm_shamt = { inst[24:21], inst[20] };
+            imm_shamt = { inst[24:21], inst[20] };
           end
           endfunction
         
-%000000   function [11:0] imm_s( input [`TINYRV2_INST_NBITS-1:0] inst );
-%000000   begin
+          function [11:0] imm_s( input [`TINYRV2_INST_NBITS-1:0] inst );
+          begin
             // S-type immediate
-%000000     imm_s = { inst[31], inst[30:25], inst[11:8], inst[7] };
+            imm_s = { inst[31], inst[30:25], inst[11:8], inst[7] };
           end
           endfunction
         
-%000000   function [12:0] imm_b( input [`TINYRV2_INST_NBITS-1:0] inst );
-%000000   begin
+          function [12:0] imm_b( input [`TINYRV2_INST_NBITS-1:0] inst );
+          begin
             // B-type immediate
-%000000     imm_b = { inst[31], inst[7], inst[30:25], inst[11:8], 1'b0 };
+            imm_b = { inst[31], inst[7], inst[30:25], inst[11:8], 1'b0 };
           end
           endfunction
         
-%000000   function [19:0] imm_u_sh12( input [`TINYRV2_INST_NBITS-1:0] inst );
-%000000   begin
+          function [19:0] imm_u_sh12( input [`TINYRV2_INST_NBITS-1:0] inst );
+          begin
             // U-type immediate, shifted right by 12
-%000000     imm_u_sh12 = { inst[31], inst[30:20], inst[19:12] };
+            imm_u_sh12 = { inst[31], inst[30:20], inst[19:12] };
           end
           endfunction
         
-%000000   function [20:0] imm_j( input [`TINYRV2_INST_NBITS-1:0] inst );
-%000000   begin
+          function [20:0] imm_j( input [`TINYRV2_INST_NBITS-1:0] inst );
+          begin
             // J-type immediate
-%000000     imm_j = { inst[31], inst[19:12], inst[20], inst[30:25], inst[24:21], 1'b0 };
+            imm_j = { inst[31], inst[19:12], inst[20], inst[30:25], inst[24:21], 1'b0 };
           end
           endfunction
         
@@ -189,111 +189,111 @@
           // Disasm
           //----------------------------------------------------------------------
         
-%000000   reg [3*8-1:0]                     rs1_str;
-%000000   reg [3*8-1:0]                     rs2_str;
-%000000   reg [3*8-1:0]                     rd_str;
-%000000   reg [9*8-1:0]                     csr_str;
-%000000   reg [2*8-1:0]                     funct_str;
+          reg [3*8-1:0]                     rs1_str;
+          reg [3*8-1:0]                     rs2_str;
+          reg [3*8-1:0]                     rd_str;
+          reg [9*8-1:0]                     csr_str;
+          reg [2*8-1:0]                     funct_str;
         
-%000000   logic [`TINYRV2_INST_RS1_NBITS-1:0] rs1;
-%000000   logic [`TINYRV2_INST_RS2_NBITS-1:0] rs2;
-%000000   logic [`TINYRV2_INST_RD_NBITS-1:0]  rd;
-%000000   logic [`TINYRV2_INST_CSR_NBITS-1:0] csr;
-%000000   logic [`TINYRV2_INST_FUNCT7_NBITS-1:0] funct;
+          logic [`TINYRV2_INST_RS1_NBITS-1:0] rs1;
+          logic [`TINYRV2_INST_RS2_NBITS-1:0] rs2;
+          logic [`TINYRV2_INST_RD_NBITS-1:0]  rd;
+          logic [`TINYRV2_INST_CSR_NBITS-1:0] csr;
+          logic [`TINYRV2_INST_FUNCT7_NBITS-1:0] funct;
         
-%000000   function [25*8-1:0] disasm( input [`TINYRV2_INST_NBITS-1:0] inst );
-%000000   begin
+          function [25*8-1:0] disasm( input [`TINYRV2_INST_NBITS-1:0] inst );
+          begin
         
             // Unpack the fields
         
-%000000     rs1      = inst[`TINYRV2_INST_RS1];
-%000000     rs2      = inst[`TINYRV2_INST_RS2];
-%000000     rd       = inst[`TINYRV2_INST_RD];
-%000000     csr      = inst[`TINYRV2_INST_CSR];
+            rs1      = inst[`TINYRV2_INST_RS1];
+            rs2      = inst[`TINYRV2_INST_RS2];
+            rd       = inst[`TINYRV2_INST_RD];
+            csr      = inst[`TINYRV2_INST_CSR];
             // xcel
-%000000     funct    = inst[`TINYRV2_INST_FUNCT7];
+            funct    = inst[`TINYRV2_INST_FUNCT7];
         
             // Create fixed-width register specifiers
         
-%000000     if ( rs1 <= 9 )
-%000000       $sformat( rs1_str, "x0%0d", rs1 );
+            if ( rs1 <= 9 )
+              $sformat( rs1_str, "x0%0d", rs1 );
             else
-%000000       $sformat( rs1_str, "x%d",  rs1 );
+              $sformat( rs1_str, "x%d",  rs1 );
         
-%000000     if ( rs2 <= 9 )
-%000000       $sformat( rs2_str, "x0%0d", rs2 );
+            if ( rs2 <= 9 )
+              $sformat( rs2_str, "x0%0d", rs2 );
             else
-%000000       $sformat( rs2_str, "x%d",  rs2 );
+              $sformat( rs2_str, "x%d",  rs2 );
         
-%000000     if ( rd <= 9 )
-%000000       $sformat( rd_str, "x0%0d", rd );
+            if ( rd <= 9 )
+              $sformat( rd_str, "x0%0d", rd );
             else
-%000000       $sformat( rd_str, "x%d",  rd );
+              $sformat( rd_str, "x%d",  rd );
         
-%000000     if ( csr == `TINYRV2_CPR_PROC2MNGR )
-%000000       $sformat( csr_str, "proc2mngr" );
-%000000     else if ( csr == `TINYRV2_CPR_MNGR2PROC )
-%000000       $sformat( csr_str, "mngr2proc" );
-%000000     else if ( csr == `TINYRV2_CPR_COREID )
-%000000       $sformat( csr_str, "coreid   " );
-%000000     else if ( csr == `TINYRV2_CPR_NUMCORES )
-%000000       $sformat( csr_str, "numcores " );
-%000000     else if ( csr == `TINYRV2_CPR_STATS_EN )
-%000000       $sformat( csr_str, "stats_en " );
+            if ( csr == `TINYRV2_CPR_PROC2MNGR )
+              $sformat( csr_str, "proc2mngr" );
+            else if ( csr == `TINYRV2_CPR_MNGR2PROC )
+              $sformat( csr_str, "mngr2proc" );
+            else if ( csr == `TINYRV2_CPR_COREID )
+              $sformat( csr_str, "coreid   " );
+            else if ( csr == `TINYRV2_CPR_NUMCORES )
+              $sformat( csr_str, "numcores " );
+            else if ( csr == `TINYRV2_CPR_STATS_EN )
+              $sformat( csr_str, "stats_en " );
             else
-%000000       $sformat( csr_str, "    0x%x", csr );
+              $sformat( csr_str, "    0x%x", csr );
         
-%000000     $sformat( funct_str, "%x", funct[1:0]);
+            $sformat( funct_str, "%x", funct[1:0]);
         
             // Actual disassembly
         
-%000000     casez ( inst )
-%000000       `TINYRV2_INST_CSRR  : $sformat( disasm, "csrr   %s, %s  ",        rd_str,  csr_str );
-%000000       `TINYRV2_INST_CSRW  : $sformat( disasm, "csrw   %s, %s  ",        csr_str, rs1_str );
-%000000       `TINYRV2_INST_NOP   : $sformat( disasm, "nop                    " );
-%000000       `TINYRV2_ZERO       : $sformat( disasm, "                       " );
+            casez ( inst )
+              `TINYRV2_INST_CSRR  : $sformat( disasm, "csrr   %s, %s  ",        rd_str,  csr_str );
+              `TINYRV2_INST_CSRW  : $sformat( disasm, "csrw   %s, %s  ",        csr_str, rs1_str );
+              `TINYRV2_INST_NOP   : $sformat( disasm, "nop                    " );
+              `TINYRV2_ZERO       : $sformat( disasm, "                       " );
         
-%000000       `TINYRV2_INST_ADD   : $sformat( disasm, "add    %s, %s, %s   ",   rd_str,  rs1_str, rs2_str );
-%000000       `TINYRV2_INST_SUB   : $sformat( disasm, "sub    %s, %s, %s   ",   rd_str,  rs1_str, rs2_str );
-%000000       `TINYRV2_INST_AND   : $sformat( disasm, "and    %s, %s, %s   ",   rd_str,  rs1_str, rs2_str );
-%000000       `TINYRV2_INST_OR    : $sformat( disasm, "or     %s, %s, %s   ",   rd_str,  rs1_str, rs2_str );
-%000000       `TINYRV2_INST_XOR   : $sformat( disasm, "xor    %s, %s, %s   ",   rd_str,  rs1_str, rs2_str );
-%000000       `TINYRV2_INST_SLT   : $sformat( disasm, "slt    %s, %s, %s   ",   rd_str,  rs1_str, rs2_str );
-%000000       `TINYRV2_INST_SLTU  : $sformat( disasm, "sltu   %s, %s, %s   ",   rd_str,  rs1_str, rs2_str );
-%000000       `TINYRV2_INST_MUL   : $sformat( disasm, "mul    %s, %s, %s   ",   rd_str,  rs1_str, rs2_str );
+              `TINYRV2_INST_ADD   : $sformat( disasm, "add    %s, %s, %s   ",   rd_str,  rs1_str, rs2_str );
+              `TINYRV2_INST_SUB   : $sformat( disasm, "sub    %s, %s, %s   ",   rd_str,  rs1_str, rs2_str );
+              `TINYRV2_INST_AND   : $sformat( disasm, "and    %s, %s, %s   ",   rd_str,  rs1_str, rs2_str );
+              `TINYRV2_INST_OR    : $sformat( disasm, "or     %s, %s, %s   ",   rd_str,  rs1_str, rs2_str );
+              `TINYRV2_INST_XOR   : $sformat( disasm, "xor    %s, %s, %s   ",   rd_str,  rs1_str, rs2_str );
+              `TINYRV2_INST_SLT   : $sformat( disasm, "slt    %s, %s, %s   ",   rd_str,  rs1_str, rs2_str );
+              `TINYRV2_INST_SLTU  : $sformat( disasm, "sltu   %s, %s, %s   ",   rd_str,  rs1_str, rs2_str );
+              `TINYRV2_INST_MUL   : $sformat( disasm, "mul    %s, %s, %s   ",   rd_str,  rs1_str, rs2_str );
         
-%000000       `TINYRV2_INST_ADDI  : $sformat( disasm, "addi   %s, %s, 0x%x ",   rd_str,  rs1_str, imm_i(inst) );
-%000000       `TINYRV2_INST_ANDI  : $sformat( disasm, "andi   %s, %s, 0x%x ",   rd_str,  rs1_str, imm_i(inst) );
-%000000       `TINYRV2_INST_ORI   : $sformat( disasm, "ori    %s, %s, 0x%x ",   rd_str,  rs1_str, imm_i(inst) );
-%000000       `TINYRV2_INST_XORI  : $sformat( disasm, "xori   %s, %s, 0x%x ",   rd_str,  rs1_str, imm_i(inst) );
-%000000       `TINYRV2_INST_SLTI  : $sformat( disasm, "slti   %s, %s, 0x%x ",   rd_str,  rs1_str, imm_i(inst) );
-%000000       `TINYRV2_INST_SLTIU : $sformat( disasm, "sltiu  %s, %s, 0x%x ",   rd_str,  rs1_str, imm_i(inst) );
+              `TINYRV2_INST_ADDI  : $sformat( disasm, "addi   %s, %s, 0x%x ",   rd_str,  rs1_str, imm_i(inst) );
+              `TINYRV2_INST_ANDI  : $sformat( disasm, "andi   %s, %s, 0x%x ",   rd_str,  rs1_str, imm_i(inst) );
+              `TINYRV2_INST_ORI   : $sformat( disasm, "ori    %s, %s, 0x%x ",   rd_str,  rs1_str, imm_i(inst) );
+              `TINYRV2_INST_XORI  : $sformat( disasm, "xori   %s, %s, 0x%x ",   rd_str,  rs1_str, imm_i(inst) );
+              `TINYRV2_INST_SLTI  : $sformat( disasm, "slti   %s, %s, 0x%x ",   rd_str,  rs1_str, imm_i(inst) );
+              `TINYRV2_INST_SLTIU : $sformat( disasm, "sltiu  %s, %s, 0x%x ",   rd_str,  rs1_str, imm_i(inst) );
         
-%000000       `TINYRV2_INST_SRA   : $sformat( disasm, "sra    %s, %s, 0x%x  ",  rd_str,  rs1_str, imm_shamt(inst) );
-%000000       `TINYRV2_INST_SRL   : $sformat( disasm, "srl    %s, %s, 0x%x  ",  rd_str,  rs1_str, imm_shamt(inst) );
-%000000       `TINYRV2_INST_SLL   : $sformat( disasm, "sll    %s, %s, 0x%x  ",  rd_str,  rs1_str, imm_shamt(inst) );
-%000000       `TINYRV2_INST_SRAI  : $sformat( disasm, "srai   %s, %s, 0x%x  ",  rd_str,  rs1_str, imm_shamt(inst) );
-%000000       `TINYRV2_INST_SRLI  : $sformat( disasm, "srli   %s, %s, 0x%x  ",  rd_str,  rs1_str, imm_shamt(inst) );
-%000000       `TINYRV2_INST_SLLI  : $sformat( disasm, "slli   %s, %s, 0x%x  ",  rd_str,  rs1_str, imm_shamt(inst) );
+              `TINYRV2_INST_SRA   : $sformat( disasm, "sra    %s, %s, 0x%x  ",  rd_str,  rs1_str, imm_shamt(inst) );
+              `TINYRV2_INST_SRL   : $sformat( disasm, "srl    %s, %s, 0x%x  ",  rd_str,  rs1_str, imm_shamt(inst) );
+              `TINYRV2_INST_SLL   : $sformat( disasm, "sll    %s, %s, 0x%x  ",  rd_str,  rs1_str, imm_shamt(inst) );
+              `TINYRV2_INST_SRAI  : $sformat( disasm, "srai   %s, %s, 0x%x  ",  rd_str,  rs1_str, imm_shamt(inst) );
+              `TINYRV2_INST_SRLI  : $sformat( disasm, "srli   %s, %s, 0x%x  ",  rd_str,  rs1_str, imm_shamt(inst) );
+              `TINYRV2_INST_SLLI  : $sformat( disasm, "slli   %s, %s, 0x%x  ",  rd_str,  rs1_str, imm_shamt(inst) );
         
-%000000       `TINYRV2_INST_LUI   : $sformat( disasm, "lui    %s, 0x%x    ",    rd_str,  imm_u_sh12(inst));
-%000000       `TINYRV2_INST_AUIPC : $sformat( disasm, "auipc  %s, 0x%x    ",    rd_str,  imm_u_sh12(inst));
+              `TINYRV2_INST_LUI   : $sformat( disasm, "lui    %s, 0x%x    ",    rd_str,  imm_u_sh12(inst));
+              `TINYRV2_INST_AUIPC : $sformat( disasm, "auipc  %s, 0x%x    ",    rd_str,  imm_u_sh12(inst));
         
-%000000       `TINYRV2_INST_LW    : $sformat( disasm, "lw     %s, 0x%x(%s) ",   rd_str,  imm_i(inst), rs1_str );
-%000000       `TINYRV2_INST_SW    : $sformat( disasm, "sw     %s, 0x%x(%s) ",   rs2_str, imm_s(inst), rs1_str );
+              `TINYRV2_INST_LW    : $sformat( disasm, "lw     %s, 0x%x(%s) ",   rd_str,  imm_i(inst), rs1_str );
+              `TINYRV2_INST_SW    : $sformat( disasm, "sw     %s, 0x%x(%s) ",   rs2_str, imm_s(inst), rs1_str );
         
-%000000       `TINYRV2_INST_JAL   : $sformat( disasm, "jal    %s, 0x%x   ",     rd_str, imm_j(inst) );
-%000000       `TINYRV2_INST_JALR  : $sformat( disasm, "jalr   %s, %s, 0x%x ",   rd_str, rs1_str, imm_i(inst) );
+              `TINYRV2_INST_JAL   : $sformat( disasm, "jal    %s, 0x%x   ",     rd_str, imm_j(inst) );
+              `TINYRV2_INST_JALR  : $sformat( disasm, "jalr   %s, %s, 0x%x ",   rd_str, rs1_str, imm_i(inst) );
         
-%000000       `TINYRV2_INST_BEQ   : $sformat( disasm, "beq    %s, %s, 0x%x",    rs1_str, rs2_str, imm_b(inst) );
-%000000       `TINYRV2_INST_BNE   : $sformat( disasm, "bne    %s, %s, 0x%x",    rs1_str, rs2_str, imm_b(inst) );
-%000000       `TINYRV2_INST_BLT   : $sformat( disasm, "blt    %s, %s, 0x%x",    rs1_str, rs2_str, imm_b(inst) );
-%000000       `TINYRV2_INST_BGE   : $sformat( disasm, "bge    %s, %s, 0x%x",    rs1_str, rs2_str, imm_b(inst) );
-%000000       `TINYRV2_INST_BLTU  : $sformat( disasm, "bltu   %s, %s, 0x%x",    rs1_str, rs2_str, imm_b(inst) );
-%000000       `TINYRV2_INST_BGEU  : $sformat( disasm, "bgeu   %s, %s, 0x%x",    rs1_str, rs2_str, imm_b(inst) );
+              `TINYRV2_INST_BEQ   : $sformat( disasm, "beq    %s, %s, 0x%x",    rs1_str, rs2_str, imm_b(inst) );
+              `TINYRV2_INST_BNE   : $sformat( disasm, "bne    %s, %s, 0x%x",    rs1_str, rs2_str, imm_b(inst) );
+              `TINYRV2_INST_BLT   : $sformat( disasm, "blt    %s, %s, 0x%x",    rs1_str, rs2_str, imm_b(inst) );
+              `TINYRV2_INST_BGE   : $sformat( disasm, "bge    %s, %s, 0x%x",    rs1_str, rs2_str, imm_b(inst) );
+              `TINYRV2_INST_BLTU  : $sformat( disasm, "bltu   %s, %s, 0x%x",    rs1_str, rs2_str, imm_b(inst) );
+              `TINYRV2_INST_BGEU  : $sformat( disasm, "bgeu   %s, %s, 0x%x",    rs1_str, rs2_str, imm_b(inst) );
         
-%000000       `TINYRV2_INST_CUST0 : $sformat( disasm, "cust0 %s, %s, %s, %s", rd_str, rs1_str, rs2_str, funct_str );
-%000000       default             : $sformat( disasm, "illegal inst           " );
+              `TINYRV2_INST_CUST0 : $sformat( disasm, "cust0 %s, %s, %s, %s", rd_str, rs1_str, rs2_str, funct_str );
+              default             : $sformat( disasm, "illegal inst           " );
             endcase
         
           end
@@ -303,56 +303,56 @@
           // Disasm Tiny
           //----------------------------------------------------------------------
         
-%000000   function [4*8-1:0] disasm_tiny( input [`TINYRV2_INST_NBITS-1:0] inst );
-%000000   begin
+          function [4*8-1:0] disasm_tiny( input [`TINYRV2_INST_NBITS-1:0] inst );
+          begin
         
-%000000     casez ( inst )
-%000000       `TINYRV2_INST_CSRR  : disasm_tiny = "csrr";
-%000000       `TINYRV2_INST_CSRW  : disasm_tiny = "csrw";
-%000000       `TINYRV2_INST_NOP   : disasm_tiny = "nop ";
+            casez ( inst )
+              `TINYRV2_INST_CSRR  : disasm_tiny = "csrr";
+              `TINYRV2_INST_CSRW  : disasm_tiny = "csrw";
+              `TINYRV2_INST_NOP   : disasm_tiny = "nop ";
         
-%000000       `TINYRV2_INST_ADD   : disasm_tiny = "add ";
-%000000       `TINYRV2_INST_SUB   : disasm_tiny = "sub ";
-%000000       `TINYRV2_INST_AND   : disasm_tiny = "and ";
-%000000       `TINYRV2_INST_OR    : disasm_tiny = "or  ";
-%000000       `TINYRV2_INST_XOR   : disasm_tiny = "xor ";
-%000000       `TINYRV2_INST_SLT   : disasm_tiny = "slt ";
-%000000       `TINYRV2_INST_SLTU  : disasm_tiny = "sltu";
-%000000       `TINYRV2_INST_MUL   : disasm_tiny = "mul ";
+              `TINYRV2_INST_ADD   : disasm_tiny = "add ";
+              `TINYRV2_INST_SUB   : disasm_tiny = "sub ";
+              `TINYRV2_INST_AND   : disasm_tiny = "and ";
+              `TINYRV2_INST_OR    : disasm_tiny = "or  ";
+              `TINYRV2_INST_XOR   : disasm_tiny = "xor ";
+              `TINYRV2_INST_SLT   : disasm_tiny = "slt ";
+              `TINYRV2_INST_SLTU  : disasm_tiny = "sltu";
+              `TINYRV2_INST_MUL   : disasm_tiny = "mul ";
         
-%000000       `TINYRV2_INST_ADDI  : disasm_tiny = "addi";
-%000000       `TINYRV2_INST_ANDI  : disasm_tiny = "andi";
-%000000       `TINYRV2_INST_ORI   : disasm_tiny = "ori ";
-%000000       `TINYRV2_INST_XORI  : disasm_tiny = "xori";
-%000000       `TINYRV2_INST_SLTI  : disasm_tiny = "slti";
-%000000       `TINYRV2_INST_SLTIU : disasm_tiny = "sltI";
+              `TINYRV2_INST_ADDI  : disasm_tiny = "addi";
+              `TINYRV2_INST_ANDI  : disasm_tiny = "andi";
+              `TINYRV2_INST_ORI   : disasm_tiny = "ori ";
+              `TINYRV2_INST_XORI  : disasm_tiny = "xori";
+              `TINYRV2_INST_SLTI  : disasm_tiny = "slti";
+              `TINYRV2_INST_SLTIU : disasm_tiny = "sltI";
         
-%000000       `TINYRV2_INST_SRA   : disasm_tiny = "sra ";
-%000000       `TINYRV2_INST_SRL   : disasm_tiny = "srl ";
-%000000       `TINYRV2_INST_SLL   : disasm_tiny = "sll ";
-%000000       `TINYRV2_INST_SRAI  : disasm_tiny = "srai";
-%000000       `TINYRV2_INST_SRLI  : disasm_tiny = "srli";
-%000000       `TINYRV2_INST_SLLI  : disasm_tiny = "slli";
+              `TINYRV2_INST_SRA   : disasm_tiny = "sra ";
+              `TINYRV2_INST_SRL   : disasm_tiny = "srl ";
+              `TINYRV2_INST_SLL   : disasm_tiny = "sll ";
+              `TINYRV2_INST_SRAI  : disasm_tiny = "srai";
+              `TINYRV2_INST_SRLI  : disasm_tiny = "srli";
+              `TINYRV2_INST_SLLI  : disasm_tiny = "slli";
         
-%000000       `TINYRV2_INST_LUI   : disasm_tiny = "lui ";
-%000000       `TINYRV2_INST_AUIPC : disasm_tiny = "auiP";
+              `TINYRV2_INST_LUI   : disasm_tiny = "lui ";
+              `TINYRV2_INST_AUIPC : disasm_tiny = "auiP";
         
-%000000       `TINYRV2_INST_LW    : disasm_tiny = "lw  ";
-%000000       `TINYRV2_INST_SW    : disasm_tiny = "sw  ";
+              `TINYRV2_INST_LW    : disasm_tiny = "lw  ";
+              `TINYRV2_INST_SW    : disasm_tiny = "sw  ";
         
-%000000       `TINYRV2_INST_JAL   : disasm_tiny = "jal ";
-%000000       `TINYRV2_INST_JALR  : disasm_tiny = "jalr";
+              `TINYRV2_INST_JAL   : disasm_tiny = "jal ";
+              `TINYRV2_INST_JALR  : disasm_tiny = "jalr";
         
-%000000       `TINYRV2_INST_BEQ   : disasm_tiny = "beq ";
-%000000       `TINYRV2_INST_BNE   : disasm_tiny = "bne ";
-%000000       `TINYRV2_INST_BLT   : disasm_tiny = "blt ";
-%000000       `TINYRV2_INST_BGE   : disasm_tiny = "bge ";
-%000000       `TINYRV2_INST_BLTU  : disasm_tiny = "bltu";
-%000000       `TINYRV2_INST_BGEU  : disasm_tiny = "bgeu";
+              `TINYRV2_INST_BEQ   : disasm_tiny = "beq ";
+              `TINYRV2_INST_BNE   : disasm_tiny = "bne ";
+              `TINYRV2_INST_BLT   : disasm_tiny = "blt ";
+              `TINYRV2_INST_BGE   : disasm_tiny = "bge ";
+              `TINYRV2_INST_BLTU  : disasm_tiny = "bltu";
+              `TINYRV2_INST_BGEU  : disasm_tiny = "bgeu";
         
-%000000       `TINYRV2_INST_CUST0 : disasm_tiny = "cus0";
+              `TINYRV2_INST_CUST0 : disasm_tiny = "cus0";
         
-%000000       default            : disasm_tiny = "????";
+              default            : disasm_tiny = "????";
             endcase
         
           end
@@ -368,17 +368,17 @@
         (
           // Packed message
         
- 000004   input  [`TINYRV2_INST_NBITS-1:0]        inst,
+ 000001   input  [`TINYRV2_INST_NBITS-1:0]        inst,
         
           // Packed fields
         
- 000010   output [`TINYRV2_INST_OPCODE_NBITS-1:0] opcode,
- 000288   output [`TINYRV2_INST_RD_NBITS-1:0]     rd,
- 000004   output [`TINYRV2_INST_RS1_NBITS-1:0]    rs1,
- 000292   output [`TINYRV2_INST_RS2_NBITS-1:0]    rs2,
- 000238   output [`TINYRV2_INST_FUNCT3_NBITS-1:0] funct3,
+ 000001   output [`TINYRV2_INST_OPCODE_NBITS-1:0] opcode,
+ 000002   output [`TINYRV2_INST_RD_NBITS-1:0]     rd,
+ 000003   output [`TINYRV2_INST_RS1_NBITS-1:0]    rs1,
+ 000004   output [`TINYRV2_INST_RS2_NBITS-1:0]    rs2,
+ 000004   output [`TINYRV2_INST_FUNCT3_NBITS-1:0] funct3,
 %000000   output [`TINYRV2_INST_FUNCT7_NBITS-1:0] funct7,
- 000292   output [`TINYRV2_INST_CSR_NBITS-1:0]    csr
+ 000002   output [`TINYRV2_INST_CSR_NBITS-1:0]    csr
         );
         
           assign opcode   = inst[`TINYRV2_INST_OPCODE];

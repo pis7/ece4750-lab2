@@ -456,7 +456,7 @@ module lab2_proc_ProcAltCtrl
   assign rf_waddr_D = inst_rd_D;
 
   // imul val
-  assign imul_req_val_D = mul_D;
+  assign imul_req_val_D = val_D && !stall_D && !squash_D && mul_D;
 
   // csrr and csrw logic
 
@@ -764,7 +764,7 @@ module lab2_proc_ProcAltCtrl
 
   // Ready to receive imul response if mul in X stage and X stage is not stalled
 
-  assign imul_resp_rdy_X = (ex_result_sel_X == 2'd2) && !stall_X;
+  assign imul_resp_rdy_X = val_X && !stall_X && (ex_result_sel_X == 2'd2);
 
   // Valid signal for the next stage
 

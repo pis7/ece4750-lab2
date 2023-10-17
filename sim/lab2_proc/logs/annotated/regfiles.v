@@ -18,22 +18,22 @@
           // Local constants not meant to be set from outside the module
           parameter c_addr_nbits  = $clog2(p_num_entries)
         )(
- 083446   input  logic                    clk,
- 000238   input  logic                    reset,
+          input  logic                    clk,
+          input  logic                    reset,
         
           // Read port (combinational read)
         
-%000000   input  logic [c_addr_nbits-1:0] read_addr,
-%000000   output logic [p_data_nbits-1:0] read_data,
+          input  logic [c_addr_nbits-1:0] read_addr,
+          output logic [p_data_nbits-1:0] read_data,
         
           // Write port (sampled on the rising clock edge)
         
-%000000   input  logic                    write_en,
-%000000   input  logic [c_addr_nbits-1:0] write_addr,
-%000000   input  logic [p_data_nbits-1:0] write_data
+          input  logic                    write_en,
+          input  logic [c_addr_nbits-1:0] write_addr,
+          input  logic [p_data_nbits-1:0] write_data
         );
         
-%000000   logic [p_data_nbits-1:0] rfile[p_num_entries-1:0];
+          logic [p_data_nbits-1:0] rfile[p_num_entries-1:0];
         
           // Combinational read
         
@@ -41,9 +41,9 @@
         
           // Write on positive clock edge
         
- 041604   always_ff @( posedge clk )
- 041604     if ( write_en )
-%000000       rfile[write_addr] <= write_data;
+          always_ff @( posedge clk )
+            if ( write_en )
+              rfile[write_addr] <= write_data;
         
           // Assertions
         
@@ -148,24 +148,24 @@
           // Local constants not meant to be set from outside the module
           parameter c_addr_nbits  = $clog2(p_num_entries)
         )(
- 000054   input  logic                   clk,
- 000002   input  logic                   reset,
+ 002037   input  logic                   clk,
+ 000001   input  logic                   reset,
         
           // Read port 0 (combinational read)
         
- 000002   input  logic [c_addr_nbits-1:0] read_addr0,
-%000000   output logic [p_data_nbits-1:0] read_data0,
+ 000003   input  logic [c_addr_nbits-1:0] read_addr0,
+ 000004   output logic [p_data_nbits-1:0] read_data0,
         
           // Read port 1 (combinational read)
         
-%000000   input  logic [c_addr_nbits-1:0] read_addr1,
-%000000   output logic [p_data_nbits-1:0] read_data1,
+ 000004   input  logic [c_addr_nbits-1:0] read_addr1,
+ 000002   output logic [p_data_nbits-1:0] read_data1,
         
           // Write port (sampled on the rising clock edge)
         
-%000000   input  logic                    write_en,
-%000000   input  logic [c_addr_nbits-1:0] write_addr,
- 000002   input  logic [p_data_nbits-1:0] write_data
+ 000026   input  logic                    write_en,
+ 000002   input  logic [c_addr_nbits-1:0] write_addr,
+ 000006   input  logic [p_data_nbits-1:0] write_data
         );
         
           logic [p_data_nbits-1:0] rfile[p_num_entries-1:0];
@@ -177,9 +177,9 @@
         
           // Write on positive clock edge
         
- 000026   always_ff @( posedge clk )
- 000026     if ( write_en )
-%000000       rfile[write_addr] <= write_data;
+ 001018   always_ff @( posedge clk )
+ 000380     if ( write_en )
+ 000638       rfile[write_addr] <= write_data;
         
           // Assertions
         
@@ -298,25 +298,25 @@
         
         module vc_Regfile_2r1w_zero
         (
- 000054   input  logic        clk,
- 000002   input  logic        reset,
+ 002037   input  logic        clk,
+ 000001   input  logic        reset,
         
- 000002   input  logic  [4:0] rd_addr0,
-%000000   output logic [31:0] rd_data0,
+ 000003   input  logic  [4:0] rd_addr0,
+ 000004   output logic [31:0] rd_data0,
         
-%000000   input  logic  [4:0] rd_addr1,
-%000000   output logic [31:0] rd_data1,
+ 000004   input  logic  [4:0] rd_addr1,
+ 000002   output logic [31:0] rd_data1,
         
-%000000   input  logic        wr_en,
-%000000   input  logic  [4:0] wr_addr,
- 000002   input  logic [31:0] wr_data
+ 000026   input  logic        wr_en,
+ 000002   input  logic  [4:0] wr_addr,
+ 000006   input  logic [31:0] wr_data
         );
         
           // these wires are to be hooked up to the actual register file read
           // ports
         
-%000000   logic [31:0] rf_read_data0;
-%000000   logic [31:0] rf_read_data1;
+ 000004   logic [31:0] rf_read_data0;
+ 000002   logic [31:0] rf_read_data1;
         
           vc_Regfile_2r1w
           #(
