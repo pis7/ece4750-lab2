@@ -66,9 +66,9 @@ module top(input logic clk, input logic linetrace);
             4'd4    : expOut = in0 ^ in1;                                // XOR
             4'd5    : expOut = {31'b0, $signed(a) < $signed(b)};         // SLT
             4'd6    : expOut = {31'b0, a < b};                           // SLTU
-            4'd7    : expOut = in0 >>> in1;                              // SRA
-            4'd8    : expOut = in0 >> in1;                               // SRL
-            4'd9    : expOut = in0 << in1;                               // SLL
+            4'd7    : expOut = in0 >>> in1[4:0];                         // SRA
+            4'd8    : expOut = in0 >> in1[4:0];                          // SRL
+            4'd9    : expOut = in0 << in1[4:0];                          // SLL
             4'd11   : expOut = in0;                                      // CP OP0
             4'd12   : expOut = in1;                                      // CP OP1
             default : expOut = 32'b0;

@@ -28,9 +28,9 @@ module lab2_proc_ProcDpathAlu
       4'd4    : out = in0 ^ in1;                                // XOR
       4'd5    : out = {31'b0, ops_lt};                          // SLT
       4'd6    : out = {31'b0, ops_ltu};                         // SLTU
-      4'd7    : out = in0 >>> in1;                              // SRA
-      4'd8    : out = in0 >> in1;                               // SRL
-      4'd9    : out = in0 << in1;                               // SLL
+      4'd7    : out = in0 >>> in1[4:0];                         // SRA
+      4'd8    : out = in0 >> in1[4:0];                          // SRL
+      4'd9    : out = in0 << in1[4:0];                          // SLL
       4'd11   : out = in0;                                      // CP OP0
       4'd12   : out = in1;                                      // CP OP1
       default : out = 32'b0;
