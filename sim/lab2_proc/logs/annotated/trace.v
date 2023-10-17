@@ -18,8 +18,8 @@
         
         module vc_Trace
         (
- 000027   input logic clk,
- 000001   input logic reset
+ 000054   input logic clk,
+ 000002   input logic reset
         );
         
           integer len0;
@@ -69,8 +69,8 @@
         
           // Track cycle count
         
- 000013   always_ff @( posedge clk ) begin
- 000013     cycles <= ( reset ) ? 0 : cycles_next;
+ 000026   always_ff @( posedge clk ) begin
+ 000026     cycles <= ( reset ) ? 0 : cycles_next;
           end
         
           //----------------------------------------------------------------------

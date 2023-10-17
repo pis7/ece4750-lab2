@@ -22,8 +22,8 @@
         
         module lab1_imul_IntMulAlt
         (
- 000027   input  logic        clk,
- 000001   input  logic        reset,
+ 000054   input  logic        clk,
+ 000002   input  logic        reset,
         
 %000000   input  logic        istream_val,
 %000000   output logic        istream_rdy,
@@ -84,8 +84,8 @@
         
         module mul_alt_datapath
         (
- 000027   input logic clk,
- 000001   input logic reset,
+ 000054   input logic clk,
+ 000002   input logic reset,
         
           // Data
 %000000   input logic [63:0] req_msg,
@@ -101,7 +101,7 @@
 %000000   output logic [31:0] b_lsb
         );
         
- 000001   logic [31:0] a;
+ 000002   logic [31:0] a;
 %000000   logic [31:0] b;
         
           assign a = req_msg[63:32];
@@ -147,7 +147,7 @@
         
           // A logic ---------------------------------
           // A mux
- 000001   logic [31:0] a_mux_out;
+ 000002   logic [31:0] a_mux_out;
         
           vc_Mux2 #(
             .p_nbits(32)
@@ -159,7 +159,7 @@
           );
         
           // A register
- 000001   logic [31:0] a_reg_out;
+ 000002   logic [31:0] a_reg_out;
         
           vc_Reg #(
             .p_nbits(32)
@@ -170,7 +170,7 @@
           );
         
           // A left shifter
- 000001   logic [31:0] l_shift_out;
+ 000002   logic [31:0] l_shift_out;
         
           vc_LeftLogicalShifter #(
             .p_nbits(32),
@@ -208,7 +208,7 @@
           );
         
           // Adder
- 000001   logic [31:0] adder_out;
+ 000002   logic [31:0] adder_out;
         
           vc_SimpleAdder #(
             .p_nbits(32)
@@ -235,8 +235,8 @@
         endmodule
         
         module mul_alt_control (
- 000027   input logic clk,
- 000001   input logic reset,
+ 000054   input logic clk,
+ 000002   input logic reset,
         
           // Datapath I/O
 %000000   input logic [31:0] b_lsb,
@@ -259,7 +259,7 @@
 %000000   logic [1:0] nextState;
 %000000   logic done;
         
- 000013   function void tab
+ 000026   function void tab
           (
           input logic t_a_mux_sel,
           input logic t_b_mux_sel,
@@ -271,36 +271,36 @@
           input logic t_resp_val,
           input logic t_done
           );
- 000013   begin
- 000013     assign a_mux_sel = t_a_mux_sel;
- 000013     assign b_mux_sel = t_b_mux_sel;
- 000013     assign shamt = t_shamt;
- 000013     assign result_mux_sel = t_result_mux_sel;
- 000013     assign result_en = t_result_en;
- 000013     assign add_mux_sel = t_add_mux_sel;
- 000013     assign req_rdy = t_req_rdy;
- 000013     assign resp_val = t_resp_val;
- 000013     assign done = t_done;
+ 000026   begin
+ 000026     assign a_mux_sel = t_a_mux_sel;
+ 000026     assign b_mux_sel = t_b_mux_sel;
+ 000026     assign shamt = t_shamt;
+ 000026     assign result_mux_sel = t_result_mux_sel;
+ 000026     assign result_en = t_result_en;
+ 000026     assign add_mux_sel = t_add_mux_sel;
+ 000026     assign req_rdy = t_req_rdy;
+ 000026     assign resp_val = t_resp_val;
+ 000026     assign done = t_done;
           end
           endfunction
         
           // State register
- 000013   always_ff @(posedge clk) begin
+ 000026   always_ff @(posedge clk) begin
             // reset state to idle if reset signal high
- 000004     if (reset) state <= IDLE;
+ 000008     if (reset) state <= IDLE;
         
             // clock in nextState to state on posedge clock
- 000009     else state <= nextState;
+ 000018     else state <= nextState;
           end
         
           // Next state logic
           // Note: this always_comb block shows no coverage but each case has been tested
 %000000   always_comb begin
 %000000     case (state)
- 000013       IDLE: begin
+ 000026       IDLE: begin
                 // If input value ready then go to CALC state
 %000000         if (req_val) nextState = CALC;
- 000042         else nextState = IDLE;
+ 000084         else nextState = IDLE;
               end
 %000000       CALC: begin
                 // If counter is done then go to DONE state
@@ -323,8 +323,8 @@
           // Note: this always_comb block shows no coverage but each case has been tested
 %000000   always_comb begin
 %000000     case(state)
- 000013       IDLE: begin
- 000013         tab(1, 1, 0, 1, 1, 1, 1, 0, 0);
+ 000026       IDLE: begin
+ 000026         tab(1, 1, 0, 1, 1, 1, 1, 0, 0);
                 // Do not shift a and b
                 // Set result to 0 and disable reg
                 // Do not add result of adder to result

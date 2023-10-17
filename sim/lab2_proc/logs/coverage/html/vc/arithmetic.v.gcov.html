@@ -31,13 +31,13 @@
             <td class="headerValue">coverage.info</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntry">11</td>
+            <td class="headerCovTableEntry">14</td>
             <td class="headerCovTableEntry">19</td>
-            <td class="headerCovTableEntryLo">57.9 %</td>
+            <td class="headerCovTableEntryLo">73.7 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2023-10-15 19:56:43</td>
+            <td class="headerValue">2023-10-16 20:31:38</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">0</td>
@@ -75,11 +75,11 @@
 <a name="13"><span class="lineNum">      13 </span>            : #(</a>
 <a name="14"><span class="lineNum">      14 </span>            :   parameter p_nbits = 1</a>
 <a name="15"><span class="lineNum">      15 </span>            : )(</a>
-<a name="16"><span class="lineNum">      16 </span><span class="lineCov">          2 :   input  logic [p_nbits-1:0] in0,</span></a>
+<a name="16"><span class="lineNum">      16 </span><span class="lineCov">          4 :   input  logic [p_nbits-1:0] in0,</span></a>
 <a name="17"><span class="lineNum">      17 </span><span class="lineNoCov">          0 :   input  logic [p_nbits-1:0] in1,</span></a>
 <a name="18"><span class="lineNum">      18 </span><span class="lineNoCov">          0 :   input  logic               cin,</span></a>
-<a name="19"><span class="lineNum">      19 </span><span class="lineCov">          2 :   output logic [p_nbits-1:0] out,</span></a>
-<a name="20"><span class="lineNum">      20 </span><span class="lineCov">          1 :   output logic               cout</span></a>
+<a name="19"><span class="lineNum">      19 </span><span class="lineCov">          4 :   output logic [p_nbits-1:0] out,</span></a>
+<a name="20"><span class="lineNum">      20 </span><span class="lineCov">          2 :   output logic               cout</span></a>
 <a name="21"><span class="lineNum">      21 </span>            : );</a>
 <a name="22"><span class="lineNum">      22 </span>            : </a>
 <a name="23"><span class="lineNum">      23 </span>            :   // We need to convert cin into a 32-bit value to</a>
@@ -93,9 +93,9 @@
 <a name="31"><span class="lineNum">      31 </span>            : #(</a>
 <a name="32"><span class="lineNum">      32 </span>            :   parameter p_nbits = 1</a>
 <a name="33"><span class="lineNum">      33 </span>            : )(</a>
-<a name="34"><span class="lineNum">      34 </span><span class="lineCov">          1 :   input  logic [p_nbits-1:0] in0,</span></a>
+<a name="34"><span class="lineNum">      34 </span><span class="lineCov">          2 :   input  logic [p_nbits-1:0] in0,</span></a>
 <a name="35"><span class="lineNum">      35 </span><span class="lineNoCov">          0 :   input  logic [p_nbits-1:0] in1,</span></a>
-<a name="36"><span class="lineNum">      36 </span><span class="lineCov">          1 :   output logic [p_nbits-1:0] out</span></a>
+<a name="36"><span class="lineNum">      36 </span><span class="lineCov">          2 :   output logic [p_nbits-1:0] out</span></a>
 <a name="37"><span class="lineNum">      37 </span>            : );</a>
 <a name="38"><span class="lineNum">      38 </span>            : </a>
 <a name="39"><span class="lineNum">      39 </span>            :   assign out = in0 + in1;</a>
@@ -128,8 +128,8 @@
 <a name="66"><span class="lineNum">      66 </span>            :   parameter p_nbits     = 1,</a>
 <a name="67"><span class="lineNum">      67 </span>            :   parameter p_inc_value = 1</a>
 <a name="68"><span class="lineNum">      68 </span>            : )(</a>
-<a name="69"><span class="lineNum">      69 </span><span class="lineCov">          1 :   input  logic [p_nbits-1:0] in,</span></a>
-<a name="70"><span class="lineNum">      70 </span><span class="lineCov">          1 :   output logic [p_nbits-1:0] out</span></a>
+<a name="69"><span class="lineNum">      69 </span><span class="lineCov">          2 :   input  logic [p_nbits-1:0] in,</span></a>
+<a name="70"><span class="lineNum">      70 </span><span class="lineCov">          4 :   output logic [p_nbits-1:0] out</span></a>
 <a name="71"><span class="lineNum">      71 </span>            : );</a>
 <a name="72"><span class="lineNum">      72 </span>            : </a>
 <a name="73"><span class="lineNum">      73 </span>            :   assign out = in + p_inc_value;</a>
@@ -195,9 +195,9 @@
 <a name="133"><span class="lineNum">     133 </span>            : #(</a>
 <a name="134"><span class="lineNum">     134 </span>            :   parameter p_nbits = 1</a>
 <a name="135"><span class="lineNum">     135 </span>            : )(</a>
-<a name="136"><span class="lineNum">     136 </span><span class="lineCov">          1 :   input  logic [p_nbits-1:0] in0,</span></a>
-<a name="137"><span class="lineNum">     137 </span><span class="lineNoCov">          0 :   input  logic [p_nbits-1:0] in1,</span></a>
-<a name="138"><span class="lineNum">     138 </span><span class="lineCov">          1 :   output logic               out</span></a>
+<a name="136"><span class="lineNum">     136 </span><span class="lineCov">          2 :   input  logic [p_nbits-1:0] in0,</span></a>
+<a name="137"><span class="lineNum">     137 </span><span class="lineCov">        914 :   input  logic [p_nbits-1:0] in1,</span></a>
+<a name="138"><span class="lineNum">     138 </span><span class="lineCov">          2 :   output logic               out</span></a>
 <a name="139"><span class="lineNum">     139 </span>            : );</a>
 <a name="140"><span class="lineNum">     140 </span>            : </a>
 <a name="141"><span class="lineNum">     141 </span>            :   assign out = ( in0 == in1 );</a>
@@ -247,9 +247,9 @@
 <a name="185"><span class="lineNum">     185 </span>            :   parameter p_nbits       = 1,</a>
 <a name="186"><span class="lineNum">     186 </span>            :   parameter p_shamt_nbits = 1 )</a>
 <a name="187"><span class="lineNum">     187 </span>            : (</a>
-<a name="188"><span class="lineNum">     188 </span><span class="lineCov">          1 :   input  logic       [p_nbits-1:0] in,</span></a>
+<a name="188"><span class="lineNum">     188 </span><span class="lineCov">          2 :   input  logic       [p_nbits-1:0] in,</span></a>
 <a name="189"><span class="lineNum">     189 </span><span class="lineNoCov">          0 :   input  logic [p_shamt_nbits-1:0] shamt,</span></a>
-<a name="190"><span class="lineNum">     190 </span><span class="lineCov">          1 :   output logic       [p_nbits-1:0] out</span></a>
+<a name="190"><span class="lineNum">     190 </span><span class="lineCov">          2 :   output logic       [p_nbits-1:0] out</span></a>
 <a name="191"><span class="lineNum">     191 </span>            : );</a>
 <a name="192"><span class="lineNum">     192 </span>            : </a>
 <a name="193"><span class="lineNum">     193 </span>            :   assign out = ( in &lt;&lt; shamt );</a>
@@ -265,9 +265,9 @@
 <a name="203"><span class="lineNum">     203 </span>            :   parameter p_nbits       = 1,</a>
 <a name="204"><span class="lineNum">     204 </span>            :   parameter p_shamt_nbits = 1</a>
 <a name="205"><span class="lineNum">     205 </span>            : )(</a>
-<a name="206"><span class="lineNum">     206 </span><span class="lineNoCov">          0 :   input  logic       [p_nbits-1:0] in,</span></a>
+<a name="206"><span class="lineNum">     206 </span><span class="lineCov">        884 :   input  logic       [p_nbits-1:0] in,</span></a>
 <a name="207"><span class="lineNum">     207 </span><span class="lineNoCov">          0 :   input  logic [p_shamt_nbits-1:0] shamt,</span></a>
-<a name="208"><span class="lineNum">     208 </span><span class="lineNoCov">          0 :   output logic       [p_nbits-1:0] out</span></a>
+<a name="208"><span class="lineNum">     208 </span><span class="lineCov">        878 :   output logic       [p_nbits-1:0] out</span></a>
 <a name="209"><span class="lineNum">     209 </span>            : );</a>
 <a name="210"><span class="lineNum">     210 </span>            : </a>
 <a name="211"><span class="lineNum">     211 </span>            :   assign out = ( in &gt;&gt; shamt );</a>
@@ -284,7 +284,7 @@
 
   <table width="100%" border=0 cellspacing=0 cellpadding=0>
     <tr><td class="ruler"><img src="../../../glass.png" width=3 height=3 alt=""></td></tr>
-    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.14</a></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="https://github.com/linux-test-project/lcov" target="_parent">LCOV version 1.16</a></td></tr>
   </table>
   <br>
 
