@@ -4718,9 +4718,9 @@ VL_ATTR_COLD void Vtop___024root___configure_coverage(Vtop___024root* vlSelf, bo
     vlSelf->__vlCoverInsert(&(vlSymsp->__Vcoverage[0]), first, "../vc/TestRandDelayMem_2ports4B.v", 32, 35, ".top.mem", "v_toggle/vc_TestRandDelayMem_2ports4B__pi3", "clk", "");
     vlSelf->__vlCoverInsert(&(vlSymsp->__Vcoverage[2]), first, "../vc/TestRandDelayMem_2ports4B.v", 33, 35, ".top.mem", "v_toggle/vc_TestRandDelayMem_2ports4B__pi3", "reset", "");
     vlSelf->__vlCoverInsert(&(vlSymsp->__Vcoverage[363]), first, "../vc/TestRandDelayMem_2ports4B.v", 37, 35, ".top.mem", "v_toggle/vc_TestRandDelayMem_2ports4B__pi3", "mem_clear", "");
-    vlSelf->__vlCoverInsert(&(vlSymsp->__Vcoverage[378]), first, "../vc/TestRandDelayMem_2ports4B.v", 41, 35, ".top.mem", "v_toggle/vc_TestRandDelayMem_2ports4B__pi3", "max_delay[0]", "");
+    vlSelf->__vlCoverInsert(&(vlSymsp->__Vcoverage[379]), first, "../vc/TestRandDelayMem_2ports4B.v", 41, 35, ".top.mem", "v_toggle/vc_TestRandDelayMem_2ports4B__pi3", "max_delay[0]", "");
     vlSelf->__vlCoverInsert(&(vlSymsp->__Vcoverage[378]), first, "../vc/TestRandDelayMem_2ports4B.v", 41, 35, ".top.mem", "v_toggle/vc_TestRandDelayMem_2ports4B__pi3", "max_delay[1]", "");
-    vlSelf->__vlCoverInsert(&(vlSymsp->__Vcoverage[378]), first, "../vc/TestRandDelayMem_2ports4B.v", 41, 35, ".top.mem", "v_toggle/vc_TestRandDelayMem_2ports4B__pi3", "max_delay[2]", "");
+    vlSelf->__vlCoverInsert(&(vlSymsp->__Vcoverage[379]), first, "../vc/TestRandDelayMem_2ports4B.v", 41, 35, ".top.mem", "v_toggle/vc_TestRandDelayMem_2ports4B__pi3", "max_delay[2]", "");
     vlSelf->__vlCoverInsert(&(vlSymsp->__Vcoverage[378]), first, "../vc/TestRandDelayMem_2ports4B.v", 41, 35, ".top.mem", "v_toggle/vc_TestRandDelayMem_2ports4B__pi3", "max_delay[3]", "");
     vlSelf->__vlCoverInsert(&(vlSymsp->__Vcoverage[378]), first, "../vc/TestRandDelayMem_2ports4B.v", 41, 35, ".top.mem", "v_toggle/vc_TestRandDelayMem_2ports4B__pi3", "max_delay[4]", "");
     vlSelf->__vlCoverInsert(&(vlSymsp->__Vcoverage[378]), first, "../vc/TestRandDelayMem_2ports4B.v", 41, 35, ".top.mem", "v_toggle/vc_TestRandDelayMem_2ports4B__pi3", "max_delay[5]", "");
@@ -5267,7 +5267,7 @@ VL_ATTR_COLD void Vtop___024root___configure_coverage(Vtop___024root* vlSelf, bo
     vlSelf->__vlCoverInsert(&(vlSymsp->__Vcoverage[0]), first, "../vc/TestRandDelay.v", 18, 34, ".top.mem.rand_req_delay0", "v_toggle/vc_TestRandDelay__P4d", "clk", "");
     vlSelf->__vlCoverInsert(&(vlSymsp->__Vcoverage[2]), first, "../vc/TestRandDelay.v", 19, 34, ".top.mem.rand_req_delay0", "v_toggle/vc_TestRandDelay__P4d", "reset", "");
     vlSelf->__vlCoverInsert(&(vlSymsp->__Vcoverage[378]), first, "../vc/TestRandDelay.v", 23, 34, ".top.mem.rand_req_delay0", "v_toggle/vc_TestRandDelay__P4d", "max_delay[0]", "");
-    vlSelf->__vlCoverInsert(&(vlSymsp->__Vcoverage[378]), first, "../vc/TestRandDelay.v", 23, 34, ".top.mem.rand_req_delay0", "v_toggle/vc_TestRandDelay__P4d", "max_delay[1]", "");
+    vlSelf->__vlCoverInsert(&(vlSymsp->__Vcoverage[379]), first, "../vc/TestRandDelay.v", 23, 34, ".top.mem.rand_req_delay0", "v_toggle/vc_TestRandDelay__P4d", "max_delay[1]", "");
     vlSelf->__vlCoverInsert(&(vlSymsp->__Vcoverage[378]), first, "../vc/TestRandDelay.v", 23, 34, ".top.mem.rand_req_delay0", "v_toggle/vc_TestRandDelay__P4d", "max_delay[2]", "");
     vlSelf->__vlCoverInsert(&(vlSymsp->__Vcoverage[378]), first, "../vc/TestRandDelay.v", 23, 34, ".top.mem.rand_req_delay0", "v_toggle/vc_TestRandDelay__P4d", "max_delay[3]", "");
     vlSelf->__vlCoverInsert(&(vlSymsp->__Vcoverage[378]), first, "../vc/TestRandDelay.v", 23, 34, ".top.mem.rand_req_delay0", "v_toggle/vc_TestRandDelay__P4d", "max_delay[4]", "");
@@ -5669,7 +5669,7 @@ VL_ATTR_COLD void Vtop___024root___configure_coverage(Vtop___024root* vlSelf, bo
     vlSelf->__vlCoverInsert(&(vlSymsp->__Vcoverage[0]), first, "../vc/TestRandDelay.v", 18, 34, ".top.mem.rand_req_delay1", "v_toggle/vc_TestRandDelay__P4d", "clk", "");
     vlSelf->__vlCoverInsert(&(vlSymsp->__Vcoverage[2]), first, "../vc/TestRandDelay.v", 19, 34, ".top.mem.rand_req_delay1", "v_toggle/vc_TestRandDelay__P4d", "reset", "");
     vlSelf->__vlCoverInsert(&(vlSymsp->__Vcoverage[378]), first, "../vc/TestRandDelay.v", 23, 34, ".top.mem.rand_req_delay1", "v_toggle/vc_TestRandDelay__P4d", "max_delay[0]", "");
-    vlSelf->__vlCoverInsert(&(vlSymsp->__Vcoverage[378]), first, "../vc/TestRandDelay.v", 23, 34, ".top.mem.rand_req_delay1", "v_toggle/vc_TestRandDelay__P4d", "max_delay[1]", "");
+    vlSelf->__vlCoverInsert(&(vlSymsp->__Vcoverage[379]), first, "../vc/TestRandDelay.v", 23, 34, ".top.mem.rand_req_delay1", "v_toggle/vc_TestRandDelay__P4d", "max_delay[1]", "");
     vlSelf->__vlCoverInsert(&(vlSymsp->__Vcoverage[378]), first, "../vc/TestRandDelay.v", 23, 34, ".top.mem.rand_req_delay1", "v_toggle/vc_TestRandDelay__P4d", "max_delay[2]", "");
     vlSelf->__vlCoverInsert(&(vlSymsp->__Vcoverage[378]), first, "../vc/TestRandDelay.v", 23, 34, ".top.mem.rand_req_delay1", "v_toggle/vc_TestRandDelay__P4d", "max_delay[3]", "");
     vlSelf->__vlCoverInsert(&(vlSymsp->__Vcoverage[378]), first, "../vc/TestRandDelay.v", 23, 34, ".top.mem.rand_req_delay1", "v_toggle/vc_TestRandDelay__P4d", "max_delay[4]", "");
@@ -10751,7 +10751,7 @@ VL_ATTR_COLD void Vtop___024root___configure_coverage(Vtop___024root* vlSelf, bo
     vlSelf->__vlCoverInsert(&(vlSymsp->__Vcoverage[0]), first, "../vc/TestRandDelay.v", 18, 34, ".top.mem.rand_resp_delay0", "v_toggle/vc_TestRandDelay__P2f", "clk", "");
     vlSelf->__vlCoverInsert(&(vlSymsp->__Vcoverage[2]), first, "../vc/TestRandDelay.v", 19, 34, ".top.mem.rand_resp_delay0", "v_toggle/vc_TestRandDelay__P2f", "reset", "");
     vlSelf->__vlCoverInsert(&(vlSymsp->__Vcoverage[378]), first, "../vc/TestRandDelay.v", 23, 34, ".top.mem.rand_resp_delay0", "v_toggle/vc_TestRandDelay__P2f", "max_delay[0]", "");
-    vlSelf->__vlCoverInsert(&(vlSymsp->__Vcoverage[378]), first, "../vc/TestRandDelay.v", 23, 34, ".top.mem.rand_resp_delay0", "v_toggle/vc_TestRandDelay__P2f", "max_delay[1]", "");
+    vlSelf->__vlCoverInsert(&(vlSymsp->__Vcoverage[379]), first, "../vc/TestRandDelay.v", 23, 34, ".top.mem.rand_resp_delay0", "v_toggle/vc_TestRandDelay__P2f", "max_delay[1]", "");
     vlSelf->__vlCoverInsert(&(vlSymsp->__Vcoverage[378]), first, "../vc/TestRandDelay.v", 23, 34, ".top.mem.rand_resp_delay0", "v_toggle/vc_TestRandDelay__P2f", "max_delay[2]", "");
     vlSelf->__vlCoverInsert(&(vlSymsp->__Vcoverage[378]), first, "../vc/TestRandDelay.v", 23, 34, ".top.mem.rand_resp_delay0", "v_toggle/vc_TestRandDelay__P2f", "max_delay[3]", "");
     vlSelf->__vlCoverInsert(&(vlSymsp->__Vcoverage[378]), first, "../vc/TestRandDelay.v", 23, 34, ".top.mem.rand_resp_delay0", "v_toggle/vc_TestRandDelay__P2f", "max_delay[4]", "");
@@ -11093,7 +11093,7 @@ VL_ATTR_COLD void Vtop___024root___configure_coverage(Vtop___024root* vlSelf, bo
     vlSelf->__vlCoverInsert(&(vlSymsp->__Vcoverage[0]), first, "../vc/TestRandDelay.v", 18, 34, ".top.mem.rand_resp_delay1", "v_toggle/vc_TestRandDelay__P2f", "clk", "");
     vlSelf->__vlCoverInsert(&(vlSymsp->__Vcoverage[2]), first, "../vc/TestRandDelay.v", 19, 34, ".top.mem.rand_resp_delay1", "v_toggle/vc_TestRandDelay__P2f", "reset", "");
     vlSelf->__vlCoverInsert(&(vlSymsp->__Vcoverage[378]), first, "../vc/TestRandDelay.v", 23, 34, ".top.mem.rand_resp_delay1", "v_toggle/vc_TestRandDelay__P2f", "max_delay[0]", "");
-    vlSelf->__vlCoverInsert(&(vlSymsp->__Vcoverage[378]), first, "../vc/TestRandDelay.v", 23, 34, ".top.mem.rand_resp_delay1", "v_toggle/vc_TestRandDelay__P2f", "max_delay[1]", "");
+    vlSelf->__vlCoverInsert(&(vlSymsp->__Vcoverage[379]), first, "../vc/TestRandDelay.v", 23, 34, ".top.mem.rand_resp_delay1", "v_toggle/vc_TestRandDelay__P2f", "max_delay[1]", "");
     vlSelf->__vlCoverInsert(&(vlSymsp->__Vcoverage[378]), first, "../vc/TestRandDelay.v", 23, 34, ".top.mem.rand_resp_delay1", "v_toggle/vc_TestRandDelay__P2f", "max_delay[2]", "");
     vlSelf->__vlCoverInsert(&(vlSymsp->__Vcoverage[378]), first, "../vc/TestRandDelay.v", 23, 34, ".top.mem.rand_resp_delay1", "v_toggle/vc_TestRandDelay__P2f", "max_delay[3]", "");
     vlSelf->__vlCoverInsert(&(vlSymsp->__Vcoverage[378]), first, "../vc/TestRandDelay.v", 23, 34, ".top.mem.rand_resp_delay1", "v_toggle/vc_TestRandDelay__P2f", "max_delay[4]", "");

@@ -182,7 +182,7 @@ vc_TestRandDelayMem_2ports4B
   .mem_clear(mem_clear),
 
   // maximum delay
-  .max_delay(0),
+  .max_delay(5),
 
   // Memory request interface port 0
   .memreq0_val(imem_reqstream_val),

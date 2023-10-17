@@ -206,17 +206,42 @@ module top(  input logic clk, input logic linetrace );
     end else begin
       $display("pc_X is incorrect.  Expected: %h, Actual: %h", 'h204,DUT.pc_X); fail(); $finish();
     end
-
-
     #10
+
+    // Test each class of instruction
     //--------------------------------------------------------------------
-    // Unit Testing #2  If PC is working correctly across the pipeline + a JAL
+    // Unit Testing #2  Reg-Reg instruction
     //--------------------------------------------------------------------
-    // Align test bench with negedge so that it looks better
-    // @(negedge clk);
-    // reset = 0;
-    // @(negedge clk); 
-  
+    // Initalize all the signal inital values.
+    imem_respstream_msg.type_ = `VC_MEM_RESP_MSG_TYPE_READ;
+    imem_respstream_msg.opaque = 8'b0;
+    imem_respstream_msg.test = 2'b0;
+    imem_respstream_msg.len    = 2'd0;
+    imem_respstream_msg.data   = 32'b00000000000100001000000010110011; // add x1, x1, x1
+    imem_respstream_drop = 0;
+    dmem_respstream_msg_data = '0;
+    mngr2proc_data= '0;
+    reg_en_F = 1;
+    pc_sel_F = 2'd3; // pc+4
+    reg_en_D = 1;
+    op1_sel_D = 1'b1; // regfile
+    op2_sel_D = 2'b1; // regfile
+    csrr_sel_D = '0;
+    imm_type_D = '0;
+    imul_req_val_D = '0;
+    reg_en_X =1;
+    alu_fn_X = 4'd0; // add 
+    ex_result_sel_X = 1'b0;
+    imul_resp_rdy_X =0;
+    reg_en_M =1;
+    wb_result_sel_M =0;
+    reg_en_W =1;
+    rf_waddr_W ='0;
+    rf_wen_W = '0;
+    stats_en_wen_W =0;
+    core_id = '0;
+    reset = 1;
+    #10
 
 
     $finish();

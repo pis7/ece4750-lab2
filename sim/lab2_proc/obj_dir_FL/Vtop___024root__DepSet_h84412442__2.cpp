@@ -100,7 +100,8 @@ VL_INLINE_OPT void Vtop___024root___nba_sequent__TOP__1(Vtop___024root* vlSelf) 
     }
     vlSelf->top__DOT__mem__DOT__rand_req_delay1__DOT__state 
         = ((~ (IData)(vlSelf->top__DOT__reset)) & (IData)(vlSelf->top__DOT__mem__DOT__rand_req_delay1__DOT__state_next));
-    vlSelf->top__DOT__mem__DOT__rand_req_delay1__DOT__rand_num = 0U;
+    vlSelf->top__DOT__mem__DOT__rand_req_delay1__DOT__rand_num 
+        = (1U & VL_RANDOM_I());
     if (((IData)(vlSelf->top__DOT__reset) | (IData)(vlSelf->top__DOT__mem__DOT__rand_req_delay1__DOT__rand_delay_en))) {
         vlSelf->top__DOT__mem__DOT__rand_req_delay1__DOT__rand_delay 
             = ((IData)(vlSelf->top__DOT__reset) ? 0U
@@ -127,7 +128,8 @@ VL_INLINE_OPT void Vtop___024root___nba_sequent__TOP__1(Vtop___024root* vlSelf) 
         = ((~ (IData)(vlSelf->top__DOT__reset)) & (IData)(vlSelf->top__DOT__DUT__DOT__proc2mngr_queue__DOT__genblk1__DOT__ctrl__DOT__full_next));
     vlSelf->top__DOT__mem__DOT__rand_req_delay0__DOT__state 
         = ((~ (IData)(vlSelf->top__DOT__reset)) & (IData)(vlSelf->top__DOT__mem__DOT__rand_req_delay0__DOT__state_next));
-    vlSelf->top__DOT__mem__DOT__rand_req_delay0__DOT__rand_num = 0U;
+    vlSelf->top__DOT__mem__DOT__rand_req_delay0__DOT__rand_num 
+        = (1U & VL_RANDOM_I());
     if (((IData)(vlSelf->top__DOT__reset) | (IData)(vlSelf->top__DOT__mem__DOT__rand_req_delay0__DOT__rand_delay_en))) {
         vlSelf->top__DOT__mem__DOT__rand_req_delay0__DOT__rand_delay 
             = ((IData)(vlSelf->top__DOT__reset) ? 0U
@@ -152,8 +154,10 @@ VL_INLINE_OPT void Vtop___024root___nba_sequent__TOP__1(Vtop___024root* vlSelf) 
         = ((~ (IData)(vlSelf->top__DOT__reset)) & (IData)(vlSelf->top__DOT__mem__DOT__rand_resp_delay0__DOT__state_next));
     vlSelf->top__DOT__mem__DOT__rand_resp_delay1__DOT__state 
         = ((~ (IData)(vlSelf->top__DOT__reset)) & (IData)(vlSelf->top__DOT__mem__DOT__rand_resp_delay1__DOT__state_next));
-    vlSelf->top__DOT__mem__DOT__rand_resp_delay0__DOT__rand_num = 0U;
-    vlSelf->top__DOT__mem__DOT__rand_resp_delay1__DOT__rand_num = 0U;
+    vlSelf->top__DOT__mem__DOT__rand_resp_delay0__DOT__rand_num 
+        = (1U & VL_RANDOM_I());
+    vlSelf->top__DOT__mem__DOT__rand_resp_delay1__DOT__rand_num 
+        = (1U & VL_RANDOM_I());
     if (((IData)(vlSelf->top__DOT__reset) | (IData)(vlSelf->top__DOT__mem__DOT__rand_resp_delay0__DOT__rand_delay_en))) {
         vlSelf->top__DOT__mem__DOT__rand_resp_delay0__DOT__rand_delay 
             = ((IData)(vlSelf->top__DOT__reset) ? 0U
