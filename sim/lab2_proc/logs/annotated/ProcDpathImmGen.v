@@ -22,8 +22,8 @@
  000634       3'd1: // S-type
  000634         imm = { {21{inst[31]}}, inst[30:25], inst[11:8], inst[7] };
         
- 000640       3'd2: // B-type
- 000640         imm = { {20{inst[31]}}, inst[7], inst[30:25], inst[11:8], 1'b0 };
+ 000634       3'd2: // B-type
+ 000634         imm = { {20{inst[31]}}, inst[7], inst[30:25], inst[11:8], 1'b0 };
         
 %000000       3'd3: // U-type
 %000000         imm = { inst[31], inst[30:25], inst[24:21], inst[20], inst[19:12], 12'b0};

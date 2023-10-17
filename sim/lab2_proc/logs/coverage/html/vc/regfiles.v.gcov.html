@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2023-10-17 17:16:03</td>
+            <td class="headerValue">2023-10-17 18:34:30</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">0</td>
@@ -209,7 +209,7 @@
 <a name="147"><span class="lineNum">     147 </span>            :   // Local constants not meant to be set from outside the module</a>
 <a name="148"><span class="lineNum">     148 </span>            :   parameter c_addr_nbits  = $clog2(p_num_entries)</a>
 <a name="149"><span class="lineNum">     149 </span>            : )(</a>
-<a name="150"><span class="lineNum">     150 </span><span class="lineCov">       2037 :   input  logic                   clk,</span></a>
+<a name="150"><span class="lineNum">     150 </span><span class="lineCov">       2031 :   input  logic                   clk,</span></a>
 <a name="151"><span class="lineNum">     151 </span><span class="lineCov">          1 :   input  logic                   reset,</span></a>
 <a name="152"><span class="lineNum">     152 </span>            : </a>
 <a name="153"><span class="lineNum">     153 </span>            :   // Read port 0 (combinational read)</a>
@@ -224,7 +224,7 @@
 <a name="162"><span class="lineNum">     162 </span>            : </a>
 <a name="163"><span class="lineNum">     163 </span>            :   // Write port (sampled on the rising clock edge)</a>
 <a name="164"><span class="lineNum">     164 </span>            : </a>
-<a name="165"><span class="lineNum">     165 </span><span class="lineCov">         26 :   input  logic                    write_en,</span></a>
+<a name="165"><span class="lineNum">     165 </span><span class="lineCov">         24 :   input  logic                    write_en,</span></a>
 <a name="166"><span class="lineNum">     166 </span><span class="lineCov">          2 :   input  logic [c_addr_nbits-1:0] write_addr,</span></a>
 <a name="167"><span class="lineNum">     167 </span><span class="lineCov">          6 :   input  logic [p_data_nbits-1:0] write_data</span></a>
 <a name="168"><span class="lineNum">     168 </span>            : );</a>
@@ -238,9 +238,9 @@
 <a name="176"><span class="lineNum">     176 </span>            : </a>
 <a name="177"><span class="lineNum">     177 </span>            :   // Write on positive clock edge</a>
 <a name="178"><span class="lineNum">     178 </span>            : </a>
-<a name="179"><span class="lineNum">     179 </span><span class="lineCov">       1018 :   always_ff @( posedge clk )</span></a>
-<a name="180"><span class="lineNum">     180 </span><span class="lineCov">        380 :     if ( write_en )</span></a>
-<a name="181"><span class="lineNum">     181 </span><span class="lineCov">        638 :       rfile[write_addr] &lt;= write_data;</span></a>
+<a name="179"><span class="lineNum">     179 </span><span class="lineCov">       1015 :   always_ff @( posedge clk )</span></a>
+<a name="180"><span class="lineNum">     180 </span><span class="lineCov">        378 :     if ( write_en )</span></a>
+<a name="181"><span class="lineNum">     181 </span><span class="lineCov">        637 :       rfile[write_addr] &lt;= write_data;</span></a>
 <a name="182"><span class="lineNum">     182 </span>            : </a>
 <a name="183"><span class="lineNum">     183 </span>            :   // Assertions</a>
 <a name="184"><span class="lineNum">     184 </span>            : </a>
@@ -359,7 +359,7 @@
 <a name="297"><span class="lineNum">     297 </span>            : </a>
 <a name="298"><span class="lineNum">     298 </span>            : module vc_Regfile_2r1w_zero</a>
 <a name="299"><span class="lineNum">     299 </span>            : (</a>
-<a name="300"><span class="lineNum">     300 </span><span class="lineCov">       2037 :   input  logic        clk,</span></a>
+<a name="300"><span class="lineNum">     300 </span><span class="lineCov">       2031 :   input  logic        clk,</span></a>
 <a name="301"><span class="lineNum">     301 </span><span class="lineCov">          1 :   input  logic        reset,</span></a>
 <a name="302"><span class="lineNum">     302 </span>            : </a>
 <a name="303"><span class="lineNum">     303 </span><span class="lineCov">          3 :   input  logic  [4:0] rd_addr0,</span></a>
@@ -368,7 +368,7 @@
 <a name="306"><span class="lineNum">     306 </span><span class="lineCov">          4 :   input  logic  [4:0] rd_addr1,</span></a>
 <a name="307"><span class="lineNum">     307 </span><span class="lineCov">          2 :   output logic [31:0] rd_data1,</span></a>
 <a name="308"><span class="lineNum">     308 </span>            : </a>
-<a name="309"><span class="lineNum">     309 </span><span class="lineCov">         26 :   input  logic        wr_en,</span></a>
+<a name="309"><span class="lineNum">     309 </span><span class="lineCov">         24 :   input  logic        wr_en,</span></a>
 <a name="310"><span class="lineNum">     310 </span><span class="lineCov">          2 :   input  logic  [4:0] wr_addr,</span></a>
 <a name="311"><span class="lineNum">     311 </span><span class="lineCov">          6 :   input  logic [31:0] wr_data</span></a>
 <a name="312"><span class="lineNum">     312 </span>            : );</a>

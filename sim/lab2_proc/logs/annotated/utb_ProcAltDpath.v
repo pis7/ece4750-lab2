@@ -8,7 +8,7 @@
         `timescale 1ps/1ps
         
         
-        `include "ProcBaseDpath.v"
+        `include "ProcAltDpath.v"
         `include "vc/trace.v"
         
         //------------------------------------------------------------------------
@@ -29,7 +29,7 @@
           // Data Memory Port
         
  000006   logic [31:0]  dmem_reqstream_msg_addr;
- 000002   logic [31:0]  dmem_reqstream_msg_data;
+ 000006   logic [31:0]  dmem_reqstream_msg_data;
  000002   logic [31:0]  dmem_respstream_msg_data;
         
           // mngr communication ports
@@ -39,27 +39,27 @@
         
           // control signals (ctrl->dpath)
         
- 000010   logic         reg_en_F;
+ 000006   logic         reg_en_F;
  000002   logic [1:0]   pc_sel_F;
         
- 000010   logic         reg_en_D;
+ 000006   logic         reg_en_D;
  000001   logic         op1_sel_D;
  000007   logic [1:0]   op2_sel_D;
 %000000   logic [1:0]   csrr_sel_D;
  000001   logic [2:0]   imm_type_D;
-          //logic         imul_istream_val_D;
+ 000001   logic [1:0]   op1_byp_sel_D;
+ 000001   logic [1:0]   op2_byp_sel_D;
         
  000006   logic         reg_en_X;
  000009   logic [3:0]   alu_fn_X;
  000002   logic [1:0]   ex_result_sel_X;
-          //logic         imul_ostream_rdy_X;
         
  000002   logic         reg_en_M;
  000004   logic         wb_result_sel_M;
         
  000010   logic         reg_en_W;
  000002   logic [4:0]   rf_waddr_W;
- 000026   logic         rf_wen_W;
+ 000024   logic         rf_wen_W;
 %000000   logic         stats_en_wen_W;
         
  000002   logic         imul_req_val_D;
@@ -68,10 +68,7 @@
           // status signals (dpath->ctrl)
         
  000001   logic [31:0]  inst_D;
-          //logic         imul_istream_rdy_D;
-        
-          //logic         imul_ostream_val_X;
- 000007   logic         br_cond_eq_X;
+ 000008   logic         br_cond_eq_X;
  000014   logic         br_cond_lt_X;
  000016   logic         br_cond_ltu_X;
  000035   logic         imul_req_rdy_D;
@@ -91,7 +88,7 @@
           //----------------------------------------------------------------------
           
           // Instantiate the processor datapath
-          lab2_proc_ProcBaseDpath 
+          lab2_proc_ProcAltDpath 
           #(
             .p_num_cores( 1)
           )
@@ -252,6 +249,8 @@
  000001     op2_sel_D = 2'd1;
  000001     csrr_sel_D = 2'd0;
  000001     imul_req_val_D = 1'b0;
+ 000001     op1_byp_sel_D = 2'd3;
+ 000001     op2_byp_sel_D = 2'd0;
  000001     assert (DUT.inst_D == 32'b00000001111100001000111110110011) begin
  000001       $display("inst_D is correct.  Expected: %h, Actual: %h", 32'b00000001111100001000111110110011 ,DUT.inst_D);pass();
  000001     end else begin
@@ -358,6 +357,8 @@
  000001     op2_sel_D = 2'd0;
  000001     imm_type_D = 3'd0;
  000001     imul_req_val_D = 1'b0;
+ 000001     op1_byp_sel_D = 2'd3;
+ 000001     op2_byp_sel_D = 2'd0;
  000001     assert (DUT.inst_D == 32'b11111111111100001110000110010011) begin
  000001       $display("inst_D is correct.  Expected: %h, Actual: %h", 32'b11111111111100001110000110010011 ,DUT.inst_D);pass();
  000001     end else begin
@@ -463,6 +464,8 @@
  000001     op1_sel_D = 1'd1;
  000001     op2_sel_D = 2'd1;
  000001     imul_req_val_D = 1'b1;
+ 000001     op1_byp_sel_D = 2'd3;
+ 000001     op2_byp_sel_D = 2'd0;
  000001     assert (DUT.inst_D == 32'b00000010001000001000000110110011) begin
  000001       $display("inst_D is correct.  Expected: %h, Actual: %h", 32'b00000010001000001000000110110011 ,DUT.inst_D);pass();
  000001     end else begin
@@ -581,6 +584,8 @@
  000001     op2_sel_D = 2'd0;
  000001     imm_type_D = 3'd0;
  000001     imul_req_val_D = 1'b0;
+ 000001     op1_byp_sel_D = 2'd3;
+ 000001     op2_byp_sel_D = 2'd0;
  000001     assert (DUT.inst_D == 32'b00000000000100001010000100000011) begin
  000001       $display("inst_D is correct.  Expected: %h, Actual: %h", 32'b00000000000100001010000100000011 ,DUT.inst_D);pass();
  000001     end else begin
@@ -742,6 +747,8 @@
  000001     op2_sel_D = 2'd0;
  000001     imm_type_D = 3'd1;
  000001     imul_req_val_D = 1'b0;
+ 000001     op1_byp_sel_D = 2'd3;
+ 000001     op2_byp_sel_D = 2'd0;
  000001     assert (DUT.inst_D == 32'b00000000001000001010000010100011) begin
  000001       $display("inst_D is correct.  Expected: %h, Actual: %h", 32'b00000000001000001010000010100011 ,DUT.inst_D);pass();
  000001     end else begin
@@ -838,6 +845,8 @@
  000001     op2_sel_D = 2'd1;
  000001     imm_type_D = 3'd2;
  000001     imul_req_val_D = 1'b0;
+ 000001     op1_byp_sel_D = 2'd3;
+ 000001     op2_byp_sel_D = 2'd0;
  000001     cur_pc = DUT.pc_D;
  000001     assert (DUT.inst_D == 32'b00000000001000001100000101100011) begin
  000001       $display("inst_D is correct.  Expected: %h, Actual: %h", 32'b00000000001000001100000101100011 ,DUT.inst_D);pass();
@@ -891,14 +900,14 @@
  000001     delay( $urandom_range(0, 127) );
         
             //--------------------------------------------------------------------
-            // Unit Testing #8 RS2 Stalling in D from instr in X, M, W:
+            // Unit Testing #8 RS2 Forwarding in D from instr in X:
             // 1: add x3, x1, x2
-            // 2: add x4, x1, x3
+            // 2: add x4, x3, x3
             //--------------------------------------------------------------------
             // Initalize all the signal inital values.
             
  000001     $display();
- 000001     $display("Test RS2 Stalling in D from instr in X, M, W");
+ 000001     $display("Test RS2 Forwarding in D from instr in X");
             // Reset
  000001     @(negedge clk);
  000001     reset = 0;
@@ -934,7 +943,7 @@
  000001     imem_respstream_msg.opaque = 8'b0;
  000001     imem_respstream_msg.test = 2'b0;
  000001     imem_respstream_msg.len    = 2'd0;
- 000001     imem_respstream_msg.data   = 32'b00000000001100001000001000110011; // add x4, x1, x3
+ 000001     imem_respstream_msg.data   = 32'b00000000001100011000001000110011; // add x4, x3, x3
  000001     imem_respstream_drop = 0;
  000001     dmem_respstream_msg_data = '0;
  000001     mngr2proc_data= '0;
@@ -947,7 +956,8 @@
  000001     op2_sel_D = 2'd1;
  000001     imm_type_D = 3'd2;
  000001     imul_req_val_D = 1'b0;
- 000001     cur_pc = DUT.pc_D;
+ 000001     op1_byp_sel_D = 2'd3;
+ 000001     op2_byp_sel_D = 2'd0;
  000001     assert (DUT.inst_D == 32'b00000000001000001000000110110011) begin
  000001       $display("inst_D is correct.  Expected: %h, Actual: %h", 32'b00000000001000001000000110110011 ,DUT.inst_D);pass();
  000001     end else begin
@@ -966,101 +976,98 @@
             
             // Cycle 3 - F = NOP, D = 2, X = 1
  000001     @(negedge clk);
+ 000001     op1_byp_sel_D = 2'd2;
+ 000001     op2_byp_sel_D = 2'd3;
+        
  000001     reg_en_X = 1;
  000001     alu_fn_X = 4'd0;
  000001     ex_result_sel_X = 2'd1;
  000001     imul_resp_rdy_X = 0;
- 000001     reg_en_D = 0; // Stall D
- 000001     reg_en_F = 0; // Stall F
- 000001     assert (DUT.op1_X == 32'd10) begin
+ 000001     assert (DUT.inst_D == 32'b00000000001100011000001000110011) begin
+ 000001       $display("inst_D is correct.  Expected: %h, Actual: %h", 32'b00000000001100011000001000110011 ,DUT.inst_D);pass();
+ 000001     end else begin
+ 000001       $display("inst_D is incorrect.  Expected: %h, Actual: %h", 32'b00000000001100011000001000110011,DUT.inst_D); fail(); $finish();
+            end
+ 000001     assert (DUT.op1_X == 32'd10) begin // from instr 1
  000001       $display("op1_X is correct.  Expected: %h, Actual: %h", 32'd10 ,DUT.op1_X);pass();
  000001     end else begin
  000001       $display("op1_X is incorrect.  Expected: %h, Actual: %h", 32'd10 ,DUT.op1_X); fail(); $finish();
             end
- 000001     assert (DUT.op2_X == 32'd65) begin
+ 000001     assert (DUT.op2_X == 32'd65) begin // from instr 1
  000001       $display("op2_X is correct.  Expected: %h, Actual: %h", 32'd65 ,DUT.op2_X);pass();
  000001     end else begin
  000001       $display("op2_X is incorrect.  Expected: %h, Actual: %h", 32'd65 ,DUT.op2_X); fail(); $finish();
             end
             
-            // Cycle 4 - F = NOP, D = 2, X = NOP, M = 1 
+            // Cycle 4 - X = 2, M = 1 
  000001     @(negedge clk);
  000001     reg_en_M = 1;
  000001     wb_result_sel_M = 1'd0;
+ 000001     assert (DUT.op1_X == 32'd75) begin // from instr 2
+ 000001       $display("op1_X is correct.  Expected: %h, Actual: %h", 32'd75 ,DUT.op1_X);pass();
+ 000001     end else begin
+ 000001       $display("op1_X is incorrect.  Expected: %h, Actual: %h", 32'd75 ,DUT.op1_X); fail(); $finish();
+            end
+ 000001     assert (DUT.op2_X == 32'd75) begin // from instr 2
+ 000001       $display("op2_X is correct.  Expected: %h, Actual: %h", 32'd75 ,DUT.op2_X);pass();
+ 000001     end else begin
+ 000001       $display("op2_X is incorrect.  Expected: %h, Actual: %h", 32'd75 ,DUT.op2_X); fail(); $finish();
+            end
  000001     assert (DUT.ex_result_M == 32'd75) begin
  000001       $display("ex_result_M is correct.  Expected: %h, Actual: %h", 32'd75 ,DUT.ex_result_M);pass();
  000001     end else begin
  000001       $display("ex_result_M is incorrect.  Expected: %h, Actual: %h", 32'd75 ,DUT.ex_result_M); fail(); $finish();
             end
             
-            // Cycle 5 - F = NOP, D = 2, X = NOP, M = NOP, W = 1
+            // Cycle 5 - M = 2, W = 1
  000001     @(negedge clk);
  000001     reg_en_W = 1;
  000001     rf_waddr_W = 5'd3;
  000001     rf_wen_W = 1'b1;
  000001     stats_en_wen_W = 0;
  000001     core_id = '0;
- 000001     reg_en_D = 1; // Unstall D
- 000001     reg_en_F = 1; // Unstall F
+ 000001     assert (DUT.ex_result_M == 32'd150) begin
+ 000001       $display("ex_result_M is correct.  Expected: %h, Actual: %h", 32'd150 ,DUT.ex_result_M);pass();
+ 000001     end else begin
+ 000001       $display("ex_result_M is incorrect.  Expected: %h, Actual: %h", 32'd150 ,DUT.ex_result_M); fail(); $finish();
+            end
  000001     assert (DUT.wb_result_W == 32'd75) begin
  000001       $display("wb_result_W is correct.  Expected: %h, Actual: %h", 32'd75 ,DUT.wb_result_W);pass();
  000001     end else begin
  000001       $display("wb_result_W is incorrect.  Expected: %h, Actual: %h", 32'd75 ,DUT.wb_result_W); fail(); $finish();
             end
         
- 000001     @(negedge clk);
-        
-            // Cycle 6 - F = NOP, D = NOP, X = 2, M = NOP, W = NOP
- 000001     @(negedge clk);
- 000001     rf_wen_W = 1'b0;
- 000001     reg_en_X = 1;
- 000001     alu_fn_X = 4'd0;
- 000001     ex_result_sel_X = 2'd1;
- 000001     imul_resp_rdy_X = 0;
- 000001     reg_en_D = 0; // Stall D
- 000001     reg_en_F = 0; // Stall F
- 000001     assert (DUT.op1_X == 32'd10) begin
- 000001       $display("op1_X is correct.  Expected: %h, Actual: %h", 32'd10 ,DUT.op1_X);pass();
- 000001     end else begin
- 000001       $display("op1_X is incorrect.  Expected: %h, Actual: %h", 32'd10 ,DUT.op1_X); fail(); $finish();
-            end
- 000001     assert (DUT.op2_X == 32'd75) begin
- 000001       $display("op2_X is correct.  Expected: %h, Actual: %h", 32'd75 ,DUT.op2_X);pass();
- 000001     end else begin
- 000001       $display("op2_X is incorrect.  Expected: %h, Actual: %h", 32'd75 ,DUT.op2_X); fail(); $finish();
-            end
-        
-            // Cycle 7 - F = NOP, D = NOP, X = NOP, M = 2, W = NOP
- 000001     @(negedge clk);
- 000001     reg_en_M = 1;
- 000001     wb_result_sel_M = 1'd0;
- 000001     assert (DUT.ex_result_M == 32'd85) begin
- 000001       $display("ex_result_M is correct.  Expected: %h, Actual: %h", 32'd85 ,DUT.ex_result_M);pass();
- 000001     end else begin
- 000001       $display("ex_result_M is incorrect.  Expected: %h, Actual: %h", 32'd85 ,DUT.ex_result_M); fail(); $finish();
-            end
-        
-            // Cycle 8 - F = NOP, D = NOP, X = NOP, M = NOP, W = 2
+            // Cycle 6 - W = 2
  000001     @(negedge clk);
  000001     reg_en_W = 0;
  000001     rf_waddr_W = 5'd4;
  000001     rf_wen_W = 1'b1;
  000001     stats_en_wen_W = 0;
  000001     core_id = '0;
- 000001     assert (DUT.wb_result_W == 32'd85) begin
- 000001       $display("wb_result_W is correct.  Expected: %h, Actual: %h", 32'd85 ,DUT.wb_result_W);pass();
+ 000001     assert (DUT.wb_result_W == 32'd150) begin
+ 000001       $display("wb_result_W is correct.  Expected: %h, Actual: %h", 32'd150 ,DUT.wb_result_W);pass();
  000001     end else begin
- 000001       $display("wb_result_W is incorrect.  Expected: %h, Actual: %h", 32'd85 ,DUT.wb_result_W); fail(); $finish();
-            end;
+ 000001       $display("wb_result_W is incorrect.  Expected: %h, Actual: %h", 32'd150 ,DUT.wb_result_W); fail(); $finish();
+            end
+        
+            // delay( $urandom_range(0, 127) );
+        
+            // // csrw proc2mngr, x3 > 32'd75
+            // csrw(5'd3);
+            // assert (DUT.proc2mngr_data == 32'd75) begin
+            //   $display("proc2mngr_data is correct.  Expected: %h, Actual: %h", 32'd75 ,DUT.proc2mngr_data);pass();
+            // end else begin
+            //   $display("proc2mngr_data is incorrect.  Expected: %h, Actual: %h", 32'd75 ,DUT.proc2mngr_data); fail(); $finish();
+            // end
         
  000001     delay( $urandom_range(0, 127) );
         
-            // csrw proc2mngr, x4 > 32'd85
+            // csrw proc2mngr, x4 > 32'd150
  000001     csrw(5'd4);
- 000001     assert (DUT.proc2mngr_data == 32'd85) begin
- 000001       $display("proc2mngr_data is correct.  Expected: %h, Actual: %h", 32'd85 ,DUT.proc2mngr_data);pass();
+ 000001     assert (DUT.proc2mngr_data == 32'd150) begin
+ 000001       $display("proc2mngr_data is correct.  Expected: %h, Actual: %h", 32'd150 ,DUT.proc2mngr_data);pass();
  000001     end else begin
- 000001       $display("proc2mngr_data is incorrect.  Expected: %h, Actual: %h", 32'd85 ,DUT.proc2mngr_data); fail(); $finish();
+ 000001       $display("proc2mngr_data is incorrect.  Expected: %h, Actual: %h", 32'd150 ,DUT.proc2mngr_data); fail(); $finish();
             end
         
  000001     delay( $urandom_range(0, 127) );

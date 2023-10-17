@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2023-10-17 17:16:03</td>
+            <td class="headerValue">2023-10-17 18:34:30</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">0</td>
@@ -71,11 +71,11 @@
 <a name="9"><span class="lineNum">       9 </span>            : </a>
 <a name="10"><span class="lineNum">      10 </span>            : module lab2_proc_ProcDpathAlu</a>
 <a name="11"><span class="lineNum">      11 </span>            : (</a>
-<a name="12"><span class="lineNum">      12 </span><span class="lineCov">          5 :   input  logic [31:0] in0,</span></a>
+<a name="12"><span class="lineNum">      12 </span><span class="lineCov">          6 :   input  logic [31:0] in0,</span></a>
 <a name="13"><span class="lineNum">      13 </span><span class="lineCov">          4 :   input  logic [31:0] in1,</span></a>
 <a name="14"><span class="lineNum">      14 </span><span class="lineCov">          9 :   input  logic [ 3:0] fn,</span></a>
 <a name="15"><span class="lineNum">      15 </span><span class="lineCov">          6 :   output logic [31:0] out,</span></a>
-<a name="16"><span class="lineNum">      16 </span><span class="lineCov">          7 :   output logic        ops_eq,</span></a>
+<a name="16"><span class="lineNum">      16 </span><span class="lineCov">          8 :   output logic        ops_eq,</span></a>
 <a name="17"><span class="lineNum">      17 </span><span class="lineCov">         14 :   output logic        ops_lt,</span></a>
 <a name="18"><span class="lineNum">      18 </span><span class="lineCov">         16 :   output logic        ops_ltu</span></a>
 <a name="19"><span class="lineNum">      19 </span>            : );</a>
@@ -83,7 +83,7 @@
 <a name="21"><span class="lineNum">      21 </span><span class="lineNoCov">          0 :   always_comb begin</span></a>
 <a name="22"><span class="lineNum">      22 </span>            : </a>
 <a name="23"><span class="lineNum">      23 </span><span class="lineNoCov">          0 :     case ( fn )</span></a>
-<a name="24"><span class="lineNum">      24 </span><span class="lineCov">        938 :       4'd0    : out = in0 + in1;                                // ADD</span></a>
+<a name="24"><span class="lineNum">      24 </span><span class="lineCov">        932 :       4'd0    : out = in0 + in1;                                // ADD</span></a>
 <a name="25"><span class="lineNum">      25 </span><span class="lineNoCov">          0 :       4'd1    : out = in0 - in1;                                // SUB</span></a>
 <a name="26"><span class="lineNum">      26 </span><span class="lineNoCov">          0 :       4'd2    : out = in0 &amp; in1;                                // AND</span></a>
 <a name="27"><span class="lineNum">      27 </span><span class="lineCov">        336 :       4'd3    : out = in0 | in1;                                // OR</span></a>

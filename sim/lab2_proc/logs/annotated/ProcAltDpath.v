@@ -3,8 +3,8 @@
         // 5-Stage Simple Pipelined Processor Datapath
         //=========================================================================
         
-        `ifndef LAB2_PROC_PROC_BASE_DPATH_V
-        `define LAB2_PROC_PROC_BASE_DPATH_V
+        `ifndef LAB2_PROC_PROC_ALT_DPATH_V
+        `define LAB2_PROC_PROC_ALT_DPATH_V
         
         `include "vc/arithmetic.v"
         `include "vc/mem-msgs.v"
@@ -18,12 +18,12 @@
         
         `include "lab1_imul/IntMulAlt.v"
         
-        module lab2_proc_ProcBaseDpath
+        module lab2_proc_ProcAltDpath
         #(
           parameter p_num_cores = 1
         )
         (
- 002037   input  logic         clk,
+ 002031   input  logic         clk,
  000001   input  logic         reset,
         
           // Instruction Memory Port
@@ -34,7 +34,7 @@
           // Data Memory Port
         
  000006   output logic [31:0]  dmem_reqstream_msg_addr,
- 000002   output logic [31:0]  dmem_reqstream_msg_data,
+ 000006   output logic [31:0]  dmem_reqstream_msg_data,
  000002   input  logic [31:0]  dmem_respstream_msg_data,
         
           // mngr communication ports
@@ -46,14 +46,16 @@
         
 %000000   input  logic         imem_respstream_drop,
         
- 000010   input  logic         reg_en_F,
+ 000006   input  logic         reg_en_F,
  000002   input  logic [1:0]   pc_sel_F,
         
- 000010   input  logic         reg_en_D,
+ 000006   input  logic         reg_en_D,
  000001   input  logic         op1_sel_D,
  000007   input  logic [1:0]   op2_sel_D,
 %000000   input  logic [1:0]   csrr_sel_D,
  000001   input  logic [2:0]   imm_type_D,
+ 000001   input  logic [1:0]   op1_byp_sel_D,
+ 000001   input  logic [1:0]   op2_byp_sel_D,
         
  000006   input  logic         reg_en_X,
  000009   input  logic [3:0]   alu_fn_X,
@@ -64,7 +66,7 @@
         
  000010   input  logic         reg_en_W,
  000002   input  logic [4:0]   rf_waddr_W,
- 000026   input  logic         rf_wen_W,
+ 000024   input  logic         rf_wen_W,
 %000000   input  logic         stats_en_wen_W,
         
  000002   input  logic         imul_req_val_D,
@@ -73,7 +75,7 @@
           // status signals (dpath->ctrl)
         
  000001   output logic [31:0]  inst_D,
- 000007   output logic         br_cond_eq_X,
+ 000008   output logic         br_cond_eq_X,
  000014   output logic         br_cond_lt_X,
  000016   output logic         br_cond_ltu_X,
         
@@ -194,12 +196,36 @@
             .wr_data  (rf_wdata_W)
           );
         
- 000005   logic [31:0] op1_D;
+ 000006   logic [31:0] op1_byp_out_D;
+        
+          vc_Mux4#(32) op1_byp_D
+          (
+           .in0  (wb_result_W),
+           .in1  (wb_result_M),
+           .in2  (ex_result_X),
+           .in3  (rf_rdata0_D),
+           .sel  (op1_byp_sel_D),
+           .out  (op1_byp_out_D)
+          );
+        
+ 000006   logic [31:0] op2_byp_out_D;
+        
+          vc_Mux4#(32) op2_byp_D
+          (
+           .in0  (rf_rdata1_D),
+           .in1  (wb_result_W),
+           .in2  (wb_result_M),
+           .in3  (ex_result_X),
+           .sel  (op2_byp_sel_D),
+           .out  (op2_byp_out_D)
+          );
+        
+ 000006   logic [31:0] op1_D;
         
           vc_Mux2#(32) op1_sel_mux_D
           (
            .in0  (pc_D),
-           .in1  (rf_rdata0_D),
+           .in1  (op1_byp_out_D),
            .sel  (op1_sel_D),
            .out  (op1_D)
           );
@@ -227,7 +253,7 @@
           vc_Mux3#(32) op2_sel_mux_D
           (
             .in0  (imm_D),
-            .in1  (rf_rdata1_D),
+            .in1  (op2_byp_out_D),
             .in2  (csrr_data_D),
             .sel  (op2_sel_D),
             .out  (op2_D)
@@ -246,7 +272,7 @@
           // X stage
           //--------------------------------------------------------------------
         
- 000005   logic [31:0] op1_X;
+ 000006   logic [31:0] op1_X;
  000004   logic [31:0] op2_X;
  000001   logic [31:0] pc_X;
         
@@ -291,7 +317,7 @@
             .clk   (clk),
             .reset (reset),
             .en    (reg_en_X),
-            .d     (rf_rdata1_D),
+            .d     (op2_byp_out_D),
             .q     (dmem_reqstream_msg_data)
           );
         

@@ -33,6 +33,8 @@ class alignas(VL_CACHE_LINE_BYTES) Vtop___024root final : public VerilatedModule
         CData/*1:0*/ top__DOT__op2_sel_D;
         CData/*1:0*/ top__DOT__csrr_sel_D;
         CData/*2:0*/ top__DOT__imm_type_D;
+        CData/*1:0*/ top__DOT__op1_byp_sel_D;
+        CData/*1:0*/ top__DOT__op2_byp_sel_D;
         CData/*0:0*/ top__DOT__reg_en_X;
         CData/*3:0*/ top__DOT__alu_fn_X;
         CData/*1:0*/ top__DOT__ex_result_sel_X;
@@ -59,6 +61,8 @@ class alignas(VL_CACHE_LINE_BYTES) Vtop___024root final : public VerilatedModule
         CData/*1:0*/ top__DOT____Vtogcov__op2_sel_D;
         CData/*1:0*/ top__DOT____Vtogcov__csrr_sel_D;
         CData/*2:0*/ top__DOT____Vtogcov__imm_type_D;
+        CData/*1:0*/ top__DOT____Vtogcov__op1_byp_sel_D;
+        CData/*1:0*/ top__DOT____Vtogcov__op2_byp_sel_D;
         CData/*0:0*/ top__DOT____Vtogcov__reg_en_X;
         CData/*3:0*/ top__DOT____Vtogcov__alu_fn_X;
         CData/*1:0*/ top__DOT____Vtogcov__ex_result_sel_X;
@@ -81,12 +85,12 @@ class alignas(VL_CACHE_LINE_BYTES) Vtop___024root final : public VerilatedModule
         CData/*0:0*/ top__DOT__DUT__DOT__pc_plus_imm_D__DOT____Vtogcov__cout;
         CData/*0:0*/ top__DOT__DUT__DOT__imul__DOT__b_mux_sel;
         CData/*0:0*/ top__DOT__DUT__DOT__imul__DOT__a_mux_sel;
+    };
+    struct {
         CData/*0:0*/ top__DOT__DUT__DOT__imul__DOT__result_mux_sel;
         CData/*0:0*/ top__DOT__DUT__DOT__imul__DOT__result_en;
         CData/*0:0*/ top__DOT__DUT__DOT__imul__DOT__add_mux_sel;
         CData/*4:0*/ top__DOT__DUT__DOT__imul__DOT__shamt;
-    };
-    struct {
         CData/*0:0*/ top__DOT__DUT__DOT__imul__DOT____Vtogcov__b_mux_sel;
         CData/*0:0*/ top__DOT__DUT__DOT__imul__DOT____Vtogcov__a_mux_sel;
         CData/*0:0*/ top__DOT__DUT__DOT__imul__DOT____Vtogcov__result_mux_sel;
@@ -105,9 +109,9 @@ class alignas(VL_CACHE_LINE_BYTES) Vtop___024root final : public VerilatedModule
         CData/*3:0*/ top__DOT__DUT__DOT__imul__DOT__vc_trace__DOT__level;
         CData/*3:0*/ top__DOT__DUT__DOT__imul__DOT__vc_trace__DOT____Vtogcov__level;
         CData/*0:0*/ top__DOT__DUT__DOT__pc_incr_X__DOT____Vtogcov__cout;
-        CData/*4:0*/ __Vtask_top__DOT__DUT__DOT__imul__DOT__control__DOT__tab__188__t_shamt;
-        CData/*0:0*/ __Vtask_top__DOT__DUT__DOT__imul__DOT__control__DOT__tab__188__t_add_mux_sel;
-        CData/*0:0*/ __Vtask_top__DOT__DUT__DOT__imul__DOT__control__DOT__tab__188__t_done;
+        CData/*4:0*/ __Vtask_top__DOT__DUT__DOT__imul__DOT__control__DOT__tab__190__t_shamt;
+        CData/*0:0*/ __Vtask_top__DOT__DUT__DOT__imul__DOT__control__DOT__tab__190__t_add_mux_sel;
+        CData/*0:0*/ __Vtask_top__DOT__DUT__DOT__imul__DOT__control__DOT__tab__190__t_done;
         CData/*0:0*/ __Vtrigprevexpr___TOP__clk__0;
         CData/*0:0*/ __Vtrigprevexpr___TOP__top__DOT__imul_resp_val_X__0;
         CData/*0:0*/ __VactContinue;
@@ -135,6 +139,8 @@ class alignas(VL_CACHE_LINE_BYTES) Vtop___024root final : public VerilatedModule
         IData/*31:0*/ top__DOT__DUT__DOT__imm_D;
         IData/*31:0*/ top__DOT__DUT__DOT__rf_rdata0_D;
         IData/*31:0*/ top__DOT__DUT__DOT__rf_rdata1_D;
+        IData/*31:0*/ top__DOT__DUT__DOT__op1_byp_out_D;
+        IData/*31:0*/ top__DOT__DUT__DOT__op2_byp_out_D;
         IData/*31:0*/ top__DOT__DUT__DOT__op1_D;
         IData/*31:0*/ top__DOT__DUT__DOT__op2_D;
         IData/*31:0*/ top__DOT__DUT__DOT__csrr_data_D;
@@ -145,17 +151,19 @@ class alignas(VL_CACHE_LINE_BYTES) Vtop___024root final : public VerilatedModule
         IData/*31:0*/ top__DOT__DUT__DOT__ex_result_M;
         IData/*31:0*/ top__DOT__DUT__DOT__wb_result_M;
         IData/*31:0*/ top__DOT__DUT__DOT__wb_result_W;
+    };
+    struct {
         IData/*31:0*/ top__DOT__DUT__DOT__stats_en_W;
         IData/*31:0*/ top__DOT__DUT__DOT____Vtogcov__pc_F;
         IData/*31:0*/ top__DOT__DUT__DOT____Vtogcov__pc_plus4_F;
         IData/*31:0*/ top__DOT__DUT__DOT____Vtogcov__br_target_X;
         IData/*31:0*/ top__DOT__DUT__DOT____Vtogcov__jal_target_D;
         IData/*31:0*/ top__DOT__DUT__DOT____Vtogcov__pc_D;
-    };
-    struct {
         IData/*31:0*/ top__DOT__DUT__DOT____Vtogcov__imm_D;
         IData/*31:0*/ top__DOT__DUT__DOT____Vtogcov__rf_rdata0_D;
         IData/*31:0*/ top__DOT__DUT__DOT____Vtogcov__rf_rdata1_D;
+        IData/*31:0*/ top__DOT__DUT__DOT____Vtogcov__op1_byp_out_D;
+        IData/*31:0*/ top__DOT__DUT__DOT____Vtogcov__op2_byp_out_D;
         IData/*31:0*/ top__DOT__DUT__DOT____Vtogcov__op1_D;
         IData/*31:0*/ top__DOT__DUT__DOT____Vtogcov__op2_D;
         IData/*31:0*/ top__DOT__DUT__DOT____Vtogcov__csrr_data_D;
@@ -209,6 +217,8 @@ class alignas(VL_CACHE_LINE_BYTES) Vtop___024root final : public VerilatedModule
         QData/*46:0*/ top__DOT____Vtogcov__imem_respstream_msg;
         QData/*63:0*/ top__DOT__DUT__DOT____Vcellinp__imul__istream_msg;
         QData/*63:0*/ top__DOT__DUT__DOT__imul__DOT____Vtogcov__istream_msg;
+    };
+    struct {
         VlUnpacked<IData/*31:0*/, 32> top__DOT__DUT__DOT__rf__DOT__rfile__DOT__rfile;
         VlUnpacked<CData/*0:0*/, 6> __Vm_traceActivity;
     };

@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2023-10-17 17:16:03</td>
+            <td class="headerValue">2023-10-17 18:34:30</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">0</td>
@@ -83,7 +83,7 @@
 <a name="21"><span class="lineNum">      21 </span>            : </a>
 <a name="22"><span class="lineNum">      22 </span>            : module lab1_imul_IntMulAlt</a>
 <a name="23"><span class="lineNum">      23 </span>            : (</a>
-<a name="24"><span class="lineNum">      24 </span><span class="lineCov">       2037 :   input  logic        clk,</span></a>
+<a name="24"><span class="lineNum">      24 </span><span class="lineCov">       2031 :   input  logic        clk,</span></a>
 <a name="25"><span class="lineNum">      25 </span><span class="lineCov">          1 :   input  logic        reset,</span></a>
 <a name="26"><span class="lineNum">      26 </span>            : </a>
 <a name="27"><span class="lineNum">      27 </span><span class="lineCov">          2 :   input  logic        istream_val,</span></a>
@@ -145,7 +145,7 @@
 <a name="83"><span class="lineNum">      83 </span>            : </a>
 <a name="84"><span class="lineNum">      84 </span>            : module mul_alt_datapath</a>
 <a name="85"><span class="lineNum">      85 </span>            : (</a>
-<a name="86"><span class="lineNum">      86 </span><span class="lineCov">       2037 :   input logic clk,</span></a>
+<a name="86"><span class="lineNum">      86 </span><span class="lineCov">       2031 :   input logic clk,</span></a>
 <a name="87"><span class="lineNum">      87 </span><span class="lineCov">          1 :   input logic reset,</span></a>
 <a name="88"><span class="lineNum">      88 </span>            : </a>
 <a name="89"><span class="lineNum">      89 </span>            :   // Data</a>
@@ -162,7 +162,7 @@
 <a name="100"><span class="lineNum">     100 </span><span class="lineCov">          4 :   output logic [31:0] b_lsb</span></a>
 <a name="101"><span class="lineNum">     101 </span>            : );</a>
 <a name="102"><span class="lineNum">     102 </span>            : </a>
-<a name="103"><span class="lineNum">     103 </span><span class="lineCov">          5 :   logic [31:0] a;</span></a>
+<a name="103"><span class="lineNum">     103 </span><span class="lineCov">          6 :   logic [31:0] a;</span></a>
 <a name="104"><span class="lineNum">     104 </span><span class="lineCov">          4 :   logic [31:0] b;</span></a>
 <a name="105"><span class="lineNum">     105 </span>            : </a>
 <a name="106"><span class="lineNum">     106 </span>            :   assign a = req_msg[63:32];</a>
@@ -296,7 +296,7 @@
 <a name="234"><span class="lineNum">     234 </span>            : endmodule</a>
 <a name="235"><span class="lineNum">     235 </span>            : </a>
 <a name="236"><span class="lineNum">     236 </span>            : module mul_alt_control (</a>
-<a name="237"><span class="lineNum">     237 </span><span class="lineCov">       2037 :   input logic clk,</span></a>
+<a name="237"><span class="lineNum">     237 </span><span class="lineCov">       2031 :   input logic clk,</span></a>
 <a name="238"><span class="lineNum">     238 </span><span class="lineCov">          1 :   input logic reset,</span></a>
 <a name="239"><span class="lineNum">     239 </span>            : </a>
 <a name="240"><span class="lineNum">     240 </span>            :   // Datapath I/O</a>
@@ -320,7 +320,7 @@
 <a name="258"><span class="lineNum">     258 </span><span class="lineCov">         35 :   logic [1:0] nextState;</span></a>
 <a name="259"><span class="lineNum">     259 </span><span class="lineCov">         36 :   logic done;</span></a>
 <a name="260"><span class="lineNum">     260 </span>            : </a>
-<a name="261"><span class="lineNum">     261 </span><span class="lineCov">       1018 :   function void tab</span></a>
+<a name="261"><span class="lineNum">     261 </span><span class="lineCov">       1015 :   function void tab</span></a>
 <a name="262"><span class="lineNum">     262 </span>            :   (</a>
 <a name="263"><span class="lineNum">     263 </span>            :   input logic t_a_mux_sel,</a>
 <a name="264"><span class="lineNum">     264 </span>            :   input logic t_b_mux_sel,</a>
@@ -332,26 +332,26 @@
 <a name="270"><span class="lineNum">     270 </span>            :   input logic t_resp_val,</a>
 <a name="271"><span class="lineNum">     271 </span>            :   input logic t_done</a>
 <a name="272"><span class="lineNum">     272 </span>            :   );</a>
-<a name="273"><span class="lineNum">     273 </span><span class="lineCov">       1018 :   begin</span></a>
-<a name="274"><span class="lineNum">     274 </span><span class="lineCov">       1018 :     assign a_mux_sel = t_a_mux_sel;</span></a>
-<a name="275"><span class="lineNum">     275 </span><span class="lineCov">       1018 :     assign b_mux_sel = t_b_mux_sel;</span></a>
-<a name="276"><span class="lineNum">     276 </span><span class="lineCov">       1018 :     assign shamt = t_shamt;</span></a>
-<a name="277"><span class="lineNum">     277 </span><span class="lineCov">       1018 :     assign result_mux_sel = t_result_mux_sel;</span></a>
-<a name="278"><span class="lineNum">     278 </span><span class="lineCov">       1018 :     assign result_en = t_result_en;</span></a>
-<a name="279"><span class="lineNum">     279 </span><span class="lineCov">       1018 :     assign add_mux_sel = t_add_mux_sel;</span></a>
-<a name="280"><span class="lineNum">     280 </span><span class="lineCov">       1018 :     assign req_rdy = t_req_rdy;</span></a>
-<a name="281"><span class="lineNum">     281 </span><span class="lineCov">       1018 :     assign resp_val = t_resp_val;</span></a>
-<a name="282"><span class="lineNum">     282 </span><span class="lineCov">       1018 :     assign done = t_done;</span></a>
+<a name="273"><span class="lineNum">     273 </span><span class="lineCov">       1015 :   begin</span></a>
+<a name="274"><span class="lineNum">     274 </span><span class="lineCov">       1015 :     assign a_mux_sel = t_a_mux_sel;</span></a>
+<a name="275"><span class="lineNum">     275 </span><span class="lineCov">       1015 :     assign b_mux_sel = t_b_mux_sel;</span></a>
+<a name="276"><span class="lineNum">     276 </span><span class="lineCov">       1015 :     assign shamt = t_shamt;</span></a>
+<a name="277"><span class="lineNum">     277 </span><span class="lineCov">       1015 :     assign result_mux_sel = t_result_mux_sel;</span></a>
+<a name="278"><span class="lineNum">     278 </span><span class="lineCov">       1015 :     assign result_en = t_result_en;</span></a>
+<a name="279"><span class="lineNum">     279 </span><span class="lineCov">       1015 :     assign add_mux_sel = t_add_mux_sel;</span></a>
+<a name="280"><span class="lineNum">     280 </span><span class="lineCov">       1015 :     assign req_rdy = t_req_rdy;</span></a>
+<a name="281"><span class="lineNum">     281 </span><span class="lineCov">       1015 :     assign resp_val = t_resp_val;</span></a>
+<a name="282"><span class="lineNum">     282 </span><span class="lineCov">       1015 :     assign done = t_done;</span></a>
 <a name="283"><span class="lineNum">     283 </span>            :   end</a>
 <a name="284"><span class="lineNum">     284 </span>            :   endfunction</a>
 <a name="285"><span class="lineNum">     285 </span>            : </a>
 <a name="286"><span class="lineNum">     286 </span>            :   // State register</a>
-<a name="287"><span class="lineNum">     287 </span><span class="lineCov">       1018 :   always_ff @(posedge clk) begin</span></a>
+<a name="287"><span class="lineNum">     287 </span><span class="lineCov">       1015 :   always_ff @(posedge clk) begin</span></a>
 <a name="288"><span class="lineNum">     288 </span>            :     // reset state to idle if reset signal high</a>
 <a name="289"><span class="lineNum">     289 </span><span class="lineCov">          4 :     if (reset) state &lt;= IDLE;</span></a>
 <a name="290"><span class="lineNum">     290 </span>            : </a>
 <a name="291"><span class="lineNum">     291 </span>            :     // clock in nextState to state on posedge clock</a>
-<a name="292"><span class="lineNum">     292 </span><span class="lineCov">       1014 :     else state &lt;= nextState;</span></a>
+<a name="292"><span class="lineNum">     292 </span><span class="lineCov">       1011 :     else state &lt;= nextState;</span></a>
 <a name="293"><span class="lineNum">     293 </span>            :   end</a>
 <a name="294"><span class="lineNum">     294 </span>            : </a>
 <a name="295"><span class="lineNum">     295 </span>            :   // Next state logic</a>
@@ -368,10 +368,10 @@
 <a name="306"><span class="lineNum">     306 </span><span class="lineCov">         18 :         if (done) nextState = DONE;</span></a>
 <a name="307"><span class="lineNum">     307 </span><span class="lineCov">         82 :         else nextState = CALC;</span></a>
 <a name="308"><span class="lineNum">     308 </span>            :       end</a>
-<a name="309"><span class="lineNum">     309 </span><span class="lineCov">        542 :       DONE: begin</span></a>
+<a name="309"><span class="lineNum">     309 </span><span class="lineCov">        539 :       DONE: begin</span></a>
 <a name="310"><span class="lineNum">     310 </span>            :         // If output device ready to receive value then go back to IDLE state</a>
 <a name="311"><span class="lineNum">     311 </span><span class="lineCov">         99 :         if (resp_rdy) nextState = IDLE;</span></a>
-<a name="312"><span class="lineNum">     312 </span><span class="lineCov">       2036 :         else nextState = DONE;</span></a>
+<a name="312"><span class="lineNum">     312 </span><span class="lineCov">       2027 :         else nextState = DONE;</span></a>
 <a name="313"><span class="lineNum">     313 </span>            :       end</a>
 <a name="314"><span class="lineNum">     314 </span>            :       default: begin</a>
 <a name="315"><span class="lineNum">     315 </span>            :         $stop;</a>
@@ -445,8 +445,8 @@
 <a name="383"><span class="lineNum">     383 </span>            :         // Enable result register on clock and do not pass in 0 from mux</a>
 <a name="384"><span class="lineNum">     384 </span>            :         // Not ready to receive new input and output value not ready</a>
 <a name="385"><span class="lineNum">     385 </span>            :       end</a>
-<a name="386"><span class="lineNum">     386 </span><span class="lineCov">        542 :       DONE: begin</span></a>
-<a name="387"><span class="lineNum">     387 </span><span class="lineCov">        542 :         tab(1, 1, 0, 0, 0, 1, 0, 1, 0);</span></a>
+<a name="386"><span class="lineNum">     386 </span><span class="lineCov">        539 :       DONE: begin</span></a>
+<a name="387"><span class="lineNum">     387 </span><span class="lineCov">        539 :         tab(1, 1, 0, 0, 0, 1, 0, 1, 0);</span></a>
 <a name="388"><span class="lineNum">     388 </span>            :         // Do not shift a and b</a>
 <a name="389"><span class="lineNum">     389 </span>            :         // Keep result register output previous value before calculation done (not 0)</a>
 <a name="390"><span class="lineNum">     390 </span>            :         // keep result register updated with current result value</a>

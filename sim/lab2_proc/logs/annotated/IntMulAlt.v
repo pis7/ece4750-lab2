@@ -22,7 +22,7 @@
         
         module lab1_imul_IntMulAlt
         (
- 002037   input  logic        clk,
+ 002031   input  logic        clk,
  000001   input  logic        reset,
         
  000002   input  logic        istream_val,
@@ -84,7 +84,7 @@
         
         module mul_alt_datapath
         (
- 002037   input logic clk,
+ 002031   input logic clk,
  000001   input logic reset,
         
           // Data
@@ -101,7 +101,7 @@
  000004   output logic [31:0] b_lsb
         );
         
- 000005   logic [31:0] a;
+ 000006   logic [31:0] a;
  000004   logic [31:0] b;
         
           assign a = req_msg[63:32];
@@ -235,7 +235,7 @@
         endmodule
         
         module mul_alt_control (
- 002037   input logic clk,
+ 002031   input logic clk,
  000001   input logic reset,
         
           // Datapath I/O
@@ -259,7 +259,7 @@
  000035   logic [1:0] nextState;
  000036   logic done;
         
- 001018   function void tab
+ 001015   function void tab
           (
           input logic t_a_mux_sel,
           input logic t_b_mux_sel,
@@ -271,26 +271,26 @@
           input logic t_resp_val,
           input logic t_done
           );
- 001018   begin
- 001018     assign a_mux_sel = t_a_mux_sel;
- 001018     assign b_mux_sel = t_b_mux_sel;
- 001018     assign shamt = t_shamt;
- 001018     assign result_mux_sel = t_result_mux_sel;
- 001018     assign result_en = t_result_en;
- 001018     assign add_mux_sel = t_add_mux_sel;
- 001018     assign req_rdy = t_req_rdy;
- 001018     assign resp_val = t_resp_val;
- 001018     assign done = t_done;
+ 001015   begin
+ 001015     assign a_mux_sel = t_a_mux_sel;
+ 001015     assign b_mux_sel = t_b_mux_sel;
+ 001015     assign shamt = t_shamt;
+ 001015     assign result_mux_sel = t_result_mux_sel;
+ 001015     assign result_en = t_result_en;
+ 001015     assign add_mux_sel = t_add_mux_sel;
+ 001015     assign req_rdy = t_req_rdy;
+ 001015     assign resp_val = t_resp_val;
+ 001015     assign done = t_done;
           end
           endfunction
         
           // State register
- 001018   always_ff @(posedge clk) begin
+ 001015   always_ff @(posedge clk) begin
             // reset state to idle if reset signal high
  000004     if (reset) state <= IDLE;
         
             // clock in nextState to state on posedge clock
- 001014     else state <= nextState;
+ 001011     else state <= nextState;
           end
         
           // Next state logic
@@ -307,10 +307,10 @@
  000018         if (done) nextState = DONE;
  000082         else nextState = CALC;
               end
- 000542       DONE: begin
+ 000539       DONE: begin
                 // If output device ready to receive value then go back to IDLE state
  000099         if (resp_rdy) nextState = IDLE;
- 002036         else nextState = DONE;
+ 002027         else nextState = DONE;
               end
               default: begin
                 $stop;
@@ -384,8 +384,8 @@
                 // Enable result register on clock and do not pass in 0 from mux
                 // Not ready to receive new input and output value not ready
               end
- 000542       DONE: begin
- 000542         tab(1, 1, 0, 0, 0, 1, 0, 1, 0);
+ 000539       DONE: begin
+ 000539         tab(1, 1, 0, 0, 0, 1, 0, 1, 0);
                 // Do not shift a and b
                 // Keep result register output previous value before calculation done (not 0)
                 // keep result register updated with current result value

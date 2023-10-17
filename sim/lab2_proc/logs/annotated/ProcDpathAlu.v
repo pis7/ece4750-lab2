@@ -10,11 +10,11 @@
         
         module lab2_proc_ProcDpathAlu
         (
- 000005   input  logic [31:0] in0,
+ 000006   input  logic [31:0] in0,
  000004   input  logic [31:0] in1,
  000009   input  logic [ 3:0] fn,
  000006   output logic [31:0] out,
- 000007   output logic        ops_eq,
+ 000008   output logic        ops_eq,
  000014   output logic        ops_lt,
  000016   output logic        ops_ltu
         );
@@ -22,7 +22,7 @@
 %000000   always_comb begin
         
 %000000     case ( fn )
- 000938       4'd0    : out = in0 + in1;                                // ADD
+ 000932       4'd0    : out = in0 + in1;                                // ADD
 %000000       4'd1    : out = in0 - in1;                                // SUB
 %000000       4'd2    : out = in0 & in1;                                // AND
  000336       4'd3    : out = in0 | in1;                                // OR

@@ -148,7 +148,7 @@
           // Local constants not meant to be set from outside the module
           parameter c_addr_nbits  = $clog2(p_num_entries)
         )(
- 002037   input  logic                   clk,
+ 002031   input  logic                   clk,
  000001   input  logic                   reset,
         
           // Read port 0 (combinational read)
@@ -163,7 +163,7 @@
         
           // Write port (sampled on the rising clock edge)
         
- 000026   input  logic                    write_en,
+ 000024   input  logic                    write_en,
  000002   input  logic [c_addr_nbits-1:0] write_addr,
  000006   input  logic [p_data_nbits-1:0] write_data
         );
@@ -177,9 +177,9 @@
         
           // Write on positive clock edge
         
- 001018   always_ff @( posedge clk )
- 000380     if ( write_en )
- 000638       rfile[write_addr] <= write_data;
+ 001015   always_ff @( posedge clk )
+ 000378     if ( write_en )
+ 000637       rfile[write_addr] <= write_data;
         
           // Assertions
         
@@ -298,7 +298,7 @@
         
         module vc_Regfile_2r1w_zero
         (
- 002037   input  logic        clk,
+ 002031   input  logic        clk,
  000001   input  logic        reset,
         
  000003   input  logic  [4:0] rd_addr0,
@@ -307,7 +307,7 @@
  000004   input  logic  [4:0] rd_addr1,
  000002   output logic [31:0] rd_data1,
         
- 000026   input  logic        wr_en,
+ 000024   input  logic        wr_en,
  000002   input  logic  [4:0] wr_addr,
  000006   input  logic [31:0] wr_data
         );

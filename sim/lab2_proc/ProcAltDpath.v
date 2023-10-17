@@ -2,8 +2,8 @@
 // 5-Stage Simple Pipelined Processor Datapath
 //=========================================================================
 
-`ifndef LAB2_PROC_PROC_BASE_DPATH_V
-`define LAB2_PROC_PROC_BASE_DPATH_V
+`ifndef LAB2_PROC_PROC_ALT_DPATH_V
+`define LAB2_PROC_PROC_ALT_DPATH_V
 
 `include "vc/arithmetic.v"
 `include "vc/mem-msgs.v"

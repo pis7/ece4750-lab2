@@ -134,9 +134,9 @@
         #(
           parameter p_nbits = 1
         )(
- 000005   input  logic [p_nbits-1:0] in0,
+ 000006   input  logic [p_nbits-1:0] in0,
  000004   input  logic [p_nbits-1:0] in1,
- 000007   output logic               out
+ 000008   output logic               out
         );
         
           assign out = ( in0 == in1 );
