@@ -38,11 +38,13 @@ module top(input logic clk, input logic linetrace);
 
     // Tests
     initial begin
+        test_task(32'd40, 32'd40, 4'd0);
         for (int x = 0; x < 100; x++) begin // Test many random signed ints
             for (int i = 0; i < 13; i++) begin
                 test_task($random, $random, i[3:0]); // Test all functions of ALU
             end
         end
+        test_task(32'd40, 32'd40, 4'd1);
         $finish;
     end
 
