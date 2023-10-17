@@ -33,8 +33,10 @@ module lab2_proc_ProcDpathImmGen
       3'd5: // I variant-type
         imm = { {28{inst[24]}}, inst[23:20]};
 
-      default:
+      default: begin
+        $stop;
         imm = 32'bx;
+      end
 
     endcase
   end

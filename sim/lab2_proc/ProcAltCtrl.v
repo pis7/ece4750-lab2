@@ -325,7 +325,7 @@ module lab2_proc_ProcAltCtrl
   localparam nr       = 2'd0; // No request
   localparam ld       = 2'd1; // Load
   localparam st       = 2'd2; // Store
-
+  
   // Writeback Mux Select
 
   localparam wm_x     = 1'bx; // Don't care
