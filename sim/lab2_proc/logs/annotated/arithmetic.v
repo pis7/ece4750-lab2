@@ -14,11 +14,11 @@
         #(
           parameter p_nbits = 1
         )(
- 000004   input  logic [p_nbits-1:0] in0,
-%000000   input  logic [p_nbits-1:0] in1,
+ 000002   input  logic [p_nbits-1:0] in0,
+ 000002   input  logic [p_nbits-1:0] in1,
 %000000   input  logic               cin,
- 000004   output logic [p_nbits-1:0] out,
- 000002   output logic               cout
+ 000002   output logic [p_nbits-1:0] out,
+ 000004   output logic               cout
         );
         
           // We need to convert cin into a 32-bit value to
@@ -32,9 +32,9 @@
         #(
           parameter p_nbits = 1
         )(
- 000002   input  logic [p_nbits-1:0] in0,
-%000000   input  logic [p_nbits-1:0] in1,
- 000002   output logic [p_nbits-1:0] out
+ 000024   input  logic [p_nbits-1:0] in0,
+ 000020   input  logic [p_nbits-1:0] in1,
+ 000022   output logic [p_nbits-1:0] out
         );
         
           assign out = in0 + in1;
@@ -67,8 +67,8 @@
           parameter p_nbits     = 1,
           parameter p_inc_value = 1
         )(
- 000002   input  logic [p_nbits-1:0] in,
- 000004   output logic [p_nbits-1:0] out
+ 000001   input  logic [p_nbits-1:0] in,
+ 000001   output logic [p_nbits-1:0] out
         );
         
           assign out = in + p_inc_value;
@@ -134,9 +134,9 @@
         #(
           parameter p_nbits = 1
         )(
- 000002   input  logic [p_nbits-1:0] in0,
- 000914   input  logic [p_nbits-1:0] in1,
- 000002   output logic               out
+ 000006   input  logic [p_nbits-1:0] in0,
+ 000004   input  logic [p_nbits-1:0] in1,
+ 000008   output logic               out
         );
         
           assign out = ( in0 == in1 );
@@ -186,9 +186,9 @@
           parameter p_nbits       = 1,
           parameter p_shamt_nbits = 1 )
         (
- 000002   input  logic       [p_nbits-1:0] in,
+ 000024   input  logic       [p_nbits-1:0] in,
 %000000   input  logic [p_shamt_nbits-1:0] shamt,
- 000002   output logic       [p_nbits-1:0] out
+ 000024   output logic       [p_nbits-1:0] out
         );
         
           assign out = ( in << shamt );
@@ -204,9 +204,9 @@
           parameter p_nbits       = 1,
           parameter p_shamt_nbits = 1
         )(
- 000884   input  logic       [p_nbits-1:0] in,
+ 000004   input  logic       [p_nbits-1:0] in,
 %000000   input  logic [p_shamt_nbits-1:0] shamt,
- 000878   output logic       [p_nbits-1:0] out
+ 000004   output logic       [p_nbits-1:0] out
         );
         
           assign out = ( in >> shamt );

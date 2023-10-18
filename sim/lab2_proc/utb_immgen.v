@@ -31,7 +31,7 @@ module top(input logic clk, input logic linetrace);
     // Tests
     initial begin
         for (int x = 0; x < 100; x++) begin // Test many random signed ints
-            for (int i = 0; i < 6; i++) begin
+            for (int i = 0; i < 5; i++) begin
                 test_task($random, i[2:0]); // Test all immediate types
             end
         end
@@ -62,9 +62,6 @@ module top(input logic clk, input logic linetrace);
 
             3'd4: // J-type
                 testImm = { {12{testInst[31]}}, testInst[19:12], testInst[20], testInst[30:25], testInst[24:21], 1'b0};
-            
-            3'd5: // I variant-type
-                testImm = { {28{testInst[24]}}, testInst[23:20]};
 
             default:
                 testImm = 32'bx;

@@ -318,7 +318,6 @@ module lab2_proc_ProcAltCtrl
   localparam imm_b    = 3'd2;
   localparam imm_u    = 3'd3;
   localparam imm_j    = 3'd4;
-  localparam imm_iv   = 3'd5;
 
   // Memory Request Type
 
@@ -421,9 +420,9 @@ module lab2_proc_ProcAltCtrl
       `TINYRV2_INST_XORI    :cs( y, j_na,  br_na,  imm_i, bm1_rf,y, bm2_imm, n, alu_xor, ex_alu, n, nr, wm_a, y,  n,   n    );
       `TINYRV2_INST_SLTI    :cs( y, j_na,  br_na,  imm_i, bm1_rf,y, bm2_imm, n, alu_slt, ex_alu, n, nr, wm_a, y,  n,   n    );
       `TINYRV2_INST_SLTIU   :cs( y, j_na,  br_na,  imm_i, bm1_rf,y, bm2_imm, n, alu_sltu,ex_alu, n, nr, wm_a, y,  n,   n    );
-      `TINYRV2_INST_SRAI    :cs( y, j_na,  br_na,  imm_iv,bm1_rf,y, bm2_imm, n, alu_sra, ex_alu, n, nr, wm_a, y,  n,   n    );
-      `TINYRV2_INST_SRLI    :cs( y, j_na,  br_na,  imm_iv,bm1_rf,y, bm2_imm, n, alu_srl, ex_alu, n, nr, wm_a, y,  n,   n    );
-      `TINYRV2_INST_SLLI    :cs( y, j_na,  br_na,  imm_iv,bm1_rf,y, bm2_imm, n, alu_sll, ex_alu, n, nr, wm_a, y,  n,   n    );
+      `TINYRV2_INST_SRAI    :cs( y, j_na,  br_na,  imm_i, bm1_rf,y, bm2_imm, n, alu_sra, ex_alu, n, nr, wm_a, y,  n,   n    );
+      `TINYRV2_INST_SRLI    :cs( y, j_na,  br_na,  imm_i, bm1_rf,y, bm2_imm, n, alu_srl, ex_alu, n, nr, wm_a, y,  n,   n    );
+      `TINYRV2_INST_SLLI    :cs( y, j_na,  br_na,  imm_i, bm1_rf,y, bm2_imm, n, alu_sll, ex_alu, n, nr, wm_a, y,  n,   n    );
       `TINYRV2_INST_LUI     :cs( y, j_na,  br_na,  imm_u, bm1_x, n, bm2_imm, n, alu_cp1, ex_alu, n, nr, wm_a, y,  n,   n    );
       `TINYRV2_INST_AUIPC   :cs( y, j_na,  br_na,  imm_u, bm1_pc,n, bm2_imm, n, alu_add, ex_alu, n, nr, wm_a, y,  n,   n    );
 
@@ -457,7 +456,7 @@ module lab2_proc_ProcAltCtrl
   assign rf_waddr_D = inst_rd_D;
 
   // imul val
-  assign imul_req_val_D = mul_D;
+  assign imul_req_val_D = val_D && !stall_D && !squash_D && mul_D;
 
   // csrr and csrw logic
 
@@ -765,7 +764,7 @@ module lab2_proc_ProcAltCtrl
 
   // Ready to receive imul response if mul in X stage and X stage is not stalled
 
-  assign imul_resp_rdy_X = (ex_result_sel_X == 2'd2) && !stall_X;
+  assign imul_resp_rdy_X = val_X && !stall_X && (ex_result_sel_X == 2'd2);
 
   // Valid signal for the next stage
 
