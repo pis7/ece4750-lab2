@@ -1,16 +1,12 @@
 //========================================================================
-// ub_IntMul
+// utb_ProcBaseCtrl
 //========================================================================
-// A basic Verilog test bench for the multiplier
+// A basic Verilog unit test bench for the Processor Base Control module
 
 `default_nettype none
 `timescale 1ps/1ps
 
-`ifndef DESIGN
-  `define DESIGN IntMulBase
-`endif
-
-`include `"`DESIGN.v`"
+`include "ProcBaseCtrl.v"
 `include "vc/trace.v"
 
 //------------------------------------------------------------------------
@@ -19,10 +15,7 @@
 
 module top(  input logic clk, input logic linetrace );
 
-    // TODO: simulate all instructions
-
     // DUT signals
-    logic        clk;
     logic        reset;
 
     // Instruction Memory Port
@@ -88,28 +81,54 @@ module top(  input logic clk, input logic linetrace );
     logic        commit_inst;
 
     // DUT
-    lab2_proc_ProcBaseCtrl proc
+    lab2_proc_ProcBaseCtrl DUT
     (
         .*
-    )
-
-    // Line trace
-    initial begin 
-        while(1) begin
-            @(negedge clk);  
-                if (linetrace) begin
-                    proc.display_trace;
-                end
-        end 
-        $stop;
-    end
+    );
 
     // Tests
     initial begin
 
-        $display("Test NOP Outputs")
-        inst_D = {{25{1'b0}}, 7'b0010011} // NOP binary
+        //--------------------------------------------------------------------
+        // Unit Testing #1 Test NOP
+        //--------------------------------------------------------------------
+        // Initalize all the signal inital values.
+        reset = 1;
+        @(negedge clk);
+        reset = 0;
+        imem_respstream_val = 1'b1; // Simulate imem response ready
+        @(negedge clk);
+
+
+        $display("");
+        $display("Test NOP Outputs");
+
+        // F
+        @(negedge clk);
+
+        delay( $urandom_range(0, 127) );
+
+        // D
+        @(negedge clk);
+        inst_D = 32'b00000000000000000000000000010011;
+        assert(DUT.inst_val_D == 1'b1) begin
+            $display("inst_val_D is correct.  Expected: %h, Actual: %h", 1'b1,DUT.inst_val_D); pass();
+        end else begin
+            $display("inst_val_D is incorrect.  Expected: %h, Actual: %h", 1'b1,DUT.inst_val_D); fail(); $finish();
+        end
+
+        $display();
+        $display("All tests passed!");
+        $finish();
 
     end
+
+    task delay( int delay_val );
+      begin
+          for( int i = 0; i < delay_val; i = i + 1 ) begin
+              #1;
+          end
+      end
+    endtask
 
 endmodule

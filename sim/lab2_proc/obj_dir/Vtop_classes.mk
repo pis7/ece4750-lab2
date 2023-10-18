@@ -12,7 +12,7 @@ VM_TIMING = 1
 # Coverage output mode?  0/1 (from --coverage)
 VM_COVERAGE = 1
 # Parallel builds?  0/1 (from --output-split)
-VM_PARALLEL_BUILDS = 1
+VM_PARALLEL_BUILDS = 0
 # Tracing output mode?  0/1 (from --trace/--trace-fst)
 VM_TRACE = 1
 # Tracing output mode in VCD format?  0/1 (from --trace)
@@ -25,7 +25,6 @@ VM_TRACE_FST = 1
 VM_CLASSES_FAST += \
 	Vtop \
 	Vtop___024root__DepSet_h84412442__0 \
-	Vtop___024root__DepSet_h84412442__1 \
 	Vtop___024root__DepSet_heccd7ead__0 \
 	Vtop___024unit__DepSet_hab9af801__0 \
 
@@ -33,7 +32,6 @@ VM_CLASSES_FAST += \
 VM_CLASSES_SLOW += \
 	Vtop___024root__Slow \
 	Vtop___024root__DepSet_h84412442__0__Slow \
-	Vtop___024root__DepSet_h84412442__1__Slow \
 	Vtop___024root__DepSet_heccd7ead__0__Slow \
 	Vtop___024unit__Slow \
 	Vtop___024unit__DepSet_hff17caec__0__Slow \

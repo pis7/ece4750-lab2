@@ -620,8 +620,6 @@ module lab2_proc_ProcAltCtrl
   assign ostall_imul_req_rdy_D
     = !imul_req_rdy_D;
 
-  // ostall if WAW hazard TODO
-
   // Put together ostall signal due to hazards
 
   logic  ostall_hazard_D;

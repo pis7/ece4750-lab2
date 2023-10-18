@@ -135,6 +135,7 @@ module top(  input logic clk, input logic linetrace );
     // Unit Testing #1  If PC is working correctly across the pipeline + a JAL
     //--------------------------------------------------------------------
     // Align test bench with negedge so that it looks better
+    reset = 1;
     @(negedge clk); 
     reset = 0;
     @(negedge clk); 
@@ -211,6 +212,7 @@ module top(  input logic clk, input logic linetrace );
     $display();
     $display("Test ADD");
     // Reset
+    reset = 1;
     @(negedge clk);
     reset = 0;
     @(negedge clk);
@@ -321,6 +323,7 @@ module top(  input logic clk, input logic linetrace );
     $display();
     $display("Test ORI");
     // Reset
+    reset = 1;
     @(negedge clk);
     reset = 0;
     @(negedge clk);
@@ -422,6 +425,7 @@ module top(  input logic clk, input logic linetrace );
     $display();
     $display("Test MUL");
     // Reset
+    reset = 1;
     @(negedge clk);
     reset = 0;
     @(negedge clk);
@@ -544,6 +548,7 @@ module top(  input logic clk, input logic linetrace );
     $display();
     $display("Test LW with dmem stall");
     // Reset
+    reset = 1;
     @(negedge clk);
     reset = 0;
     @(negedge clk);
@@ -701,6 +706,7 @@ module top(  input logic clk, input logic linetrace );
     $display();
     $display("Test SW");
     // Reset
+    reset = 1;
     @(negedge clk);
     reset = 0;
     @(negedge clk);
@@ -797,6 +803,7 @@ module top(  input logic clk, input logic linetrace );
     $display();
     $display("Test BLT");
     // Reset
+    reset = 1;
     @(negedge clk);
     reset = 0;
     @(negedge clk);
@@ -894,6 +901,7 @@ module top(  input logic clk, input logic linetrace );
     $display();
     $display("Test RS2 Stalling in D from instr in X, M, W");
     // Reset
+    reset = 1;
     @(negedge clk);
     reset = 0;
     @(negedge clk);

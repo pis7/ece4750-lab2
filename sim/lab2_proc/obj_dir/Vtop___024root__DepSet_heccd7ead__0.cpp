@@ -20,8 +20,6 @@ void Vtop___024root___eval_initial(Vtop___024root* vlSelf) {
     vlSelf->__Vm_traceActivity[1U] = 1U;
     Vtop___024root___eval_initial__TOP__0(vlSelf);
     vlSelf->__Vtrigprevexpr___TOP__clk__0 = vlSelf->clk;
-    vlSelf->__Vtrigprevexpr___TOP__top__DOT__imul_resp_val_X__0 
-        = vlSelf->top__DOT__imul_resp_val_X;
 }
 
 void Vtop___024root___ico_sequent__TOP__0(Vtop___024root* vlSelf);
@@ -43,7 +41,7 @@ void Vtop___024root___eval_act(Vtop___024root* vlSelf) {
     Vtop__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root___eval_act\n"); );
     // Body
-    if ((0xeULL & vlSelf->__VactTriggered.word(0U))) {
+    if ((6ULL & vlSelf->__VactTriggered.word(0U))) {
         Vtop___024root___act_comb__TOP__0(vlSelf);
         vlSelf->__Vm_traceActivity[3U] = 1U;
     }
@@ -62,12 +60,13 @@ void Vtop___024root___eval_nba(Vtop___024root* vlSelf) {
         Vtop___024root___nba_sequent__TOP__0(vlSelf);
         vlSelf->__Vm_traceActivity[4U] = 1U;
     }
-    if ((0xeULL & vlSelf->__VnbaTriggered.word(0U))) {
+    if ((6ULL & vlSelf->__VnbaTriggered.word(0U))) {
         Vtop___024root___nba_comb__TOP__0(vlSelf);
-    }
-    if ((0xfULL & vlSelf->__VnbaTriggered.word(0U))) {
-        Vtop___024root___nba_comb__TOP__1(vlSelf);
         vlSelf->__Vm_traceActivity[5U] = 1U;
+    }
+    if ((7ULL & vlSelf->__VnbaTriggered.word(0U))) {
+        Vtop___024root___nba_comb__TOP__1(vlSelf);
+        vlSelf->__Vm_traceActivity[6U] = 1U;
     }
 }
 
@@ -91,7 +90,7 @@ void Vtop___024root___eval(Vtop___024root* vlSelf) {
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root___eval\n"); );
     // Init
     CData/*0:0*/ __VicoContinue;
-    VlTriggerVec<4> __VpreTriggered;
+    VlTriggerVec<3> __VpreTriggered;
     IData/*31:0*/ __VnbaIterCount;
     CData/*0:0*/ __VnbaContinue;
     // Body
@@ -106,7 +105,7 @@ void Vtop___024root___eval(Vtop___024root* vlSelf) {
 #ifdef VL_DEBUG
                 Vtop___024root___dump_triggers__ico(vlSelf);
 #endif
-                VL_FATAL_MT("utb_ProcAltDpath.v", 17, "", "Input combinational region did not converge.");
+                VL_FATAL_MT("utb_ProcBaseCtrl.v", 16, "", "Input combinational region did not converge.");
             }
             vlSelf->__VicoIterCount = ((IData)(1U) 
                                        + vlSelf->__VicoIterCount);
@@ -130,7 +129,7 @@ void Vtop___024root___eval(Vtop___024root* vlSelf) {
 #ifdef VL_DEBUG
                     Vtop___024root___dump_triggers__act(vlSelf);
 #endif
-                    VL_FATAL_MT("utb_ProcAltDpath.v", 17, "", "Active region did not converge.");
+                    VL_FATAL_MT("utb_ProcBaseCtrl.v", 16, "", "Active region did not converge.");
                 }
                 vlSelf->__VactIterCount = ((IData)(1U) 
                                            + vlSelf->__VactIterCount);
@@ -146,7 +145,7 @@ void Vtop___024root___eval(Vtop___024root* vlSelf) {
 #ifdef VL_DEBUG
                 Vtop___024root___dump_triggers__nba(vlSelf);
 #endif
-                VL_FATAL_MT("utb_ProcAltDpath.v", 17, "", "NBA region did not converge.");
+                VL_FATAL_MT("utb_ProcBaseCtrl.v", 16, "", "NBA region did not converge.");
             }
             __VnbaIterCount = ((IData)(1U) + __VnbaIterCount);
             Vtop___024root___eval_nba(vlSelf);
@@ -159,11 +158,8 @@ void Vtop___024root___timing_commit(Vtop___024root* vlSelf) {
     Vtop__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root___timing_commit\n"); );
     // Body
-    if ((! (4ULL & vlSelf->__VactTriggered.word(0U)))) {
+    if ((! (2ULL & vlSelf->__VactTriggered.word(0U)))) {
         vlSelf->__VtrigSched_h3d404bd2__0.commit("@(negedge clk)");
-    }
-    if ((! (8ULL & vlSelf->__VactTriggered.word(0U)))) {
-        vlSelf->__VtrigSched_hf1be2148__0.commit("@(posedge top.imul_resp_val_X)");
     }
 }
 
@@ -173,13 +169,10 @@ void Vtop___024root___timing_resume(Vtop___024root* vlSelf) {
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root___timing_resume\n"); );
     // Body
     if ((2ULL & vlSelf->__VactTriggered.word(0U))) {
-        vlSelf->__VdlySched.resume();
-    }
-    if ((4ULL & vlSelf->__VactTriggered.word(0U))) {
         vlSelf->__VtrigSched_h3d404bd2__0.resume("@(negedge clk)");
     }
-    if ((8ULL & vlSelf->__VactTriggered.word(0U))) {
-        vlSelf->__VtrigSched_hf1be2148__0.resume("@(posedge top.imul_resp_val_X)");
+    if ((4ULL & vlSelf->__VactTriggered.word(0U))) {
+        vlSelf->__VdlySched.resume();
     }
 }
 

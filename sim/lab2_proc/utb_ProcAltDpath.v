@@ -213,6 +213,7 @@ module top(  input logic clk, input logic linetrace );
     $display();
     $display("Test ADD");
     // Reset
+    reset = 1;
     @(negedge clk);
     reset = 0;
     @(negedge clk);
@@ -325,6 +326,7 @@ module top(  input logic clk, input logic linetrace );
     $display();
     $display("Test ORI");
     // Reset
+    reset = 1;
     @(negedge clk);
     reset = 0;
     @(negedge clk);
@@ -428,6 +430,7 @@ module top(  input logic clk, input logic linetrace );
     $display();
     $display("Test MUL");
     // Reset
+    reset = 1;
     @(negedge clk);
     reset = 0;
     @(negedge clk);
@@ -552,6 +555,7 @@ module top(  input logic clk, input logic linetrace );
     $display();
     $display("Test LW with dmem stall");
     // Reset
+    reset = 1;
     @(negedge clk);
     reset = 0;
     @(negedge clk);
@@ -711,6 +715,7 @@ module top(  input logic clk, input logic linetrace );
     $display();
     $display("Test SW");
     // Reset
+    reset = 1;
     @(negedge clk);
     reset = 0;
     @(negedge clk);
@@ -809,6 +814,7 @@ module top(  input logic clk, input logic linetrace );
     $display();
     $display("Test BLT");
     // Reset
+    reset = 1;
     @(negedge clk);
     reset = 0;
     @(negedge clk);
@@ -908,6 +914,7 @@ module top(  input logic clk, input logic linetrace );
     $display();
     $display("Test RS2 Forwarding in D from instr in X");
     // Reset
+    reset = 1;
     @(negedge clk);
     reset = 0;
     @(negedge clk);
