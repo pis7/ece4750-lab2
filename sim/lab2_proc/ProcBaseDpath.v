@@ -28,7 +28,7 @@ module lab2_proc_ProcBaseDpath
   // Instruction Memory Port
 
   output logic [31:0]  imem_reqstream_msg_addr,
-  input  mem_resp_4B_t imem_respstream_msg,
+  input  mem_resp_4B_t imem_respstream_msg, // mem message not shown on toggle coverage
 
   // Data Memory Port
 
@@ -43,7 +43,7 @@ module lab2_proc_ProcBaseDpath
 
   // control signals (ctrl->dpath)
 
-  input  logic         imem_respstream_drop,
+  input  logic         imem_respstream_drop, // Not shown on toggle coverage for utb
 
   input  logic         reg_en_F,
   input  logic [1:0]   pc_sel_F,
@@ -51,12 +51,14 @@ module lab2_proc_ProcBaseDpath
   input  logic         reg_en_D,
   input  logic         op1_sel_D,
   input  logic [1:0]   op2_sel_D,
-  input  logic [1:0]   csrr_sel_D,
+  input  logic [1:0]   csrr_sel_D, // not switched from 0 for this lab
   input  logic [2:0]   imm_type_D,
+  input  logic         imul_req_val_D,
 
   input  logic         reg_en_X,
   input  logic [3:0]   alu_fn_X,
   input  logic [1:0]   ex_result_sel_X,
+  input  logic         imul_resp_rdy_X,
 
   input  logic         reg_en_M,
   input  logic         wb_result_sel_M,
@@ -64,25 +66,22 @@ module lab2_proc_ProcBaseDpath
   input  logic         reg_en_W,
   input  logic [4:0]   rf_waddr_W,
   input  logic         rf_wen_W,
-  input  logic         stats_en_wen_W,
-
-  input  logic         imul_req_val_D,
-  input  logic         imul_resp_rdy_X,
+  input  logic         stats_en_wen_W, // not used for this lab
 
   // status signals (dpath->ctrl)
 
   output logic [31:0]  inst_D,
+  output logic         imul_req_rdy_D,
+
   output logic         br_cond_eq_X,
   output logic         br_cond_lt_X,
   output logic         br_cond_ltu_X,
-
-  output logic         imul_req_rdy_D,
   output logic         imul_resp_val_X,
 
   // extra ports
 
-  input  logic [31:0]  core_id,
-  output logic         stats_en
+  input  logic [31:0]  core_id, // not used for this lab
+  output logic         stats_en // not used for this lab
 );
 
   localparam c_reset_vector = 32'h200;
@@ -207,8 +206,8 @@ module lab2_proc_ProcBaseDpath
 
   logic [31:0] csrr_data_D;
 
-  logic [31:0] num_cores;
-  assign num_cores = p_num_cores;
+  logic [31:0] num_cores; // not used for this lab
+  assign num_cores = p_num_cores; // not used for this lab
 
   // csrr data select mux
   vc_Mux3#(32) csrr_sel_mux_D
@@ -221,8 +220,6 @@ module lab2_proc_ProcBaseDpath
   );
 
   // op2 select mux
-  // This mux chooses among RS2, imm, and the output of the above csrr
-  // csrr sel mux. Basically we are using two muxes here for pedagogy.
   vc_Mux3#(32) op2_sel_mux_D
   (
     .in0  (imm_D),
@@ -394,7 +391,7 @@ module lab2_proc_ProcBaseDpath
   // note the stats en is full 32-bit here but the outside port is one
   // bit.
 
-  logic [31:0] stats_en_W;
+  logic [31:0] stats_en_W; // not used for this lab
 
   assign stats_en = | stats_en_W;
 

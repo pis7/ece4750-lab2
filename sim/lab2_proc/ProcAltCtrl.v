@@ -17,7 +17,7 @@ module lab2_proc_ProcAltCtrl
   // Instruction Memory Port
 
   output logic        imem_reqstream_val,
-  input  logic        imem_reqstream_rdy,
+  input  logic        imem_reqstream_rdy, // not connected
   input  logic        imem_respstream_val,
   output logic        imem_respstream_rdy,
   output logic        imem_respstream_drop,
@@ -28,7 +28,7 @@ module lab2_proc_ProcAltCtrl
   input  logic        dmem_reqstream_rdy,
   input  logic        dmem_respstream_val,
   output logic        dmem_respstream_rdy,
-  output logic [2:0]  mem_action,
+  output logic        mem_action_M,
 
   // mngr communication port
 
@@ -45,14 +45,16 @@ module lab2_proc_ProcAltCtrl
   output logic        reg_en_D,
   output logic        op1_sel_D,
   output logic [1:0]  op2_sel_D,
-  output logic [1:0]  csrr_sel_D,
+  output logic [1:0]  csrr_sel_D, // not switched from 0 for this lab
   output logic [2:0]  imm_type_D,
   output logic [1:0]  op1_byp_sel_D,
   output logic [1:0]  op2_byp_sel_D,
+  output logic        imul_req_val_D,
 
   output logic        reg_en_X,
   output logic [3:0]  alu_fn_X,
   output logic [1:0]  ex_result_sel_X,
+  output logic        imul_resp_rdy_X,
 
   output logic        reg_en_M,
   output logic        wb_result_sel_M,
@@ -60,19 +62,16 @@ module lab2_proc_ProcAltCtrl
   output logic        reg_en_W,
   output logic [4:0]  rf_waddr_W,
   output logic        rf_wen_W,
-  output logic        stats_en_wen_W,
-
-  output logic        imul_req_val_D,
-  output logic        imul_resp_rdy_X,
+  output logic        stats_en_wen_W, // not used for this lab
 
   // status signals (dpath->ctrl)
 
   input  logic [31:0] inst_D,
+  input  logic        imul_req_rdy_D,
+
   input  logic        br_cond_eq_X,
   input  logic        br_cond_lt_X,
   input  logic        br_cond_ltu_X,
-
-  input  logic        imul_req_rdy_D,
   input  logic        imul_resp_val_X,
 
   // extra ports
@@ -170,10 +169,11 @@ module lab2_proc_ProcAltCtrl
 
   logic       pc_redirect_X;
   logic [1:0] pc_sel_X;
-  logic [1:0] pc_sel_D;
+  logic [1:0] pc_sel_D; // Impossible to trigger all possible values (except 2 and 3)
 
   // PC select logic
   // X stage has earlier instruction - so check that first
+
   always_comb begin
     if ( pc_redirect_X )   // If a branch is taken in X stage
       pc_sel_F = pc_sel_X; // Use pc from X
@@ -312,6 +312,7 @@ module lab2_proc_ProcAltCtrl
   localparam alu_cp1  = 4'd12;
 
   // Immediate Type
+
   localparam imm_x    = 3'bx;
   localparam imm_i    = 3'd0;
   localparam imm_s    = 3'd1;
@@ -348,7 +349,7 @@ module lab2_proc_ProcAltCtrl
   logic       csrw_D;
   logic       proc2mngr_val_D;
   logic       mngr2proc_rdy_D;
-  logic       stats_en_wen_D;
+  logic       stats_en_wen_D; // not used for this lab
   logic       pc_redirect_D;
 
   task cs
@@ -427,40 +428,41 @@ module lab2_proc_ProcAltCtrl
       `TINYRV2_INST_AUIPC   :cs( y, j_na,  br_na,  imm_u, bm1_pc,n, bm2_imm, n, alu_add, ex_alu, n, nr, wm_a, y,  n,   n    );
 
       // Jump
-      `TINYRV2_INST_JAL     :cs( y, j_jal, br_na,  imm_j, bm1_x, n, bm2_x,   n, alu_x,     ex_pc,n, nr, wm_a, y,  n,   n    );
-      `TINYRV2_INST_JALR    :cs( y, j_jalr,br_na,  imm_i, bm1_rf,y, bm2_imm, n, alu_add,   ex_pc,n, nr, wm_a, y,  n,   n    );
+      `TINYRV2_INST_JAL     :cs( y, j_jal, br_na,  imm_j, bm1_x, n, bm2_x,   n, alu_x,   ex_pc,  n, nr, wm_a, y,  n,   n    );
+      `TINYRV2_INST_JALR    :cs( y, j_jalr,br_na,  imm_i, bm1_rf,y, bm2_imm, n, alu_add, ex_pc,  n, nr, wm_a, y,  n,   n    );
 
       // Branches
-      `TINYRV2_INST_BNE     :cs( y, j_na,  br_bne, imm_b, bm1_rf,y, bm2_rf,  y, alu_x,     ex_x, n, nr, wm_a, n,  n,   n    );
-      `TINYRV2_INST_BEQ     :cs( y, j_na,  br_beq, imm_b, bm1_rf,y, bm2_rf,  y, alu_x,     ex_x, n, nr, wm_a, n,  n,   n    );
-      `TINYRV2_INST_BLT     :cs( y, j_na,  br_blt, imm_b, bm1_rf,y, bm2_rf,  y, alu_x,     ex_x, n, nr, wm_a, n,  n,   n    );
-      `TINYRV2_INST_BLTU    :cs( y, j_na,  br_bltu,imm_b, bm1_rf,y, bm2_rf,  y, alu_x,     ex_x, n, nr, wm_a, n,  n,   n    );
-      `TINYRV2_INST_BGE     :cs( y, j_na,  br_bge, imm_b, bm1_rf,y, bm2_rf,  y, alu_x,     ex_x, n, nr, wm_a, n,  n,   n    );
-      `TINYRV2_INST_BGEU    :cs( y, j_na,  br_bgeu,imm_b, bm1_rf,y, bm2_rf,  y, alu_x,     ex_x, n, nr, wm_a, n,  n,   n    );
+      `TINYRV2_INST_BNE     :cs( y, j_na,  br_bne, imm_b, bm1_rf,y, bm2_rf,  y, alu_x,   ex_x,   n, nr, wm_a, n,  n,   n    );
+      `TINYRV2_INST_BEQ     :cs( y, j_na,  br_beq, imm_b, bm1_rf,y, bm2_rf,  y, alu_x,   ex_x,   n, nr, wm_a, n,  n,   n    );
+      `TINYRV2_INST_BLT     :cs( y, j_na,  br_blt, imm_b, bm1_rf,y, bm2_rf,  y, alu_x,   ex_x,   n, nr, wm_a, n,  n,   n    );
+      `TINYRV2_INST_BLTU    :cs( y, j_na,  br_bltu,imm_b, bm1_rf,y, bm2_rf,  y, alu_x,   ex_x,   n, nr, wm_a, n,  n,   n    );
+      `TINYRV2_INST_BGE     :cs( y, j_na,  br_bge, imm_b, bm1_rf,y, bm2_rf,  y, alu_x,   ex_x,   n, nr, wm_a, n,  n,   n    );
+      `TINYRV2_INST_BGEU    :cs( y, j_na,  br_bgeu,imm_b, bm1_rf,y, bm2_rf,  y, alu_x,   ex_x,   n, nr, wm_a, n,  n,   n    );
 
       // Load/store
       `TINYRV2_INST_LW      :cs( y, j_na,  br_na,  imm_i, bm1_rf,y, bm2_imm, n, alu_add, ex_alu, n, ld, wm_m, y,  n,   n    );
-      `TINYRV2_INST_SW      :cs( y, j_na,  br_na,  imm_s, bm1_rf,y, bm2_imm, y, alu_add,   ex_x, n, st, wm_x, n,  n,   n    );
+      `TINYRV2_INST_SW      :cs( y, j_na,  br_na,  imm_s, bm1_rf,y, bm2_imm, y, alu_add, ex_x,   n, st, wm_x, n,  n,   n    );
 
       // Manager
       `TINYRV2_INST_CSRR    :cs( y, j_na,  br_na,  imm_i, bm1_x, n, bm2_csr, n, alu_cp1, ex_alu, n, nr, wm_a, y,  y,   n    );
       `TINYRV2_INST_CSRW    :cs( y, j_na,  br_na,  imm_i, bm1_rf,y, bm2_rf,  n, alu_cp0, ex_alu, n, nr, wm_a, n,  n,   y    );
       
       // Default
-      default               :cs( n,  j_x,  br_x,   imm_x, bm1_x, n, bm2_x,   n, alu_x,     ex_x, n, nr, wm_x, n,  n,   n    );
+      default               :cs( n,  j_x,  br_x,   imm_x, bm1_x, n, bm2_x,   n, alu_x,   ex_x,   n, nr, wm_x, n,  n,   n    );
 
     endcase
-  end // always_comb
+  end
 
   logic [4:0] rf_waddr_D;
   assign rf_waddr_D = inst_rd_D;
 
   // imul val
+
   assign imul_req_val_D = val_D && !stall_D && !squash_D && mul_D;
 
   // csrr and csrw logic
 
-  always_comb begin
+  always_comb begin // only proc2mngr and mngr2proc used for this lab
     proc2mngr_val_D  = 1'b0;
     mngr2proc_rdy_D  = 1'b0;
     csrr_sel_D       = 2'h0;
@@ -660,7 +662,7 @@ module lab2_proc_ProcAltCtrl
   logic        rf_wen_X;
   logic [4:0]  rf_waddr_X;
   logic        proc2mngr_val_X;
-  logic        stats_en_wen_X;
+  logic        stats_en_wen_X; // not used for this lab
   logic [2:0]  br_type_X;
   logic [1:0]  j_type_X;
 
@@ -750,13 +752,14 @@ module lab2_proc_ProcAltCtrl
   assign dmem_reqstream_val = val_X && !stall_X && ( dmem_reqstream_type_X != nr );
   
   // Assign memory action based on instruction
+
   always_comb begin
     if (dmem_reqstream_type_X == ld) begin
-      assign mem_action = 3'd0;
+      assign mem_action_M = 1'd0;
     end else if (dmem_reqstream_type_X == st) begin
-      assign mem_action = 3'd1;
+      assign mem_action_M = 1'd1;
     end else begin
-      assign mem_action = 3'dx;
+      assign mem_action_M = 1'dx;
     end
   end
 
@@ -782,7 +785,7 @@ module lab2_proc_ProcAltCtrl
   logic        rf_wen_M;
   logic [4:0]  rf_waddr_M;
   logic        proc2mngr_val_M;
-  logic        stats_en_wen_M;
+  logic        stats_en_wen_M; // not used for this lab
 
   // Pipeline register
 
@@ -829,7 +832,7 @@ module lab2_proc_ProcAltCtrl
   logic [31:0] inst_W;
   logic        proc2mngr_val_W;
   logic        rf_wen_pending_W;
-  logic        stats_en_wen_pending_W;
+  logic        stats_en_wen_pending_W; // not used for this lab
 
   // Pipeline registers
 

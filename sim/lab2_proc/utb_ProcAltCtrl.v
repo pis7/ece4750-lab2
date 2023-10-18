@@ -1,12 +1,12 @@
 //========================================================================
-// utb_ProcBaseCtrl
+// utb_ProcAltCtrl
 //========================================================================
-// A basic Verilog unit test bench for the Processor Base Control module
+// A basic Verilog unit test bench for the Processor Alt Control module
 
 `default_nettype none
 `timescale 1ps/1ps
 
-`include "ProcBaseCtrl.v"
+`include "ProcAltCtrl.v"
 `include "vc/trace.v"
 
 //------------------------------------------------------------------------
@@ -51,6 +51,8 @@ module top(  input logic clk, input logic linetrace );
     logic [1:0]  op2_sel_D;
     logic [1:0]  csrr_sel_D;
     logic [2:0]  imm_type_D;
+    logic [1:0]  op1_byp_sel_D;
+    logic [1:0]  op2_byp_sel_D;
 
     logic        reg_en_X;
     logic [3:0]  alu_fn_X;
@@ -81,7 +83,7 @@ module top(  input logic clk, input logic linetrace );
     logic        commit_inst;
 
     // DUT
-    lab2_proc_ProcBaseCtrl DUT
+    lab2_proc_ProcAltCtrl DUT
     (
         .*
     );
@@ -361,7 +363,7 @@ module top(  input logic clk, input logic linetrace );
         delay( $urandom_range(0, 127) );
 
         //--------------------------------------------------------------------
-        // Unit Testing #2 Test ADD and ADDI with stalling on rs1 and rs2 from X, M, W to D
+        // Unit Testing #2 Test ADD and ADDI with bypassing to rs1 and rs2 from X to D
         // 1: addi x3, x1, 4
         // 2: add x4, x3, x3
         //--------------------------------------------------------------------
@@ -502,6 +504,16 @@ module top(  input logic clk, input logic linetrace );
         end else begin
             $display("pc_redirect_D is incorrect.  Expected: %h, Actual: %h", n,DUT.pc_redirect_D); fail(); $finish();
         end
+        assert(DUT.op1_byp_sel_D == 2'd3) begin // rs1 bypassing from X
+            $display("op1_byp_sel_D is correct.  Expected: %h, Actual: %h", 2'd3,DUT.op1_byp_sel_D); pass();
+        end else begin
+            $display("op1_byp_sel_D is incorrect.  Expected: %h, Actual: %h", 2'd3,DUT.op1_byp_sel_D); fail(); $finish();
+        end
+        assert(DUT.op2_byp_sel_D == 2'd0) begin // rs1 bypassing from X
+            $display("op2_byp_sel_D is correct.  Expected: %h, Actual: %h", 2'd0,DUT.op2_byp_sel_D); pass();
+        end else begin
+            $display("op2_byp_sel_D is incorrect.  Expected: %h, Actual: %h", 2'd0,DUT.op2_byp_sel_D); fail(); $finish();
+        end
 
         // Cycle 3: D = 2, X = 1
         @(negedge clk);
@@ -592,30 +604,50 @@ module top(  input logic clk, input logic linetrace );
         end else begin
             $display("csrw_D is incorrect.  Expected: %h, Actual: %h", n,DUT.csrw_D); fail(); $finish();
         end
-        assert(DUT.stall_D == y) begin // D stalling
-            $display("stall_D is correct.  Expected: %h, Actual: %h", y,DUT.stall_D); pass();
+        assert(DUT.bypass_waddr_X_rs1_D == y) begin // rs1 bypassing from X
+            $display("bypass_waddr_X_rs1_D is correct.  Expected: %h, Actual: %h", y,DUT.bypass_waddr_X_rs1_D); pass();
         end else begin
-            $display("stall_D is incorrect.  Expected: %h, Actual: %h", y,DUT.stall_D); fail(); $finish();
+            $display("bypass_waddr_X_rs1_D is incorrect.  Expected: %h, Actual: %h", y,DUT.bypass_waddr_X_rs1_D); fail(); $finish();
         end
-        assert(DUT.ostall_waddr_X_rs1_D == y) begin // rs1 RAW from X
-            $display("ostall_waddr_X_rs1_D is correct.  Expected: %h, Actual: %h", y,DUT.ostall_waddr_X_rs1_D); pass();
+        assert(DUT.op1_byp_sel_D == 2'd2) begin // rs1 bypassing from X
+            $display("op1_byp_sel_D is correct.  Expected: %h, Actual: %h", 2'd2,DUT.op1_byp_sel_D); pass();
         end else begin
-            $display("ostall_waddr_X_rs1_D is incorrect.  Expected: %h, Actual: %h", y,DUT.ostall_waddr_X_rs1_D); fail(); $finish();
+            $display("op1_byp_sel_D is incorrect.  Expected: %h, Actual: %h", 2'd2,DUT.op1_byp_sel_D); fail(); $finish();
         end
-        assert(DUT.ostall_waddr_X_rs2_D == y) begin // rs2 RAW from X
-            $display("ostall_waddr_X_rs2_D is correct.  Expected: %h, Actual: %h", y,DUT.ostall_waddr_X_rs2_D); pass();
+        assert(DUT.bypass_waddr_X_rs2_D == y) begin // rs2 bypassing from X
+            $display("bypass_waddr_X_rs2_D is correct.  Expected: %h, Actual: %h", y,DUT.bypass_waddr_X_rs2_D); pass();
         end else begin
-            $display("ostall_waddr_X_rs2_D is incorrect.  Expected: %h, Actual: %h", y,DUT.ostall_waddr_X_rs2_D); fail(); $finish();
+            $display("bypass_waddr_X_rs2_D is incorrect.  Expected: %h, Actual: %h", y,DUT.bypass_waddr_X_rs2_D); fail(); $finish();
+        end
+        assert(DUT.op2_byp_sel_D == 2'd3) begin // rs1 bypassing from X
+            $display("op2_byp_sel_D is correct.  Expected: %h, Actual: %h", 2'd3,DUT.op2_byp_sel_D); pass();
+        end else begin
+            $display("op2_byp_sel_D is incorrect.  Expected: %h, Actual: %h", 2'd3,DUT.op2_byp_sel_D); fail(); $finish();
+        end
+        assert(DUT.stall_D == n) begin // D not stalling
+            $display("stall_D is correct.  Expected: %h, Actual: %h", n,DUT.stall_D); pass();
+        end else begin
+            $display("stall_D is incorrect.  Expected: %h, Actual: %h", n,DUT.stall_D); fail(); $finish();
+        end
+        assert(DUT.ostall_waddr_X_rs1_D == n) begin // no rs1 RAW from X since bypassing
+            $display("ostall_waddr_X_rs1_D is correct.  Expected: %h, Actual: %h", n,DUT.ostall_waddr_X_rs1_D); pass();
+        end else begin
+            $display("ostall_waddr_X_rs1_D is incorrect.  Expected: %h, Actual: %h", n,DUT.ostall_waddr_X_rs1_D); fail(); $finish();
+        end
+        assert(DUT.ostall_waddr_X_rs2_D == n) begin // no rs2 RAW from X since bypassing
+            $display("ostall_waddr_X_rs2_D is correct.  Expected: %h, Actual: %h", n,DUT.ostall_waddr_X_rs2_D); pass();
+        end else begin
+            $display("ostall_waddr_X_rs2_D is incorrect.  Expected: %h, Actual: %h", n,DUT.ostall_waddr_X_rs2_D); fail(); $finish();
         end
         assert(DUT.squash_D ==  n) begin
             $display("squash_D is correct.  Expected: %h, Actual: %h", n,DUT.squash_D); pass();
         end else begin
             $display("squash_D is incorrect.  Expected: %h, Actual: %h", n,DUT.squash_D); fail(); $finish();
         end
-        assert(DUT.next_val_D  == n) begin // Stall D so is invalid now
-            $display("next_val_D is correct.  Expected: %h, Actual: %h", n,DUT.next_val_D); pass();
+        assert(DUT.next_val_D  == y) begin // D still valid
+            $display("next_val_D is correct.  Expected: %h, Actual: %h", y,DUT.next_val_D); pass();
         end else begin
-            $display("next_val_D is incorrect.  Expected: %h, Actual: %h", n,DUT.next_val_D); fail(); $finish();
+            $display("next_val_D is incorrect.  Expected: %h, Actual: %h", y,DUT.next_val_D); fail(); $finish();
         end
         assert(DUT.pc_redirect_D  == n) begin
             $display("pc_redirect_D is correct.  Expected: %h, Actual: %h", n,DUT.pc_redirect_D); pass();
@@ -658,57 +690,12 @@ module top(  input logic clk, input logic linetrace );
             $display("dmem_reqstream_val is incorrect.  Expected: %h, Actual: %h", n,DUT.dmem_reqstream_val); fail(); $finish();
         end
 
-        // Cycle 4: D = 2, X = NOP, M = 1
+        // Cycle 4: X = 2, M = 1
         @(negedge clk);
-        assert(DUT.inst_D  == 32'b00000000001100011000001000110011) begin
-            $display("inst_D is correct.  Expected: %h, Actual: %h", 32'b00000000001100011000001000110011,DUT.inst_D); pass();
+        assert(DUT.inst_X  == 32'b00000000001100011000001000110011) begin
+            $display("inst_X is correct.  Expected: %h, Actual: %h", 32'b00000000001100011000001000110011,DUT.inst_X); pass();
         end else begin
-            $display("inst_D is incorrect.  Expected: %h, Actual: %h", 32'b00000000001100011000001000110011,DUT.inst_D); fail(); $finish();
-        end
-        assert(DUT.stall_D == y) begin // D stalling
-            $display("stall_D is correct.  Expected: %h, Actual: %h", y,DUT.stall_D); pass();
-        end else begin
-            $display("stall_D is incorrect.  Expected: %h, Actual: %h", y,DUT.stall_D); fail(); $finish();
-        end
-        assert(DUT.ostall_waddr_X_rs1_D == n) begin // no rs1 RAW from X
-            $display("ostall_waddr_X_rs1_D is correct.  Expected: %h, Actual: %h", y,DUT.ostall_waddr_X_rs1_D); pass();
-        end else begin
-            $display("ostall_waddr_X_rs1_D is incorrect.  Expected: %h, Actual: %h", y,DUT.ostall_waddr_X_rs1_D); fail(); $finish();
-        end
-        assert(DUT.ostall_waddr_X_rs2_D == n) begin // no rs2 RAW from X
-            $display("ostall_waddr_X_rs2_D is correct.  Expected: %h, Actual: %h", y,DUT.ostall_waddr_X_rs2_D); pass();
-        end else begin
-            $display("ostall_waddr_X_rs2_D is incorrect.  Expected: %h, Actual: %h", y,DUT.ostall_waddr_X_rs2_D); fail(); $finish();
-        end
-        assert(DUT.ostall_waddr_M_rs1_D == y) begin // rs1 RAW from M
-            $display("ostall_waddr_M_rs1_D is correct.  Expected: %h, Actual: %h", y,DUT.ostall_waddr_M_rs1_D); pass();
-        end else begin
-            $display("ostall_waddr_M_rs1_D is incorrect.  Expected: %h, Actual: %h", y,DUT.ostall_waddr_M_rs1_D); fail(); $finish();
-        end
-        assert(DUT.ostall_waddr_M_rs2_D == y) begin // rs2 RAW from M
-            $display("ostall_waddr_M_rs2_D is correct.  Expected: %h, Actual: %h", y,DUT.ostall_waddr_M_rs2_D); pass();
-        end else begin
-            $display("ostall_waddr_M_rs2_D is incorrect.  Expected: %h, Actual: %h", y,DUT.ostall_waddr_M_rs2_D); fail(); $finish();
-        end
-        assert(DUT.squash_D ==  n) begin
-            $display("squash_D is correct.  Expected: %h, Actual: %h", n,DUT.squash_D); pass();
-        end else begin
-            $display("squash_D is incorrect.  Expected: %h, Actual: %h", n,DUT.squash_D); fail(); $finish();
-        end
-        assert(DUT.next_val_D  == n) begin // Stall D so is invalid now
-            $display("next_val_D is correct.  Expected: %h, Actual: %h", n,DUT.next_val_D); pass();
-        end else begin
-            $display("next_val_D is incorrect.  Expected: %h, Actual: %h", n,DUT.next_val_D); fail(); $finish();
-        end
-        assert(DUT.next_val_X  == n) begin // Stall X so is invalid now
-            $display("next_val_X is correct.  Expected: %h, Actual: %h", n,DUT.next_val_X); pass();
-        end else begin
-            $display("next_val_X is incorrect.  Expected: %h, Actual: %h", n,DUT.next_val_X); fail(); $finish();
-        end
-        assert(DUT.pc_redirect_D  == n) begin
-            $display("pc_redirect_D is correct.  Expected: %h, Actual: %h", n,DUT.pc_redirect_D); pass();
-        end else begin
-            $display("pc_redirect_D is incorrect.  Expected: %h, Actual: %h", n,DUT.pc_redirect_D); fail(); $finish();
+            $display("inst_X is incorrect.  Expected: %h, Actual: %h", 32'b00000000001100011000001000110011,DUT.inst_X); fail(); $finish();
         end
         assert(DUT.inst_M  == 32'b00000000010000001000000110010011) begin
             $display("inst_M is correct.  Expected: %h, Actual: %h", 32'b00000000010000001000000110010011,DUT.inst_M); pass();
@@ -726,72 +713,12 @@ module top(  input logic clk, input logic linetrace );
             $display("next_val_M is incorrect.  Expected: %h, Actual: %h", y,DUT.next_val_M); fail(); $finish();
         end
 
-        // Cycle 5: D = 2, X = NOP, M = NOP, W = 1
+        // Cycle 5: M = 2, W = 1
         @(negedge clk);
-        assert(DUT.inst_D  == 32'b00000000001100011000001000110011) begin
-            $display("inst_D is correct.  Expected: %h, Actual: %h", 32'b00000000001100011000001000110011,DUT.inst_D); pass();
+        assert(DUT.inst_M  == 32'b00000000001100011000001000110011) begin
+            $display("inst_M is correct.  Expected: %h, Actual: %h", 32'b00000000001100011000001000110011,DUT.inst_M); pass();
         end else begin
-            $display("inst_D is incorrect.  Expected: %h, Actual: %h", 32'b00000000001100011000001000110011,DUT.inst_D); fail(); $finish();
-        end
-        assert(DUT.stall_D == y) begin // D stalling
-            $display("stall_D is correct.  Expected: %h, Actual: %h", y,DUT.stall_D); pass();
-        end else begin
-            $display("stall_D is incorrect.  Expected: %h, Actual: %h", y,DUT.stall_D); fail(); $finish();
-        end
-        assert(DUT.ostall_waddr_X_rs1_D == n) begin // no rs1 RAW from X
-            $display("ostall_waddr_X_rs1_D is correct.  Expected: %h, Actual: %h", y,DUT.ostall_waddr_X_rs1_D); pass();
-        end else begin
-            $display("ostall_waddr_X_rs1_D is incorrect.  Expected: %h, Actual: %h", y,DUT.ostall_waddr_X_rs1_D); fail(); $finish();
-        end
-        assert(DUT.ostall_waddr_X_rs2_D == n) begin // no rs2 RAW from X
-            $display("ostall_waddr_X_rs2_D is correct.  Expected: %h, Actual: %h", y,DUT.ostall_waddr_X_rs2_D); pass();
-        end else begin
-            $display("ostall_waddr_X_rs2_D is incorrect.  Expected: %h, Actual: %h", y,DUT.ostall_waddr_X_rs2_D); fail(); $finish();
-        end
-        assert(DUT.ostall_waddr_M_rs1_D == n) begin // no rs1 RAW from M
-            $display("ostall_waddr_M_rs1_D is correct.  Expected: %h, Actual: %h", y,DUT.ostall_waddr_M_rs1_D); pass();
-        end else begin
-            $display("ostall_waddr_M_rs1_D is incorrect.  Expected: %h, Actual: %h", y,DUT.ostall_waddr_M_rs1_D); fail(); $finish();
-        end
-        assert(DUT.ostall_waddr_M_rs2_D == n) begin // no rs2 RAW from M
-            $display("ostall_waddr_M_rs2_D is correct.  Expected: %h, Actual: %h", y,DUT.ostall_waddr_M_rs2_D); pass();
-        end else begin
-            $display("ostall_waddr_M_rs2_D is incorrect.  Expected: %h, Actual: %h", y,DUT.ostall_waddr_M_rs2_D); fail(); $finish();
-        end
-        assert(DUT.ostall_waddr_W_rs1_D == y) begin // rs1 RAW from W
-            $display("ostall_waddr_M_rs1_D is correct.  Expected: %h, Actual: %h", y,DUT.ostall_waddr_W_rs1_D); pass();
-        end else begin
-            $display("ostall_waddr_M_rs1_D is incorrect.  Expected: %h, Actual: %h", y,DUT.ostall_waddr_W_rs1_D); fail(); $finish();
-        end
-        assert(DUT.ostall_waddr_W_rs2_D == y) begin // rs2 RAW from W
-            $display("ostall_waddr_W_rs2_D is correct.  Expected: %h, Actual: %h", y,DUT.ostall_waddr_W_rs2_D); pass();
-        end else begin
-            $display("ostall_waddr_W_rs2_D is incorrect.  Expected: %h, Actual: %h", y,DUT.ostall_waddr_W_rs2_D); fail(); $finish();
-        end
-        assert(DUT.squash_D ==  n) begin
-            $display("squash_D is correct.  Expected: %h, Actual: %h", n,DUT.squash_D); pass();
-        end else begin
-            $display("squash_D is incorrect.  Expected: %h, Actual: %h", n,DUT.squash_D); fail(); $finish();
-        end
-        assert(DUT.next_val_D  == n) begin // Stall D so is invalid now
-            $display("next_val_D is correct.  Expected: %h, Actual: %h", n,DUT.next_val_D); pass();
-        end else begin
-            $display("next_val_D is incorrect.  Expected: %h, Actual: %h", n,DUT.next_val_D); fail(); $finish();
-        end
-        assert(DUT.next_val_X  == n) begin // Stall X so is invalid now
-            $display("next_val_X is correct.  Expected: %h, Actual: %h", n,DUT.next_val_X); pass();
-        end else begin
-            $display("next_val_X is incorrect.  Expected: %h, Actual: %h", n,DUT.next_val_X); fail(); $finish();
-        end
-        assert(DUT.next_val_M  == n) begin // Stall M so is invalid now
-            $display("next_val_M is correct.  Expected: %h, Actual: %h", n,DUT.next_val_M); pass();
-        end else begin
-            $display("next_val_M is incorrect.  Expected: %h, Actual: %h", n,DUT.next_val_M); fail(); $finish();
-        end
-        assert(DUT.pc_redirect_D  == n) begin
-            $display("pc_redirect_D is correct.  Expected: %h, Actual: %h", n,DUT.pc_redirect_D); pass();
-        end else begin
-            $display("pc_redirect_D is incorrect.  Expected: %h, Actual: %h", n,DUT.pc_redirect_D); fail(); $finish();
+            $display("inst_M is incorrect.  Expected: %h, Actual: %h", 32'b00000000001100011000001000110011,DUT.inst_M); fail(); $finish();
         end
         assert(DUT.inst_W  == 32'b00000000010000001000000110010011) begin
             $display("inst_W is correct.  Expected: %h, Actual: %h", 32'b00000000010000001000000110010011,DUT.inst_W); pass();
@@ -814,126 +741,7 @@ module top(  input logic clk, input logic linetrace );
             $display("stall_W is incorrect.  Expected: %h, Actual: %h", n,DUT.stall_W); fail(); $finish();
         end
 
-        // Cycle 6: D = 2, X = NOP, M = NOP, W = NOP
-        @(negedge clk);
-        assert(DUT.inst_D  == 32'b00000000001100011000001000110011) begin
-            $display("inst_D is correct.  Expected: %h, Actual: %h", 32'b00000000001100011000001000110011,DUT.inst_D); pass();
-        end else begin
-            $display("inst_D is incorrect.  Expected: %h, Actual: %h", 32'b00000000001100011000001000110011,DUT.inst_D); fail(); $finish();
-        end
-        assert(DUT.stall_D == n) begin // D not stalling anymore
-            $display("stall_D is correct.  Expected: %h, Actual: %h", n,DUT.stall_D); pass();
-        end else begin
-            $display("stall_D is incorrect.  Expected: %h, Actual: %h", n,DUT.stall_D); fail(); $finish();
-        end
-        assert(DUT.ostall_waddr_X_rs1_D == n) begin // no rs1 RAW from X
-            $display("ostall_waddr_X_rs1_D is correct.  Expected: %h, Actual: %h", n,DUT.ostall_waddr_X_rs1_D); pass();
-        end else begin
-            $display("ostall_waddr_X_rs1_D is incorrect.  Expected: %h, Actual: %h", n,DUT.ostall_waddr_X_rs1_D); fail(); $finish();
-        end
-        assert(DUT.ostall_waddr_X_rs2_D == n) begin // no rs2 RAW from X
-            $display("ostall_waddr_X_rs2_D is correct.  Expected: %h, Actual: %h", n,DUT.ostall_waddr_X_rs2_D); pass();
-        end else begin
-            $display("ostall_waddr_X_rs2_D is incorrect.  Expected: %h, Actual: %h", n,DUT.ostall_waddr_X_rs2_D); fail(); $finish();
-        end
-        assert(DUT.ostall_waddr_M_rs1_D == n) begin // no rs1 RAW from M
-            $display("ostall_waddr_M_rs1_D is correct.  Expected: %h, Actual: %h", n,DUT.ostall_waddr_M_rs1_D); pass();
-        end else begin
-            $display("ostall_waddr_M_rs1_D is incorrect.  Expected: %h, Actual: %h", n,DUT.ostall_waddr_M_rs1_D); fail(); $finish();
-        end
-        assert(DUT.ostall_waddr_M_rs2_D == n) begin // no rs2 RAW from M
-            $display("ostall_waddr_M_rs2_D is correct.  Expected: %h, Actual: %h", n,DUT.ostall_waddr_M_rs2_D); pass();
-        end else begin
-            $display("ostall_waddr_M_rs2_D is incorrect.  Expected: %h, Actual: %h", n,DUT.ostall_waddr_M_rs2_D); fail(); $finish();
-        end
-        assert(DUT.ostall_waddr_W_rs1_D == n) begin // no rs1 RAW from W
-            $display("ostall_waddr_M_rs1_D is correct.  Expected: %h, Actual: %h", n,DUT.ostall_waddr_W_rs1_D); pass();
-        end else begin
-            $display("ostall_waddr_M_rs1_D is incorrect.  Expected: %h, Actual: %h", n,DUT.ostall_waddr_W_rs1_D); fail(); $finish();
-        end
-        assert(DUT.ostall_waddr_W_rs2_D == n) begin // no rs2 RAW from W
-            $display("ostall_waddr_W_rs2_D is correct.  Expected: %h, Actual: %h", n,DUT.ostall_waddr_W_rs2_D); pass();
-        end else begin
-            $display("ostall_waddr_W_rs2_D is incorrect.  Expected: %h, Actual: %h", n,DUT.ostall_waddr_W_rs2_D); fail(); $finish();
-        end
-        assert(DUT.squash_D ==  n) begin
-            $display("squash_D is correct.  Expected: %h, Actual: %h", n,DUT.squash_D); pass();
-        end else begin
-            $display("squash_D is incorrect.  Expected: %h, Actual: %h", n,DUT.squash_D); fail(); $finish();
-        end
-        assert(DUT.next_val_D  == y) begin // D is valid now since not stalling anymore
-            $display("next_val_D is correct.  Expected: %h, Actual: %h", y,DUT.next_val_D); pass();
-        end else begin
-            $display("next_val_D is incorrect.  Expected: %h, Actual: %h", y,DUT.next_val_D); fail(); $finish();
-        end
-        assert(DUT.next_val_X  == n) begin // Stall X so is invalid now
-            $display("next_val_X is correct.  Expected: %h, Actual: %h", n,DUT.next_val_X); pass();
-        end else begin
-            $display("next_val_X is incorrect.  Expected: %h, Actual: %h", n,DUT.next_val_X); fail(); $finish();
-        end
-        assert(DUT.next_val_M  == n) begin // Stall M so is invalid now
-            $display("next_val_M is correct.  Expected: %h, Actual: %h", n,DUT.next_val_M); pass();
-        end else begin
-            $display("next_val_M is incorrect.  Expected: %h, Actual: %h", n,DUT.next_val_M); fail(); $finish();
-        end
-
-        // Cycle 7: X = 2, M = NOP, W = NOP
-        @(negedge clk);
-        assert(DUT.pc_redirect_X  == n) begin
-            $display("pc_redirect_X is correct.  Expected: %h, Actual: %h", n,DUT.pc_redirect_X); pass();
-        end else begin
-            $display("pc_redirect_X is incorrect.  Expected: %h, Actual: %h", n,DUT.pc_redirect_X); fail(); $finish();
-        end
-        assert(DUT.pc_sel_X  == 2'd3) begin
-            $display("pc_sel_X is correct.  Expected: %h, Actual: %h", 2'd3,DUT.pc_sel_X); pass();
-        end else begin
-            $display("pc_sel_X is incorrect.  Expected: %h, Actual: %h", 2'd3,DUT.pc_sel_X); fail(); $finish();
-        end
-        assert(DUT.inst_X  == 32'b00000000001100011000001000110011) begin
-            $display("inst_X is correct.  Expected: %h, Actual: %h", 32'b00000000001100011000001000110011,DUT.inst_X); pass();
-        end else begin
-            $display("inst_X is incorrect.  Expected: %h, Actual: %h", 32'b00000000001100011000001000110011,DUT.inst_X); fail(); $finish();
-        end
-        assert(DUT.stall_X == n) begin
-            $display("stall_X is correct.  Expected: %h, Actual: %h", n,DUT.stall_X); pass();
-        end else begin
-            $display("stall_X is incorrect.  Expected: %h, Actual: %h", n,DUT.stall_X); fail(); $finish();
-        end
-        assert(DUT.osquash_X ==  n) begin
-            $display("osquash_X is correct.  Expected: %h, Actual: %h", n,DUT.osquash_X); pass();
-        end else begin
-            $display("osquash_X is incorrect.  Expected: %h, Actual: %h", n,DUT.osquash_X); fail(); $finish();
-        end
-        assert(DUT.next_val_X  == y) begin
-            $display("next_val_X is correct.  Expected: %h, Actual: %h", y,DUT.next_val_X); pass();
-        end else begin
-            $display("next_val_X is incorrect.  Expected: %h, Actual: %h", y,DUT.next_val_X); fail(); $finish();
-        end
-        assert(DUT.dmem_reqstream_val == n) begin
-            $display("dmem_reqstream_val is correct.  Expected: %h, Actual: %h", n,DUT.dmem_reqstream_val); pass();
-        end else begin
-            $display("dmem_reqstream_val is incorrect.  Expected: %h, Actual: %h", n,DUT.dmem_reqstream_val); fail(); $finish();
-        end
-
-        // Cycle 8: M = 2, W = NOP
-        @(negedge clk);
-        assert(DUT.inst_M  == 32'b00000000001100011000001000110011) begin
-            $display("inst_M is correct.  Expected: %h, Actual: %h", 32'b00000000001100011000001000110011,DUT.inst_M); pass();
-        end else begin
-            $display("inst_M is incorrect.  Expected: %h, Actual: %h", 32'b00000000001100011000001000110011,DUT.inst_M); fail(); $finish();
-        end
-        assert(DUT.stall_M == n) begin
-            $display("stall_M is correct.  Expected: %h, Actual: %h", n,DUT.stall_M); pass();
-        end else begin
-            $display("stall_M is incorrect.  Expected: %h, Actual: %h", n,DUT.stall_M); fail(); $finish();
-        end
-        assert(DUT.next_val_M  == y) begin
-            $display("next_val_M is correct.  Expected: %h, Actual: %h", y,DUT.next_val_M); pass();
-        end else begin
-            $display("next_val_M is incorrect.  Expected: %h, Actual: %h", y,DUT.next_val_M); fail(); $finish();
-        end
-
-        // Cycle 9: W = 2
+        // Cycle 6: W = 2
         @(negedge clk);
         assert(DUT.inst_W  == 32'b00000000001100011000001000110011) begin
             $display("inst_W is correct.  Expected: %h, Actual: %h", 32'b00000000001100011000001000110011,DUT.inst_W); pass();
@@ -5576,6 +5384,288 @@ module top(  input logic clk, input logic linetrace );
             $display("proc2mngr_val is correct.  Expected: %h, Actual: %h", y,DUT.proc2mngr_val); pass();
         end else begin
             $display("proc2mngr_val is incorrect.  Expected: %h, Actual: %h", y,DUT.proc2mngr_val); fail(); $finish();
+        end
+
+        delay( $urandom_range(0, 127) );
+
+        //--------------------------------------------------------------------
+        // Unit Testing #35 Test Load-Use Stalling with Bypassing to rs1 and rs2 from M to D
+        // 1: lw x3, 2(x1)
+        // 2: add x4, x3, x3
+        //--------------------------------------------------------------------
+        // Initalize all the signal inital values.
+        reset = 1;
+        @(negedge clk);
+        reset = 0;
+        imem_respstream_val = 1'b1; // Simulate imem response ready
+        imul_req_rdy_D = 1; // Say imul ready so we don't stall the whole pipeline indefinitely
+
+        $display("");
+        $display("Test ADD and ADDI with stalling on rs1 and rs2 from X, M, W to D");
+
+        // Cycle 1: F - 1
+        @(negedge clk);
+        assert(DUT.stall_F == n) begin
+            $display("stall_F is correct.  Expected: %h, Actual: %h", n,DUT.stall_F); pass();
+        end else begin
+            $display("stall_F is incorrect.  Expected: %h, Actual: %h", n,DUT.stall_F); fail(); $finish();
+        end
+        assert(DUT.val_D == n) begin
+            $display("val_D is correct.  Expected: %h, Actual: %h", n,DUT.val_D); pass();
+        end else begin
+            $display("val_D is incorrect.  Expected: %h, Actual: %h", n,DUT.val_D); fail(); $finish();
+        end
+
+        // Cycle 2: F - 2, D = 1
+        @(negedge clk);
+        inst_D = 32'b00000000001000001010000110000011; // lw x3, 2(x1)
+        #1 // Time to propagate inst_D - needed for testbench to work properly but works normally with assembly
+        assert(DUT.stall_F == n) begin
+            $display("stall_F is correct.  Expected: %h, Actual: %h", n,DUT.stall_F); pass();
+        end else begin
+            $display("stall_F is incorrect.  Expected: %h, Actual: %h", n,DUT.stall_F); fail(); $finish();
+        end
+        assert(DUT.val_D == y) begin
+            $display("val_D is correct.  Expected: %h, Actual: %h", y,DUT.val_D); pass();
+        end else begin
+            $display("val_D is incorrect.  Expected: %h, Actual: %h", y,DUT.val_D); fail(); $finish();
+        end
+        assert(DUT.stall_D == n) begin
+            $display("stall_D is correct.  Expected: %h, Actual: %h", n,DUT.stall_D); pass();
+        end else begin
+            $display("stall_D is incorrect.  Expected: %h, Actual: %h", n,DUT.stall_D); fail(); $finish();
+        end
+        assert(DUT.squash_D ==  n) begin
+            $display("squash_D is correct.  Expected: %h, Actual: %h", n,DUT.squash_D); pass();
+        end else begin
+            $display("squash_D is incorrect.  Expected: %h, Actual: %h", n,DUT.squash_D); fail(); $finish();
+        end
+        assert(DUT.next_val_D  == y) begin
+            $display("next_val_D is correct.  Expected: %h, Actual: %h", y,DUT.next_val_D); pass();
+        end else begin
+            $display("next_val_D is incorrect.  Expected: %h, Actual: %h", y,DUT.next_val_D); fail(); $finish();
+        end
+
+        // Cycle 3: D = 2, X = 1
+        @(negedge clk);
+        inst_D = 32'b00000000001100011000001000110011; // add x4, x3, x3
+        #1
+        assert(DUT.inst_D  == 32'b00000000001100011000001000110011) begin
+            $display("inst_D is correct.  Expected: %h, Actual: %h", 32'b00000000001100011000001000110011,DUT.inst_D); pass();
+        end else begin
+            $display("inst_D is incorrect.  Expected: %h, Actual: %h", 32'b00000000001100011000001000110011,DUT.inst_D); fail(); $finish();
+        end
+        assert(DUT.val_D == y) begin
+            $display("val_D is correct.  Expected: %h, Actual: %h", y,DUT.val_D); pass();
+        end else begin
+            $display("val_D is incorrect.  Expected: %h, Actual: %h", y,DUT.val_D); fail(); $finish();
+        end
+        assert(DUT.squash_D ==  n) begin
+            $display("squash_D is correct.  Expected: %h, Actual: %h", n,DUT.squash_D); pass();
+        end else begin
+            $display("squash_D is incorrect.  Expected: %h, Actual: %h", n,DUT.squash_D); fail(); $finish();
+        end
+        assert(DUT.stall_D  == y) begin // D stalling from load use
+            $display("stall_D is correct.  Expected: %h, Actual: %h", y,DUT.stall_D); pass();
+        end else begin
+            $display("stall_D is incorrect.  Expected: %h, Actual: %h", y,DUT.stall_D); fail(); $finish();
+        end
+        assert(DUT.ostall_load_use_X_rsl_D  == y) begin
+            $display("ostall_load_use_X_rsl_D is correct.  Expected: %h, Actual: %h", y,DUT.ostall_load_use_X_rsl_D); pass();
+        end else begin
+            $display("ostall_load_use_X_rsl_D is incorrect.  Expected: %h, Actual: %h", y,DUT.ostall_load_use_X_rsl_D); fail(); $finish();
+        end
+        assert(DUT.ostall_load_use_X_rs2_D  == y) begin
+            $display("ostall_load_use_X_rs2_D is correct.  Expected: %h, Actual: %h", y,DUT.ostall_load_use_X_rs2_D); pass();
+        end else begin
+            $display("ostall_load_use_X_rs2_D is incorrect.  Expected: %h, Actual: %h", y,DUT.ostall_load_use_X_rs2_D); fail(); $finish();
+        end
+        assert(DUT.stall_F  == y) begin // F stalling from cascade
+            $display("stall_D is correct.  Expected: %h, Actual: %h", y,DUT.stall_D); pass();
+        end else begin
+            $display("stall_D is incorrect.  Expected: %h, Actual: %h", y,DUT.stall_D); fail(); $finish();
+        end
+        assert(DUT.next_val_D  == n) begin // D not valid
+            $display("next_val_D is correct.  Expected: %h, Actual: %h", n,DUT.next_val_D); pass();
+        end else begin
+            $display("next_val_D is incorrect.  Expected: %h, Actual: %h", n,DUT.next_val_D); fail(); $finish();
+        end
+        assert(DUT.pc_redirect_D  == n) begin
+            $display("pc_redirect_D is correct.  Expected: %h, Actual: %h", n,DUT.pc_redirect_D); pass();
+        end else begin
+            $display("pc_redirect_D is incorrect.  Expected: %h, Actual: %h", n,DUT.pc_redirect_D); fail(); $finish();
+        end
+        assert(DUT.pc_redirect_X  == n) begin
+            $display("pc_redirect_X is correct.  Expected: %h, Actual: %h", n,DUT.pc_redirect_X); pass();
+        end else begin
+            $display("pc_redirect_X is incorrect.  Expected: %h, Actual: %h", n,DUT.pc_redirect_X); fail(); $finish();
+        end
+        assert(DUT.pc_sel_X  == 2'd3) begin
+            $display("pc_sel_X is correct.  Expected: %h, Actual: %h", 2'd3,DUT.pc_sel_X); pass();
+        end else begin
+            $display("pc_sel_X is incorrect.  Expected: %h, Actual: %h", 2'd3,DUT.pc_sel_X); fail(); $finish();
+        end
+        assert(DUT.inst_X  == 32'b00000000001000001010000110000011) begin
+            $display("inst_X is correct.  Expected: %h, Actual: %h", 32'b00000000001000001010000110000011,DUT.inst_X); pass();
+        end else begin
+            $display("inst_X is incorrect.  Expected: %h, Actual: %h", 32'b00000000001000001010000110000011,DUT.inst_X); fail(); $finish();
+        end
+        assert(DUT.stall_X == n) begin
+            $display("stall_X is correct.  Expected: %h, Actual: %h", n,DUT.stall_X); pass();
+        end else begin
+            $display("stall_X is incorrect.  Expected: %h, Actual: %h", n,DUT.stall_X); fail(); $finish();
+        end
+        assert(DUT.osquash_X ==  n) begin
+            $display("osquash_X is correct.  Expected: %h, Actual: %h", n,DUT.osquash_X); pass();
+        end else begin
+            $display("osquash_X is incorrect.  Expected: %h, Actual: %h", n,DUT.osquash_X); fail(); $finish();
+        end
+        assert(DUT.next_val_X  == y) begin
+            $display("next_val_X is correct.  Expected: %h, Actual: %h", y,DUT.next_val_X); pass();
+        end else begin
+            $display("next_val_X is incorrect.  Expected: %h, Actual: %h", y,DUT.next_val_X); fail(); $finish();
+        end
+        assert(DUT.dmem_reqstream_val == y) begin
+            $display("dmem_reqstream_val is correct.  Expected: %h, Actual: %h", y,DUT.dmem_reqstream_val); pass();
+        end else begin
+            $display("dmem_reqstream_val is incorrect.  Expected: %h, Actual: %h", y,DUT.dmem_reqstream_val); fail(); $finish();
+        end
+
+        // Cycle 4: D = 1, X = NOP, M = 1
+        @(negedge clk);
+        assert(DUT.inst_D  == 32'b00000000001100011000001000110011) begin
+            $display("inst_D is correct.  Expected: %h, Actual: %h", 32'b00000000001100011000001000110011,DUT.inst_D); pass();
+        end else begin
+            $display("inst_D is incorrect.  Expected: %h, Actual: %h", 32'b00000000001100011000001000110011,DUT.inst_D); fail(); $finish();
+        end
+        assert(DUT.inst_M  == 32'b00000000001000001010000110000011) begin
+            $display("inst_M is correct.  Expected: %h, Actual: %h", 32'b00000000001000001010000110000011,DUT.inst_M); pass();
+        end else begin
+            $display("inst_M is incorrect.  Expected: %h, Actual: %h", 32'b00000000001000001010000110000011,DUT.inst_M); fail(); $finish();
+        end
+        assert(DUT.stall_M == n) begin
+            $display("stall_M is correct.  Expected: %h, Actual: %h", n,DUT.stall_M); pass();
+        end else begin
+            $display("stall_M is incorrect.  Expected: %h, Actual: %h", n,DUT.stall_M); fail(); $finish();
+        end
+        assert(DUT.next_val_X  == n) begin
+            $display("next_val_X is correct.  Expected: %h, Actual: %h", n,DUT.next_val_X); pass();
+        end else begin
+            $display("next_val_X is incorrect.  Expected: %h, Actual: %h", n,DUT.next_val_X); fail(); $finish();
+        end
+        assert(DUT.next_val_M  == y) begin
+            $display("next_val_M is correct.  Expected: %h, Actual: %h", y,DUT.next_val_M); pass();
+        end else begin
+            $display("next_val_M is incorrect.  Expected: %h, Actual: %h", y,DUT.next_val_M); fail(); $finish();
+        end
+        assert(DUT.bypass_waddr_M_rs1_D == y) begin // rs1 bypassing from X
+            $display("bypass_waddr_M_rs1_D is correct.  Expected: %h, Actual: %h", y,DUT.bypass_waddr_M_rs1_D); pass();
+        end else begin
+            $display("bypass_waddr_M_rs1_D is incorrect.  Expected: %h, Actual: %h", y,DUT.bypass_waddr_M_rs1_D); fail(); $finish();
+        end
+        assert(DUT.op1_byp_sel_D == 2'd1) begin // rs1 bypassing from X
+            $display("op1_byp_sel_D is correct.  Expected: %h, Actual: %h", 2'd1,DUT.op1_byp_sel_D); pass();
+        end else begin
+            $display("op1_byp_sel_D is incorrect.  Expected: %h, Actual: %h", 2'd1,DUT.op1_byp_sel_D); fail(); $finish();
+        end
+        assert(DUT.bypass_waddr_M_rs2_D == y) begin // rs2 bypassing from X
+            $display("bypass_waddr_M_rs2_D is correct.  Expected: %h, Actual: %h", y,DUT.bypass_waddr_M_rs2_D); pass();
+        end else begin
+            $display("bypass_waddr_M_rs2_D is incorrect.  Expected: %h, Actual: %h", y,DUT.bypass_waddr_M_rs2_D); fail(); $finish();
+        end
+        assert(DUT.op2_byp_sel_D == 2'd2) begin // rs1 bypassing from X
+            $display("op2_byp_sel_D is correct.  Expected: %h, Actual: %h", 2'd2,DUT.op2_byp_sel_D); pass();
+        end else begin
+            $display("op2_byp_sel_D is incorrect.  Expected: %h, Actual: %h", 2'd2,DUT.op2_byp_sel_D); fail(); $finish();
+        end
+        assert(DUT.stall_D == n) begin // D not stalling
+            $display("stall_D is correct.  Expected: %h, Actual: %h", n,DUT.stall_D); pass();
+        end else begin
+            $display("stall_D is incorrect.  Expected: %h, Actual: %h", n,DUT.stall_D); fail(); $finish();
+        end
+        assert(DUT.ostall_load_use_X_rsl_D  == n) begin // load use on rs1 resolved
+            $display("ostall_load_use_X_rsl_D is correct.  Expected: %h, Actual: %h", n,DUT.ostall_load_use_X_rsl_D); pass();
+        end else begin
+            $display("ostall_load_use_X_rsl_D is incorrect.  Expected: %h, Actual: %h", n,DUT.ostall_load_use_X_rsl_D); fail(); $finish();
+        end
+        assert(DUT.ostall_load_use_X_rs2_D  == n) begin // load use on rs2 resolved
+            $display("ostall_load_use_X_rs2_D is correct.  Expected: %h, Actual: %h", n,DUT.ostall_load_use_X_rs2_D); pass();
+        end else begin
+            $display("ostall_load_use_X_rs2_D is incorrect.  Expected: %h, Actual: %h", n,DUT.ostall_load_use_X_rs2_D); fail(); $finish();
+        end
+        assert(DUT.ostall_waddr_X_rs1_D == n) begin // no rs1 RAW from X since bypassing
+            $display("ostall_waddr_X_rs1_D is correct.  Expected: %h, Actual: %h", n,DUT.ostall_waddr_X_rs1_D); pass();
+        end else begin
+            $display("ostall_waddr_X_rs1_D is incorrect.  Expected: %h, Actual: %h", n,DUT.ostall_waddr_X_rs1_D); fail(); $finish();
+        end
+        assert(DUT.ostall_waddr_X_rs2_D == n) begin // no rs2 RAW from X since bypassing
+            $display("ostall_waddr_X_rs2_D is correct.  Expected: %h, Actual: %h", n,DUT.ostall_waddr_X_rs2_D); pass();
+        end else begin
+            $display("ostall_waddr_X_rs2_D is incorrect.  Expected: %h, Actual: %h", n,DUT.ostall_waddr_X_rs2_D); fail(); $finish();
+        end
+
+        // Cycle 5: X = 1, M = NOP, W = 1
+        @(negedge clk);
+        assert(DUT.inst_X  == 32'b00000000001100011000001000110011) begin
+            $display("inst_X is correct.  Expected: %h, Actual: %h", 32'b00000000001100011000001000110011,DUT.inst_X); pass();
+        end else begin
+            $display("inst_X is incorrect.  Expected: %h, Actual: %h", 32'b00000000001100011000001000110011,DUT.inst_X); fail(); $finish();
+        end
+        assert(DUT.inst_W  == 32'b00000000001000001010000110000011) begin
+            $display("inst_W is correct.  Expected: %h, Actual: %h", 32'b00000000001000001010000110000011,DUT.inst_W); pass();
+        end else begin
+            $display("inst_W is incorrect.  Expected: %h, Actual: %h", 32'b00000000001000001010000110000011,DUT.inst_W); fail(); $finish();
+        end
+        assert(DUT.next_val_M  == n) begin
+            $display("next_val_M is correct.  Expected: %h, Actual: %h", n,DUT.next_val_M); pass();
+        end else begin
+            $display("next_val_M is incorrect.  Expected: %h, Actual: %h", n,DUT.next_val_M); fail(); $finish();
+        end
+        assert(DUT.rf_wen_W  == y) begin
+            $display("rf_wen_W is correct.  Expected: %h, Actual: %h", y,DUT.rf_wen_W); pass();
+        end else begin
+            $display("rf_wen_W is incorrect.  Expected: %h, Actual: %h", y,DUT.rf_wen_W); fail(); $finish();
+        end
+        assert(DUT.rf_waddr_W  == 5'd3) begin
+            $display("rf_waddr_W is correct.  Expected: %h, Actual: %h", 5'd3,DUT.rf_waddr_W); pass();
+        end else begin
+            $display("rf_waddr_W is incorrect.  Expected: %h, Actual: %h", 5'd3,DUT.rf_waddr_W); fail(); $finish();
+        end
+        assert(DUT.stall_W == n) begin
+            $display("stall_W is correct.  Expected: %h, Actual: %h", n,DUT.stall_W); pass();
+        end else begin
+            $display("stall_W is incorrect.  Expected: %h, Actual: %h", n,DUT.stall_W); fail(); $finish();
+        end
+
+        // Cycle 6: M = 1, W = NOP
+        @(negedge clk);
+        assert(DUT.inst_M  == 32'b00000000001100011000001000110011) begin
+            $display("inst_M is correct.  Expected: %h, Actual: %h", 32'b00000000001100011000001000110011,DUT.inst_M); pass();
+        end else begin
+            $display("inst_M is incorrect.  Expected: %h, Actual: %h", 32'b00000000001100011000001000110011,DUT.inst_M); fail(); $finish();
+        end
+
+        // Cycle 7: W = 1
+        @(negedge clk);
+        assert(DUT.inst_W  == 32'b00000000001100011000001000110011) begin
+            $display("inst_W is correct.  Expected: %h, Actual: %h", 32'b00000000001100011000001000110011,DUT.inst_W); pass();
+        end else begin
+            $display("inst_W is incorrect.  Expected: %h, Actual: %h", 32'b00000000001100011000001000110011,DUT.inst_W); fail(); $finish();
+        end
+        assert(DUT.rf_wen_W  == y) begin
+            $display("rf_wen_W is correct.  Expected: %h, Actual: %h", y,DUT.rf_wen_W); pass();
+        end else begin
+            $display("rf_wen_W is incorrect.  Expected: %h, Actual: %h", y,DUT.rf_wen_W); fail(); $finish();
+        end
+        assert(DUT.rf_waddr_W  == 5'd4) begin
+            $display("rf_waddr_W is correct.  Expected: %h, Actual: %h", 5'd4,DUT.rf_waddr_W); pass();
+        end else begin
+            $display("rf_waddr_W is incorrect.  Expected: %h, Actual: %h", 5'd4,DUT.rf_waddr_W); fail(); $finish();
+        end
+        assert(DUT.stall_W == n) begin
+            $display("stall_W is correct.  Expected: %h, Actual: %h", n,DUT.stall_W); pass();
+        end else begin
+            $display("stall_W is incorrect.  Expected: %h, Actual: %h", n,DUT.stall_W); fail(); $finish();
         end
 
         delay( $urandom_range(0, 127) );

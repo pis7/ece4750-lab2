@@ -136,9 +136,9 @@ module lab2_proc_ProcBase
 
   logic [31:0] dmem_reqstream_enq_msg_addr;
   logic [31:0] dmem_reqstream_enq_msg_data;
-  logic [ 2:0] mem_action_enq;
+  logic        mem_action_M_enq;
 
-  assign dmem_reqstream_enq_msg.type_  = mem_action_enq;
+  assign dmem_reqstream_enq_msg.type_  = {2'd0, mem_action_M_enq};
   assign dmem_reqstream_enq_msg.opaque = 8'b0;
   assign dmem_reqstream_enq_msg.addr   = dmem_reqstream_enq_msg_addr;
   assign dmem_reqstream_enq_msg.len    = 2'd0;
@@ -208,17 +208,17 @@ module lab2_proc_ProcBase
 
   logic        reg_en_M;
   logic        wb_result_sel_M;
-  logic [2:0]  mem_action;
+  logic        mem_action_M;
 
   logic        reg_en_W;
   logic [4:0]  rf_waddr_W;
   logic        rf_wen_W;
   logic        stats_en_wen_W;
 
-
   // status signals (dpath->ctrl)
 
   logic [31:0] inst_D;
+
   logic        br_cond_eq_X;
   logic        br_cond_lt_X;
   logic        br_cond_ltu_X;
@@ -242,7 +242,7 @@ module lab2_proc_ProcBase
     .dmem_reqstream_rdy       (dmem_reqstream_enq_rdy),
     .dmem_respstream_val      (dmem_respstream_val),
     .dmem_respstream_rdy      (dmem_respstream_rdy),
-    .mem_action               (mem_action_enq),
+    .mem_action_M               (mem_action_M_enq),
 
     // mngr communication ports
 
