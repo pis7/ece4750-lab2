@@ -322,7 +322,7 @@ VL_INLINE_OPT VlCoroutine Vtop___024root___eval_initial__TOP__2(Vtop___024root* 
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root___eval_initial__TOP__2\n"); );
     // Body
     vlSelf->top__DOT__unnamedblk1__DOT__i = 0U;
-    while (VL_GTS_III(32, 0x3e8U, vlSelf->top__DOT__unnamedblk1__DOT__i)) {
+    while (VL_GTS_III(32, 0x2710U, vlSelf->top__DOT__unnamedblk1__DOT__i)) {
         co_await vlSelf->__VtrigSched_h3d404bd2__0.trigger(0U, 
                                                            nullptr, 
                                                            "@(negedge clk)", 
