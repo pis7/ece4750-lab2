@@ -1,21 +1,22 @@
-verilated_fst_c.o: /usr/local/share/verilator/include/verilated_fst_c.cpp \
- /usr/local/share/verilator/include/verilated.h \
- /usr/local/share/verilator/include/verilatedos.h \
- /usr/local/share/verilator/include/verilated_config.h \
- /usr/local/share/verilator/include/verilated_types.h \
- /usr/local/share/verilator/include/verilated_funcs.h \
- /usr/local/share/verilator/include/verilated_fst_c.h \
- /usr/local/share/verilator/include/verilated_trace.h \
- /usr/local/share/verilator/include/verilated_trace_defs.h \
- /usr/local/share/verilator/include/gtkwave/fstapi.h \
- /usr/local/share/verilator/include/gtkwave/fastlz.c \
- /usr/local/share/verilator/include/gtkwave/fastlz.h \
- /usr/local/share/verilator/include/gtkwave/fastlz.c \
- /usr/local/share/verilator/include/gtkwave/fstapi.c \
- /usr/local/share/verilator/include/gtkwave/fst_config.h \
- /usr/local/share/verilator/include/gtkwave/fstapi.h \
- /usr/local/share/verilator/include/gtkwave/lz4.h \
- /usr/local/share/verilator/include/gtkwave/lz4.c \
- /usr/local/share/verilator/include/verilated_trace_imp.h \
- /usr/local/share/verilator/include/verilated_intrinsics.h \
- /usr/local/share/verilator/include/verilated_threads.h
+verilated_fst_c.o: \
+ /classes/ece4750/2023.07-2/share/verilator/include/verilated_fst_c.cpp \
+ /classes/ece4750/2023.07-2/share/verilator/include/verilated.h \
+ /classes/ece4750/2023.07-2/share/verilator/include/verilatedos.h \
+ /classes/ece4750/2023.07-2/share/verilator/include/verilated_config.h \
+ /classes/ece4750/2023.07-2/share/verilator/include/verilated_types.h \
+ /classes/ece4750/2023.07-2/share/verilator/include/verilated_funcs.h \
+ /classes/ece4750/2023.07-2/share/verilator/include/verilated_fst_c.h \
+ /classes/ece4750/2023.07-2/share/verilator/include/verilated_trace.h \
+ /classes/ece4750/2023.07-2/share/verilator/include/verilated_trace_defs.h \
+ /classes/ece4750/2023.07-2/share/verilator/include/gtkwave/fstapi.h \
+ /classes/ece4750/2023.07-2/share/verilator/include/gtkwave/fastlz.c \
+ /classes/ece4750/2023.07-2/share/verilator/include/gtkwave/fastlz.h \
+ /classes/ece4750/2023.07-2/share/verilator/include/gtkwave/fastlz.c \
+ /classes/ece4750/2023.07-2/share/verilator/include/gtkwave/fstapi.c \
+ /classes/ece4750/2023.07-2/share/verilator/include/gtkwave/fst_config.h \
+ /classes/ece4750/2023.07-2/share/verilator/include/gtkwave/fstapi.h \
+ /classes/ece4750/2023.07-2/share/verilator/include/gtkwave/lz4.h \
+ /classes/ece4750/2023.07-2/share/verilator/include/gtkwave/lz4.c \
+ /classes/ece4750/2023.07-2/share/verilator/include/verilated_trace_imp.h \
+ /classes/ece4750/2023.07-2/share/verilator/include/verilated_intrinsics.h \
+ /classes/ece4750/2023.07-2/share/verilator/include/verilated_threads.h
