@@ -71,7 +71,7 @@ module top(  input logic clk, input logic linetrace );
   logic mem_clear;
 
   localparam SINK_SOURCE_MAX = 10;
-  localparam MAX_DELAY = 32'd20;
+  localparam MAX_DELAY = 32'd0;
   logic [  31:0 ] src_msgs [ SINK_SOURCE_MAX-1:0 ];
   logic [ 31:0 ] snk_msgs [ SINK_SOURCE_MAX-1:0 ];
 

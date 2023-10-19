@@ -568,53 +568,53 @@ module lab2_proc_ProcAltCtrl
   logic  ostall_mngr2proc_D;
   assign ostall_mngr2proc_D = val_D && mngr2proc_rdy_D && !mngr2proc_val;
 
-  // // ostall if write address in X matches rs1 in D
+  // ostall if write address in X matches rs1 in D - REDUNDANT IN ALT DESIGN, HANDLED BY LOAD-USE SIGNAL
 
-  // logic  ostall_waddr_X_rs1_D;
-  // assign ostall_waddr_X_rs1_D
-  //   = rs1_en_D && val_X && rf_wen_X
-  //     && ( inst_rs1_D == rf_waddr_X ) && ( rf_waddr_X != 5'd0 )
-  //     && !bypass_waddr_X_rs1_D;
+  logic  ostall_waddr_X_rs1_D;
+  assign ostall_waddr_X_rs1_D
+    = rs1_en_D && val_X && rf_wen_X
+      && ( inst_rs1_D == rf_waddr_X ) && ( rf_waddr_X != 5'd0 )
+      && !bypass_waddr_X_rs1_D;
 
-  // // ostall if write address in M matches rs1 in D
+  // ostall if write address in M matches rs1 in D - REDUNDANT IN ALT DESIGN, ALWAYS BYPASSED
 
-  // logic  ostall_waddr_M_rs1_D;
-  // assign ostall_waddr_M_rs1_D
-  //   = rs1_en_D && val_M && rf_wen_M
-  //     && ( inst_rs1_D == rf_waddr_M ) && ( rf_waddr_M != 5'd0 )
-  //     && !bypass_waddr_M_rs1_D;
+  logic  ostall_waddr_M_rs1_D;
+  assign ostall_waddr_M_rs1_D
+    = rs1_en_D && val_M && rf_wen_M
+      && ( inst_rs1_D == rf_waddr_M ) && ( rf_waddr_M != 5'd0 )
+      && !bypass_waddr_M_rs1_D;
 
-  // // ostall if write address in W matches rs1 in D
+  // ostall if write address in W matches rs1 in D - REDUNDANT IN ALT DESIGN, ALWAYS BYPASSED
 
-  // logic  ostall_waddr_W_rs1_D;
-  // assign ostall_waddr_W_rs1_D
-  //   = rs1_en_D && val_W && rf_wen_W
-  //     && ( inst_rs1_D == rf_waddr_W ) && ( rf_waddr_W != 5'd0 )
-  //     && !bypass_waddr_W_rs1_D;
+  logic  ostall_waddr_W_rs1_D;
+  assign ostall_waddr_W_rs1_D
+    = rs1_en_D && val_W && rf_wen_W
+      && ( inst_rs1_D == rf_waddr_W ) && ( rf_waddr_W != 5'd0 )
+      && !bypass_waddr_W_rs1_D;
 
-  // // ostall if write address in X matches rs2 in D
+  // ostall if write address in X matches rs2 in D - REDUNDANT IN ALT DESIGN, HANDLED BY LOAD-USE SIGNAL
 
-  // logic  ostall_waddr_X_rs2_D;
-  // assign ostall_waddr_X_rs2_D
-  //   = rs2_en_D && val_X && rf_wen_X
-  //     && ( inst_rs2_D == rf_waddr_X ) && ( rf_waddr_X != 5'd0 )
-  //     && !bypass_waddr_X_rs2_D;
+  logic  ostall_waddr_X_rs2_D;
+  assign ostall_waddr_X_rs2_D
+    = rs2_en_D && val_X && rf_wen_X
+      && ( inst_rs2_D == rf_waddr_X ) && ( rf_waddr_X != 5'd0 )
+      && !bypass_waddr_X_rs2_D;
 
-  // // ostall if write address in M matches rs2 in D
+  // ostall if write address in M matches rs2 in D - REDUNDANT IN ALT DESIGN, ALWAYS BYPASSED
 
-  // logic  ostall_waddr_M_rs2_D;
-  // assign ostall_waddr_M_rs2_D
-  //   = rs2_en_D && val_M && rf_wen_M
-  //     && ( inst_rs2_D == rf_waddr_M ) && ( rf_waddr_M != 5'd0 )
-  //     && !bypass_waddr_M_rs2_D;
+  logic  ostall_waddr_M_rs2_D;
+  assign ostall_waddr_M_rs2_D
+    = rs2_en_D && val_M && rf_wen_M
+      && ( inst_rs2_D == rf_waddr_M ) && ( rf_waddr_M != 5'd0 )
+      && !bypass_waddr_M_rs2_D;
 
-  // // ostall if write address in W matches rs2 in D
+  // ostall if write address in W matches rs2 in D - REDUNDANT IN ALT DESIGN, ALWAYS BYPASSED
 
-  // logic  ostall_waddr_W_rs2_D;
-  // assign ostall_waddr_W_rs2_D
-  //   = rs2_en_D && val_W && rf_wen_W
-  //     && ( inst_rs2_D == rf_waddr_W ) && ( rf_waddr_W != 5'd0 )
-  //     && !bypass_waddr_W_rs2_D;
+  logic  ostall_waddr_W_rs2_D;
+  assign ostall_waddr_W_rs2_D
+    = rs2_en_D && val_W && rf_wen_W
+      && ( inst_rs2_D == rf_waddr_W ) && ( rf_waddr_W != 5'd0 )
+      && !bypass_waddr_W_rs2_D;
 
   // ostall if imul req_rdy is 0 (not ready)
 
