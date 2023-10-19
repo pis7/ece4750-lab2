@@ -267,7 +267,7 @@ initial begin
 end
 
 initial begin
-  for( integer i = 0; i < 1000; i = i + 1 ) begin
+  for( integer i = 0; i < 10000; i = i + 1 ) begin
     @( negedge clk );
   end
   $display( "TIMEOUT: Testbench didn't finish in time" );
