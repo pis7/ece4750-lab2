@@ -664,6 +664,7 @@ module lab2_proc_ProcAltCtrl
   logic        proc2mngr_val_X;
   logic        stats_en_wen_X; // not used for this lab
   logic [2:0]  br_type_X;
+  logic        mul_X;
   logic [1:0]  j_type_X;
 
   // Pipeline registers
@@ -684,6 +685,7 @@ module lab2_proc_ProcAltCtrl
       stats_en_wen_X        <= stats_en_wen_D;
       ex_result_sel_X       <= ex_result_sel_D;
       br_type_X             <= br_type_D;
+      mul_X                 <= mul_D;
       j_type_X              <= j_type_D;
     end
 
@@ -727,7 +729,7 @@ module lab2_proc_ProcAltCtrl
   // ostall due to imul not ready to output value (mul in X stage and imul_resp_val_X is false)
 
   logic ostall_imul_resp_val_X;
-  assign ostall_imul_resp_val_X = (ex_result_sel_X == 2'd2 && imul_resp_val_X == 0);
+  assign ostall_imul_resp_val_X = (mul_X && imul_resp_val_X == 0);
 
   // ostall due to dmem_reqstream not ready
 
@@ -765,7 +767,7 @@ module lab2_proc_ProcAltCtrl
 
   // Ready to receive imul response if mul in X stage and X stage is not stalled
 
-  assign imul_resp_rdy_X = val_X && !stall_X && (ex_result_sel_X == 2'd2);
+  assign imul_resp_rdy_X = val_X && !stall_X && mul_X;
 
   // Valid signal for the next stage
 

@@ -71,7 +71,7 @@ module top(  input logic clk, input logic linetrace );
   logic mem_clear;
 
   localparam SINK_SOURCE_MAX = 10;
-  localparam MAX_DELAY = 32'd0;
+  localparam MAX_DELAY = 32'd20;
   logic [  31:0 ] src_msgs [ SINK_SOURCE_MAX-1:0 ];
   logic [ 31:0 ] snk_msgs [ SINK_SOURCE_MAX-1:0 ];
 
@@ -182,7 +182,7 @@ vc_TestRandDelayMem_2ports4B
   .mem_clear(mem_clear),
 
   // maximum delay
-  .max_delay(0),
+  .max_delay(5),
 
   // Memory request interface port 0
   .memreq0_val(imem_reqstream_val),
@@ -267,7 +267,7 @@ initial begin
 end
 
 initial begin
-  for( integer i = 0; i < 10000; i = i + 1 ) begin
+  for( integer i = 0; i < 20000; i = i + 1 ) begin
     @( negedge clk );
   end
   $display( "TIMEOUT: Testbench didn't finish in time" );
