@@ -11,8 +11,3 @@ sub x1, x3, x1
 blt x1, x4, branch_target
 
 csrw proc2mngr, x1 > -12
-
-
-
-
-

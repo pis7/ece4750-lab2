@@ -16,7 +16,7 @@ nop
 nop
 nop
 nop
-csrr x3, mngr2proc < 6
+csrr x3, mngr2proc < 4
 nop
 nop
 nop
@@ -43,9 +43,8 @@ nop
 nop
 nop
 nop
-
 branch_target:
-csrw proc2mngr, x1 > 6
+csrw proc2mngr, x1 > 5
 nop
 nop
 nop
@@ -54,6 +53,3 @@ nop
 nop
 nop
 nop
-
-
-

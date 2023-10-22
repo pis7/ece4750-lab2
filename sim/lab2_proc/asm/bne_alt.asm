@@ -43,7 +43,6 @@ nop
 nop
 nop
 nop
-
 branch_target:
 csrw proc2mngr, x1 > 5
 nop
@@ -54,6 +53,3 @@ nop
 nop
 nop
 nop
-
-
-

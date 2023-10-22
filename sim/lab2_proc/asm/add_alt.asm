@@ -1,7 +1,3 @@
-#---------------------------------------
-# sample asm file for tutorial
-#---------------------------------------
-
 csrr x1, mngr2proc < 5
 csrr x2, mngr2proc < 4
 nop
